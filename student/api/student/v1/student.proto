@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package api.student.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "student/api/student/v1;v1";
+
+service Student {
+
+
+	rpc CreateStudent (CreateStudentRequest) returns (CreateStudentReply){
+		option(google.api.http)= {
+			post:"/student",
+			body:"*"
+		};
+	};
+	rpc UpdateStudent (UpdateStudentRequest) returns (UpdateStudentReply){
+		option(google.api.http) = {
+			put:"/student/{id}",
+			body:"*"
+		};
+	};
+	rpc DeleteStudent (DeleteStudentRequest) returns (DeleteStudentReply){
+		option(google.api.http) = {
+			delete:"/student/{id}"
+		};
+	};
+	rpc ListStudent (ListStudentRequest) returns (ListStudentReply);
+	rpc GetStudent (GetStudentRequest) returns (GetStudentReply) {
+		option (google.api.http) = {
+			get: "/student/{id}",
+		};
+	}
+}
+
+message CreateStudentRequest {
+	int32 id = 1;
+	string name = 2;
+	optional string info = 3;
+}
+message CreateStudentReply {
+	string name   = 1;
+	int32  status = 2;
+	int32  id     = 3;
+}
+
+message UpdateStudentRequest {
+	int32 id = 1;
+	string name = 2;
+	optional string info = 3;
+}
+message UpdateStudentReply {
+	string name   = 1;
+	int32  status = 2;
+	int32  id     = 3;
+}
+
+message DeleteStudentRequest {
+	int32 id = 1;
+}
+message DeleteStudentReply {
+	string name   = 1;
+	int32  status = 2;
+	int32  id     = 3;
+}
+
+message ListStudentRequest {}
+message ListStudentReply {}
+
+message GetStudentRequest {
+	int32 id = 1;
+}
+
+message GetStudentReply {
+	string name   = 1;
+	int32  status = 2;
+	int32  id     = 3;
+}
