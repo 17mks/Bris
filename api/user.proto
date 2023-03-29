@@ -1,0 +1,453 @@
+syntax = "proto3";
+
+package api;
+
+import "google/api/annotations.proto";
+import "openapi/v3/annotations.proto";
+import "userinfo.proto";
+option go_package = "followup/api";
+
+service User{
+  //用户表数据添加
+  rpc UserCreate (UserCreateRequest) returns (UserCreateResponse) {
+    option (google.api.http) = {
+      post:"/user",
+      body:"*"
+    };
+    option (openapi.v3.operation)= {
+      summary:"用户表数据添加",
+    };
+  }
+  //用户表数据删除
+  rpc UserDelete (UserDeleteRequest) returns (UserDeleteResponse) {
+    option (google.api.http) = {
+      delete:"/user/{id}"
+    };
+    option (openapi.v3.operation) = {
+      summary:"用户表数据删除",
+    };
+  }
+  //用户表数据更新
+  rpc UserUpdate (UserUpdateRequest) returns (UserUpdateResponse) {
+    option (google.api.http) = {
+      put:"/user",
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary:"用户表数据更新",
+    };
+  }
+  //用户表数据详情查询
+  rpc UserDetail (UserDetailRequest) returns (UserDetailResponse) {
+    option (google.api.http) = {
+      get:"/user/{id}"
+    };
+    option (openapi.v3.operation) = {
+      summary:"用户表数据详情查询"
+    };
+  }
+  //用户表数据过滤查询
+  rpc UserFilter (UserFilterRequest) returns (UserFilterResponse) {
+    option (google.api.http) = {
+      post:"/user/filter",
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary:"用户表数据过滤查询"
+    };
+  }
+  //用户表数据导入
+  rpc UserImport (UserImportRequest) returns (UserImportResponse) {
+    option (google.api.http) = {
+      post:"/user/import",
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary:"用户表数据导入"
+    };
+  }
+  //用户登录
+  rpc UserSignIn (UserSignInRequest) returns (UserSignInResponse) {
+    option (google.api.http) = {
+      post:"/user/login",
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary:"用户登录"
+    };
+  }
+  //用户注册
+  rpc UserRegister (UserRegisterRequest) returns (UserRegisterResponse) {
+    option (google.api.http) = {
+      post:"/user/Register",
+      body:"*",
+    };
+    option (openapi.v3.operation) = {
+      summary:"用户注册"
+    };
+  }
+  //用户实名认证
+  rpc UserCertification (UserCertificationRequest) returns (UserCertificationResponse) {
+    option (google.api.http) = {
+      post:"/user/certification",
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary:"用户实名认证"
+    };
+  }
+  //用户密码重置
+  rpc UserPwdReset (UserPwdResetRequest) returns (UserPwdResetResponse) {
+    option (google.api.http) = {
+      put:"/user/password/reset",
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary:"用户密码重置",
+    };
+  }
+  //用户第三方账号绑定
+  rpc UserBind (UserBindRequest) returns (UserBindResponse) {
+    option (google.api.http) = {
+      post:"/user/bind",
+      body:"*",
+    };
+    option (openapi.v3.operation) = {
+      summary:"用户第三方账号绑定"
+    };
+  }
+}
+
+message Users {
+  string id = 1;
+  string mobile = 2;
+  string email = 3;
+  string employeeNum = 4;
+  string passWord = 5;
+  string status = 6;
+  string source = 7;
+  string createTime = 8;
+  string updateTime = 9;
+}
+
+message TbThirdAccount {
+  string id = 1;
+  string platForm = 2;
+  string accountType = 3;
+  string account = 4;
+  string outerUserID = 5;
+  string createTime = 6;
+  string updateTime = 7;
+  string tbUserID = 8;
+}
+
+message UserDetailInfo {
+  Users user = 1;
+  UserInfo1 userInfo = 2;
+  repeated TbThirdAccount  TbThirdAccount = 3;
+}
+
+
+message UserCreateRequest {
+  message User {
+    string email = 1[(openapi.v3.property)={description:"邮箱地址",required:["email"]}];
+    string employeeNum = 2[(openapi.v3.property)={description:"内部工号",required:["employeeNum"]}];
+    string mobile = 3[(openapi.v3.property)={description:"手机号",required:["mobile"]}];
+    string password = 4[(openapi.v3.property)={description:"密码",required:["password"]}];
+    string source = 5[(openapi.v3.property)={description:"资源",required:["source"]}];
+    string status = 6[(openapi.v3.property)={description:"账号状态(0：正常1：锁定)",required:["status"]}];
+  }
+
+
+  User user = 1;
+  UserInfo1 userInfo = 2[(openapi.v3.property)={description:"用户基础信息表",required:["userinfo"]}];
+  }
+
+
+message UserCreateResponse{
+ string id = 1[(openapi.v3.property)={description:"用户编码",required:["id"]}];
+}
+
+message UserDeleteRequest {
+  string id = 1[(openapi.v3.property)={description:"用户编码",required:["id"]}];
+}
+
+message  UserDeleteResponse {
+ string id= 1[(openapi.v3.property)={description:"用户编码",required:["id"]}];
+}
+
+message UserUpdateRequest {
+  message User {
+    string email = 1[(openapi.v3.property)={description:"邮箱地址",required:["email"]}];
+    string employeeNum = 2[(openapi.v3.property)={description:"内部工号",required:["employeeNum"]}];
+    string mobile = 3[(openapi.v3.property)={description:"手机号",required:["mobile"]}];
+    string password = 4[(openapi.v3.property)={description:"密码",required:["password"]}];
+    string status = 5[(openapi.v3.property)={description:"账号状态(0：正常1：锁定)",required:["status"]}];
+  }
+
+
+
+  User user = 1;
+  UserInfo1 userInfo = 2[(openapi.v3.property)={description:"用户基础信息表",required:["userinfo"]}];
+}
+
+message UserUpdateResponse {
+  message User {
+    string createTime = 1[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string email = 2[(openapi.v3.property)={description:"邮箱地址",required:["email"]}];
+    string employeeNum = 3[(openapi.v3.property)={description:"内部工号",required:["employeeNum"]}];
+    string id = 4[(openapi.v3.property)={description:"用户编码",required:["id"]}];
+    string mobile = 5[(openapi.v3.property)={description:"手机号",required:["mobile"]}];
+    string password = 6[(openapi.v3.property)={description:"密码",required:["password"]}];
+    string source = 7;
+    string status = 8[(openapi.v3.property)={description:"账号状态(0：正常1：锁定)",required:["status"]}];
+    string updateTime = 9[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+
+
+  message Thirdaccounts {
+    string id = 1;
+    string platform = 2;
+    string accountType = 3;
+    string account = 4;
+    string outerUserId = 5;
+    string tbUserId = 6;
+    string createTime = 7;
+    string updateTime = 8;
+  }
+
+  User user = 1;
+  UserInfo1 userInfo = 2[(openapi.v3.property)={description:"用户基础信息表",required:["userinfo"]}];
+  repeated Thirdaccounts thirdAccounts = 3;
+}
+
+message UserDetailRequest {
+string id = 1[(openapi.v3.property)={description:"用户编码",required:["id"]}] ;
+}
+
+message UserDetailResponse {
+  message User {
+    string createTime = 1[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string email = 2[(openapi.v3.property)={description:"邮箱地址",required:["email"]}];
+    string employeeNum = 3[(openapi.v3.property)={description:"内部工号",required:["employeeNum"]}];
+    string id = 4[(openapi.v3.property)={description:"用户编码",required:["id"]}] ;
+    string mobile = 5[(openapi.v3.property)={description:"手机号",required:["mobile"]}];
+    string password = 6[(openapi.v3.property)={description:"密码",required:["password"]}];
+    string source = 7;
+    string status = 8[(openapi.v3.property)={description:"账号状态(0：正常1：锁定)",required:["status"]}];
+    string updateTime = 9[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+
+
+  message Thirdaccounts {
+    string id = 1;
+    string platform = 2[(openapi.v3.property)={description:"第三方平台(WC：微信 BR：BRis)",required:["platform"]}];
+    string accountType = 3[(openapi.v3.property)={description:"第三方账号类型('MOBILE', 'EMAIL', 'ID_NUMBER', 'EMPLOYEE_NUM')",required:["accountType"]}];
+    string account = 4[(openapi.v3.property)={description:"第三方平台账号",required:["account"]}];
+    string outerUserId = 5[(openapi.v3.property)={description:"外部系统用户编码",required:["outerUserId"]}];
+    string tbUserId = 6[(openapi.v3.property)={description:"用户编码",required:["tbUserId"]}];
+   string createTime = 7[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+   string updateTime = 8[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Orgs {
+    string id = 1[(openapi.v3.property)={description:"组织编码",required:["id"]}];
+    string name = 2[(openapi.v3.property)={description:"组织名称",required:["name"]}];
+    string type = 3[(openapi.v3.property)={description:"类型",required:["type"]}];
+    string pid = 4[(openapi.v3.property)={description:"父级编码",required:["pid"]}];
+    string address = 5[(openapi.v3.property)={description:"组织地址",required:["address"]}];
+    string phone = 6[(openapi.v3.property)={description:"联系电话",required:["phone"]}];
+    string owner = 7[(openapi.v3.property)={description:"组织所有者",required:["owner"]}];
+    string prefixTag = 8[(openapi.v3.property)={description:"前缀标记(助记符用于区分不同院区的患者)",required:["prefixTag"]}];
+    string description = 9[(openapi.v3.property)={description:"组织描述",required:["description"]}];
+   string createTime = 10[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+   string updateTime = 11[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Roles {
+    string id = 1[(openapi.v3.property)={description:"角色编码",required:["id"]}];
+    string name = 2[(openapi.v3.property)={description:"角色名称",required:["name"]}];
+    string level = 3[(openapi.v3.property)={description:"角色级别(SYSTEM,USER)",required:["level"]}];
+    string status = 4[(openapi.v3.property)={description:"角色状态(启用,停用)",required:["status"]}];
+    string tag = 5[(openapi.v3.property)={description:"备用",required:["tag"]}];
+    string description = 6[(openapi.v3.property)={description:"描述",required:["description"]}];
+   string createTime = 7[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+   string updateTime = 8[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+  User user = 1;
+  UserInfo1 userInfo = 2;
+  repeated Thirdaccounts thirdAccounts = 3[(openapi.v3.property)={description:"第三方账号",required:["Thirdaccounts"]}];
+  repeated Orgs orgs = 4[(openapi.v3.property)={description:"组织表",required:["Orgs"]}];
+  repeated Roles roles = 5[(openapi.v3.property)={description:"角色表",required:["Roles"]}];
+}
+
+message UserFilterRequest {
+  message Notin {
+    repeated string ids = 1;
+    string org = 2;
+  }
+
+  message Filter {
+    repeated string ids = 1;
+    string key = 2;
+    repeated string sources = 3;
+    string status = 4;
+    Notin notIn = 5;
+  }
+
+  uint32 page = 1;
+  uint32 perPage = 2;
+  Filter filter = 3;
+}
+
+message UserFilterResponse {
+
+  message User {
+    string createTime = 1[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string email = 2[(openapi.v3.property)={description:"邮箱地址",required:["email"]}];
+    string employeeNum = 3[(openapi.v3.property)={description:"内部工号",required:["employeeNum"]}];
+    string id = 4[(openapi.v3.property)={description:"用户编码",required:["id"]}];
+    string mobile = 5[(openapi.v3.property)={description:"手机号",required:["mobile"]}];
+    string password = 6[(openapi.v3.property)={description:"密码",required:["password"]}];
+    string source = 7[(openapi.v3.property)={description:"资源",required:["source"]}];
+    string status = 8[(openapi.v3.property)={description:"账号状态(0：正常1：锁定)",required:["status"]}];
+    string updateTime = 9[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+
+  message Thirdaccounts {
+    string platform = 2[(openapi.v3.property)={description:"第三方平台(WC：微信 BR：BRis)",required:["platform"]}];
+    string accountType = 3[(openapi.v3.property)={description:"第三方账号类型('MOBILE', 'EMAIL', 'ID_NUMBER', 'EMPLOYEE_NUM')",required:["accountType"]}];
+    string account = 4[(openapi.v3.property)={description:"第三方平台账号",required:["account"]}];
+    string outerUserId = 5[(openapi.v3.property)={description:"外部系统用户编码",required:["outerUserId"]}];
+    string tbUserId = 6[(openapi.v3.property)={description:"用户编码",required:["tbUserId"]}];
+    string createTime = 7[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string updateTime = 8[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Orgs {
+    string id = 1[(openapi.v3.property)={description:"组织编码",required:["id"]}];
+    string name = 2[(openapi.v3.property)={description:"组织名称",required:["name"]}];
+    string type = 3[(openapi.v3.property)={description:"类型",required:["type"]}];
+    string pid = 4[(openapi.v3.property)={description:"父级编码",required:["pid"]}];
+    string address = 5[(openapi.v3.property)={description:"组织地址",required:["address"]}];
+    string phone = 6[(openapi.v3.property)={description:"联系电话",required:["phone"]}];
+    string owner = 7[(openapi.v3.property)={description:"组织所有者",required:["owner"]}];
+    string prefixTag = 8[(openapi.v3.property)={description:"前缀标记(助记符用于区分不同院区的患者)",required:["prefixTag"]}];
+    string description = 9[(openapi.v3.property)={description:"组织描述",required:["description"]}];
+    string createTime = 10[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string updateTime = 11[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Roles {
+    string id = 1[(openapi.v3.property)={description:"角色编码",required:["id"]}];
+    string name = 2[(openapi.v3.property)={description:"角色名称",required:["name"]}];
+    string level = 3[(openapi.v3.property)={description:"角色级别(SYSTEM,USER)",required:["level"]}];
+    string status = 4[(openapi.v3.property)={description:"角色状态(启用,停用)",required:["status"]}];
+    string tag = 5[(openapi.v3.property)={description:"备用",required:["tag"]}];
+    string description = 6[(openapi.v3.property)={description:"描述",required:["description"]}];
+    string createTime = 7[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string updateTime = 8[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Results {
+    User user = 1;
+    UserInfo1 userInfo = 2;
+    repeated Thirdaccounts thirdAccounts = 3[(openapi.v3.property)={description:"第三方账号",required:["Thirdaccounts"]}];
+    repeated Orgs orgs = 4[(openapi.v3.property)={description:"组织表",required:["Orgs"]}];
+    repeated Roles roles = 5[(openapi.v3.property)={description:"角色表",required:["Roles"]}];
+  }
+
+  uint32 page = 1;
+  uint32 perPage = 2;
+  repeated Results results = 3;
+  uint32 total = 4;
+}
+
+message UserImportRequest {
+  message User {
+    string email = 1[(openapi.v3.property)={description:"邮箱地址",required:["email"]}];
+    string employeeNum = 2[(openapi.v3.property)={description:"内部工号",required:["employeeNum"]}];
+    string mobile = 3[(openapi.v3.property)={description:"手机号",required:["mobile"]}];
+    string password = 4[(openapi.v3.property)={description:"密码",required:["password"]}];
+    string source = 5[(openapi.v3.property)={description:"资源",required:["source"]}];
+    string status = 6[(openapi.v3.property)={description:"账号状态(0：正常1：锁定)",required:["status"]}];
+  }
+
+
+
+  message Nested {
+    string platform = 1[(openapi.v3.property)={description:"第三方平台(WC：微信 BR：BRis)",required:["platform"]}];
+    string accountType = 2[(openapi.v3.property)={description:"第三方账号类型('MOBILE', 'EMAIL', 'ID_NUMBER', 'EMPLOYEE_NUM')",required:["accountType"]}];
+    string account = 3[(openapi.v3.property)={description:"第三方平台账号",required:["account"]}];
+    string outerUserId = 4[(openapi.v3.property)={description:"外部系统用户编码",required:["outerUserId"]}];
+    User user = 5[(openapi.v3.property)={description:"用户信息表",required:["User"]}];
+    UserInfo1 userInfo = 6[(openapi.v3.property)={description:"用户基础信息表",required:["UserInfo"]}];
+  }
+
+  repeated Nested items = 1;
+}
+
+message UserImportResponse {
+  repeated string ids = 1;
+}
+
+message UserSignInRequest {
+  string account = 1;
+  string pwd = 2;
+  string verifyCode = 3;
+}
+
+message UserSignInResponse {
+  string token = 1;
+  string openId = 2;
+}
+
+message UserRegisterRequest {
+  string mobile = 1;
+  string password = 2;
+  string verifyCode = 3;
+  bool autoSignIn = 4;
+}
+
+message UserRegisterResponse {
+  string token = 1;
+}
+
+message UserCertificationRequest {
+  string idNumber = 1;
+  string realName = 2;
+  string frontPhotoUrl = 3;
+  string backPhotoUrl = 4;
+}
+
+message UserCertificationResponse {
+  uint32 code = 1;
+  string message = 2;
+  string err = 3;
+  string requestId = 4;
+}
+
+message UserPwdResetRequest {
+  string userToken = 1;
+}
+
+message UserPwdResetResponse {
+  string mobile = 1;
+  string verifyCode = 2;
+  string newPwd = 3;
+}
+
+message UserBindRequest {
+  string mobile = 1;
+  string verifyCode = 2;
+  string openId = 3;
+  bool autoRegister = 4;
+}
+
+message UserBindResponse {
+  string token = 1;
+}

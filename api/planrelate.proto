@@ -1,0 +1,178 @@
+syntax = "proto3";
+
+package api;
+
+import "google/api/annotations.proto";
+import "openapi/v3/annotations.proto";
+
+option go_package = "followup/api";
+
+service PlanRelate {
+  //方案关联表数据添加
+  rpc PlanRelateCreate (PlanRelateCreateRequest) returns (PlanRelateCreateResponse) {
+    option (google.api.http) = {
+      post:"/plan_relate",
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary:"方案关联表数据添加"
+    };
+  }
+  //方案关联表数据删除
+  rpc PlanRelateDelete (PlanRelateDeleteRequest) returns (PlanRelateDeleteResponse) {
+    option (google.api.http) = {
+      delete:"/paln_relate/{id}"
+    };
+    option (openapi.v3.operation) = {
+      summary:"方案关联表数据删除"
+    };
+  }
+  //方案关联表数据更新
+  rpc PlanRelateUpdate (PlanRelateUpdateRequest) returns (PlanRelateUpdateResponse) {
+    option (google.api.http) = {
+      put:"/plan_relate",
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary:"方案关联表数据更新"
+    };
+  }
+  //方案关联表数据详情查询
+  rpc PlanRelateDetail (PlanRelateDetailRequest) returns (PlanRelateDetailResponse) {
+    option (google.api.http) = {
+      get:"/plan_relate/{id}",
+    };
+    option (openapi.v3.operation) = {
+      summary:"方案关联表数据详情查询"
+    };
+  }
+  //方案关联表数据过滤查询
+  rpc PlanRelateFilter (PlanRelateFilterRequest) returns (PlanRelateFilterResponse) {
+    option (google.api.http) = {
+      post:"/plan_relate/filter",
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary:"方案关联表数据过滤查询"
+    };
+  }
+
+}
+
+//message PlanRelateBean {
+//  option (openapi.v3.schema) = {
+//    required:["id","title","resourceType","resourceId","createTime","updateTime","tbPlanId"]
+//  };
+//  string id = 1 [(openapi.v3.property) = {description:"id;varchar(45);方案信息编码"}];
+//  string title = 2 [(openapi.v3.property) = {description:"title;varchar(255);标题(根据关联资源类型决定)"}];
+//  string resourceType = 3 [(openapi.v3.property) = {description:"resource_type;enum('FORM','WI','BZ','GNZA');关联资源类型(‘FORM 表单’,'WI 工作项','BZ 病种','GNZA 功能障碍')"}];
+//  string resourceId = 4 [(openapi.v3.property) = {description:"resource_id;varchar(45);关联资源编码"}];
+//  optional int32 frequencyInterval = 5 [(openapi.v3.property) = {description:"frequency_interval;int(11);频次间隔(小时)"}];
+//  optional int32 frequencyOffset = 6 [(openapi.v3.property) = {description:"frequency_offset;int(11);频次偏移(小时)"}];
+//  optional int32 times = 7 [(openapi.v3.property) = {description:"times;int(11);次数"}];
+//  optional uint32 sortNum = 8 [(openapi.v3.property) = {description:"sort_num;int(10) unsigned;排序号码"}];
+//  string createTime = 9 [(openapi.v3.property) = {description:"create_time;datetime;创建时间"}];
+//  string updateTime = 10 [(openapi.v3.property) = {description:"update_time;datetime;更新时间"}];
+//  string tbPlanId = 11 [(openapi.v3.property) = {description:"tb_plan_id;varchar(45);"}];
+//  optional string deleteAt = 12 [(openapi.v3.property) = {description:"delete_at;datetime;删除时间"}];
+//}
+
+message PlanRelateCreateRequest {
+  int32 frequencyInterval = 1[(openapi.v3.property) = {description:"频次间隔（小时）",required:["frequencyInterval"]}];
+  int32 frequencyOffset = 2[(openapi.v3.property) = {description:"频次偏移（小时）",required:["frequencyOffset"]}];
+  string resourceId = 3[(openapi.v3.property) = {description:"关联资源编码",required:["resourceId"]}];
+  string resourceType = 4[(openapi.v3.property) = {description:"关联资源类型(‘FORM 表单’,'WI 工作项','BZ 病种','GNZA 功能障碍')",required:["resourceType"]}];
+  int32 sortNum = 5[(openapi.v3.property) = {description:"排序号码",required:["sortNum"]}];
+  string tbPlanId = 6[(openapi.v3.property) = {description:"方案编码",required:["tbPlanId"]}];
+  int32 times = 7[(openapi.v3.property) = {description:"次数",required:["times"]}];
+  string title = 8[(openapi.v3.property) = {description:"标题(根据关联资源类型决定)",required:["title"]}];
+}
+
+
+message PlanRelateCreateResponse{
+ string id = 1[(openapi.v3.property) = {description:"方案信息编码",required:["id"]}];
+}
+
+
+message PlanRelateDeleteRequest {
+  string id = 1[(openapi.v3.property) = {description:"方案信息编码",required:["id"]}];
+}
+
+message  PlanRelateDeleteResponse {
+ string id = 1[(openapi.v3.property) = {description:"方案信息编码",required:["id"]}];
+}
+
+message PlanRelateUpdateRequest {
+  int32 frequencyInterval = 1[(openapi.v3.property) = {description:"频次间隔（小时）",required:["frequencyInterval"]}];
+  int32 frequencyOffset = 2[(openapi.v3.property) = {description:"频次偏移（小时）",required:["frequencyOffset"]}];
+  string resourceId = 3[(openapi.v3.property) = {description:"关联资源编码",required:["resourceId"]}];
+  string resourceType = 4[(openapi.v3.property) = {description:"关联资源类型(‘FORM 表单’,'WI 工作项','BZ 病种','GNZA 功能障碍')",required:["resourceType"]}];
+  int32 sortNum = 5[(openapi.v3.property) = {description:"排序号码",required:["sortNum"]}];
+  string tbPlanId = 6[(openapi.v3.property) = {description:"方案编码",required:["tbPlanId"]}];
+  int32 times = 7[(openapi.v3.property) = {description:"次数",required:["times"]}];
+  string title = 8[(openapi.v3.property) = {description:"标题(根据关联资源类型决定)",required:["title"]}];
+}
+
+message PlanRelateUpdateResponse {
+  int32 frequencyInterval = 1[(openapi.v3.property) = {description:"频次间隔（小时）",required:["frequencyInterval"]}];
+  int32 frequencyOffset = 2[(openapi.v3.property) = {description:"频次偏移（小时）",required:["frequencyOffset"]}];
+  string resourceId = 3[(openapi.v3.property) = {description:"关联资源编码",required:["resourceId"]}];
+  string resourceType = 4[(openapi.v3.property) = {description:"关联资源类型(‘FORM 表单’,'WI 工作项','BZ 病种','GNZA 功能障碍')",required:["resourceType"]}];
+  int32 sortNum = 5[(openapi.v3.property) = {description:"排序号码",required:["sortNum"]}];
+  string tbPlanId = 6[(openapi.v3.property) = {description:"方案编码",required:["tbPlanId"]}];
+  int32 times = 7[(openapi.v3.property) = {description:"次数",required:["times"]}];
+  string title = 8[(openapi.v3.property) = {description:"标题(根据关联资源类型决定)",required:["title"]}];
+  string createTime = 9[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+  string updateTime = 10[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+}
+
+message PlanRelateDetailRequest {
+  string id =1[(openapi.v3.property) = {description:"方案信息编码",required:["id"]}];
+}
+
+message PlanRelateDetailResponse {
+  int32 frequencyInterval = 1[(openapi.v3.property) = {description:"频次间隔（小时）",required:["frequencyInterval"]}];
+  int32 frequencyOffset = 2[(openapi.v3.property) = {description:"频次偏移（小时）",required:["frequencyOffset"]}];
+  string resourceId = 3[(openapi.v3.property) = {description:"关联资源编码",required:["resourceId"]}];
+  string resourceType = 4[(openapi.v3.property) = {description:"关联资源类型(‘FORM 表单’,'WI 工作项','BZ 病种','GNZA 功能障碍')",required:["resourceType"]}];
+  int32 sortNum = 5[(openapi.v3.property) = {description:"排序号码",required:["sortNum"]}];
+  string tbPlanId = 6[(openapi.v3.property) = {description:"方案编码",required:["tbPlanId"]}];
+  int32 times = 7[(openapi.v3.property) = {description:"次数",required:["times"]}];
+  string title = 8[(openapi.v3.property) = {description:"标题(根据关联资源类型决定)",required:["title"]}];
+  string createTime = 9[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+  string updateTime = 10[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+  string id = 11 [(openapi.v3.property) = {description:"方案信息编码",required:["id"]}];
+}
+
+message PlanRelateFilterRequest {
+  message Filter {
+    repeated string ids = 1;
+    string key = 2;
+    string resourceType = 3;
+  }
+
+  Filter filter = 1;
+  int32 page = 2;
+  int32 perPage = 3;
+}
+
+message PlanRelateFilterResponse {
+  message Results {
+    int32 frequencyInterval = 1[(openapi.v3.property) = {description:"频次间隔（小时）",required:["frequencyInterval"]}];
+    int32 frequencyOffset = 2[(openapi.v3.property) = {description:"频次偏移（小时）",required:["frequencyOffset"]}];
+    string resourceId = 3[(openapi.v3.property) = {description:"关联资源编码",required:["resourceId"]}];
+    string resourceType = 4[(openapi.v3.property) = {description:"关联资源类型(‘FORM 表单’,'WI 工作项','BZ 病种','GNZA 功能障碍')",required:["resourceType"]}];
+    int32 sortNum = 5[(openapi.v3.property) = {description:"排序号码",required:["sortNum"]}];
+    string tbPlanId = 6[(openapi.v3.property) = {description:"方案编码",required:["tbPlanId"]}];
+    int32 times = 7[(openapi.v3.property) = {description:"次数",required:["times"]}];
+    string title = 8[(openapi.v3.property) = {description:"标题(根据关联资源类型决定)",required:["title"]}];
+    string createTime = 9[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+    string updateTime = 10[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+    string id = 11 [(openapi.v3.property) = {description:"方案信息编码",required:["id"]}];
+  }
+
+  int32 page = 1;
+  int32 perPage = 2;
+  repeated Results results = 3;
+  int32 total = 4;
+}

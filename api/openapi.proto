@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "followup/api;api";
+option java_multiple_files = true;
+option java_package = "api";
+
+import "openapi/v3/annotations.proto";
+
+option (openapi.v3.document) = {
+	info: {
+		title:"随访服务";
+		description:"This is a simple server for FollowUp",
+		terms_of_service:"http://192.168.100.149:5500/",
+		contact: {
+			name:"",
+			url:" http://192.168.100.149:5500/",
+			email:"ningyulin@buffalo-robot.com",
+		},
+		license:{
+			name:"3.0",
+			url:"http://192.168.100.149:5500/",
+		},
+		version:"1.0.1"
+	}
+};

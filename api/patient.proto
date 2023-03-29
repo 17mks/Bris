@@ -1,0 +1,369 @@
+syntax = "proto3";
+
+package api;
+option go_package = "followup/api";
+import "google/api/annotations.proto";
+
+import "openapi/v3/annotations.proto";
+
+service Patient {
+
+  //添加患者
+  rpc PatientCreate (PatientCreateRequest) returns (PatientCreateResponse) {
+    option (google.api.http) ={
+      post:"/patient",
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary:"添加患者"
+    };
+  }
+  //删除患者
+  rpc PatientDelete (PatientDeleteRequest) returns (PatientDeleteResponse) {
+    option (google.api.http) = {
+      delete:"/patient/{id}",
+    };
+    option (openapi.v3.operation) = {
+      summary:"删除患者"
+    };
+  }
+  //更新患者信息
+  rpc PatientUpdate (PatientUpdateRequest) returns (PatientUpdateResponse) {
+    option (google.api.http) = {
+      put:"/patient",
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary:"更新患者信息"
+    };
+  }
+
+  //患者详情查询
+  rpc PatientDetail (PatientDetailRequest) returns (PatientDetailResponse) {
+    option (google.api.http) = {
+      get:"/patient/{id}",
+    };
+    option (openapi.v3.operation) = {
+      summary:"患者详情查询"
+    };
+  }
+
+  //患者过滤查询
+  rpc PatientFilter (PatientFilterRequest) returns (PatientFilterResponse) {
+    option (google.api.http) = {
+      post:"/patient/filter",
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary:"患者过滤查询"
+    };
+  }
+}
+
+message Patients {
+    string adtaTime = 1;
+    string adtdTime = 2;
+    string birthdayDate = 3;
+    bool certified = 4;
+    string createTime = 5;
+    string deptId = 6;
+    string deptName = 7;
+    string email = 8;
+    string gender = 9;
+    string id = 10;
+    string idNumber = 11;
+    string indeptTime = 12;
+    string inpBedNo = 13;
+    string inpPnurs = 14;
+    string inpPnursId = 15;
+    string inpWardId = 16;
+    string inpWardName = 17;
+    string inpno = 18;
+    string mobile = 19;
+    string name = 20;
+    string namePy = 21;
+    string nation = 22;
+    string outerPatientId = 23;
+    string outerPatientOrg = 24;
+    string outerPlatform = 25;
+    string outpno = 26;
+    string patAtdpscn = 27;
+    string patAtdpscnName = 28;
+    string patInpTimes = 29;
+    string patVisitType = 30;
+    bool inHospital = 31;
+    string surgeryTime = 32;
+    string updateTime = 33;
+    string visitCardNo = 34;
+}
+
+message PatientCreateRequest {
+  string name = 1[(openapi.v3.property) = {description:"姓名（身份证）",required:["name"]}];
+  string idNumber = 2[(openapi.v3.property) = {description:"身份证号码",required:["idNumber"]}];
+  string mobile = 3[(openapi.v3.property) = {description:"手机号",required:["mobile"]}];
+}
+
+message PatientCreateResponse {
+
+  message Data {
+    string id = 1[(openapi.v3.property) = {description:"患者编码",required:["id"]}];
+  }
+
+  uint32 code = 1;
+  string message = 2;
+  string err = 3;
+  string requestId = 4;
+  Data data = 5;
+}
+
+message PatientDeleteRequest {
+  string id = 1 [(openapi.v3.property) = {description:"患者编码",required:["id"]}];
+}
+
+message PatientDeleteResponse {
+  message Data {
+    string id = 1[(openapi.v3.property) = {description:"患者编码",required:["id"]}];
+  }
+
+  uint32 code = 1;
+  string message = 2;
+  string err = 3;
+  string requestId = 4;
+  Data data = 5;
+}
+
+message PatientUpdateRequest {
+  message Patient {
+    string id = 1[(openapi.v3.property) = {description:"患者编码",required:["id"]}];
+    string name = 2[(openapi.v3.property) = {description:"姓名（身份证）",required:["name"]}];
+    string gender = 3[(openapi.v3.property) = {description:"性别(MALE, FEMALE,NOT_SET)",required:["gender"]}];
+    string nation = 4[(openapi.v3.property) = {description:"民族",required:["nation"]}];
+    string idNumber = 5[(openapi.v3.property) = {description:"身份证号码",required:["idNumber"]}];
+    string mobile = 6[(openapi.v3.property) = {description:"手机号",required:["mobile"]}];
+    string email = 7[(openapi.v3.property) = {description:"邮箱",required:["email"]}];
+    bool certified = 8[(openapi.v3.property) = {description:"是否实名认证(身份证、姓名、性别)",required:["certified"]}];
+    string birthdayDate = 9[(openapi.v3.property) = {description:"出生日期",required:["birthdayDate"]}];
+    string outerPlatform = 10[(openapi.v3.property) = {description:"外部系统(BRis3.0,HIS等)",required:["outerPlatform"]}];
+    string outerPatientOrg = 11[(openapi.v3.property) = {description:"外部患者管理机构名称",required:["outerPatientOrg"]}];
+    string outerPatientId = 12[(openapi.v3.property) = {description:"外部患者编码",required:["outerPatientId"]}];
+    string createTime = 13[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+    string updateTime = 14[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Patientinfo {
+    string id = 1[(openapi.v3.property) ={description:"患者详细信息编码",required:["id"]}];
+    string province = 2[(openapi.v3.property) = {description:"省（自治区，直辖市）",required:["province"]}];
+    string city = 3[(openapi.v3.property) = {description:"市（地区）",required:["city"]}];
+    string county = 4[(openapi.v3.property) = {description:"县（区）",required:["county"]}];
+    string township = 5[(openapi.v3.property) = {description:"乡（镇、街道、路等）",required:["township"]}];
+    string village = 6[(openapi.v3.property) = {description:"村（街、路等）",required:["village"]}];
+    string houseNumber = 7[(openapi.v3.property) = {description:"门牌号码",required:["houseNumber"]}];
+    string residentialAddr = 8[(openapi.v3.property) = {description:"现居住地址",required:["residentialAddr"]}];
+    string postalCode = 9[(openapi.v3.property) = {description:"邮政编码",required:["postalCode"]}];
+    string contactNumber = 10[(openapi.v3.property) = {description:"联系电话（座机）",required:["contactNumber"]}];
+    string maritalStatus = 11[(openapi.v3.property) = {description:"婚姻状况",required:["maritalStatus"]}];
+    string workUnitName = 12[(openapi.v3.property) = {description:"工作单位名称",required:["workUnitName"]}];
+    string educationCode = 13[(openapi.v3.property) = {description:"教育编码"}];
+    string occStatus = 14;
+    string occCode = 15;
+    string healthRecordCode = 16[(openapi.v3.property) = {description:"健康档案编码",required:["healthRecordCode"]}];
+    bool mobileCertified = 17[(openapi.v3.property) = {description:"手机号是否验证",required:["mobileCertified"]}];
+    bool emailCertified = 18[(openapi.v3.property) = {description:"邮箱号是否验证",required:["emailCertified"]}];
+    string tbPatientId = 19[(openapi.v3.property) = {description:"患者编码",required:["tbPatientId"]}];
+    string createTime = 20[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+    string updateTime = 21[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+  }
+
+  Patient patient = 1;
+  Patientinfo patientInfo = 2;
+}
+
+message PatientUpdateResponse {
+  message Patient {
+    string id = 1[(openapi.v3.property) = {description:"患者编码",required:["id"]}];
+    string name = 2[(openapi.v3.property) = {description:"姓名（身份证）",required:["name"]}];
+    string gender = 3[(openapi.v3.property) = {description:"性别(MALE, FEMALE,NOT_SET)",required:["gender"]}];
+    string nation = 4[(openapi.v3.property) = {description:"民族",required:["nation"]}];
+    string idNumber = 5[(openapi.v3.property) = {description:"身份证号码",required:["idNumber"]}];
+    string mobile = 6[(openapi.v3.property) = {description:"手机号",required:["mobile"]}];
+    string email = 7[(openapi.v3.property) = {description:"邮箱",required:["email"]}];
+    bool certified = 8[(openapi.v3.property) = {description:"是否实名认证(身份证、姓名、性别)",required:["certified"]}];
+    string birthdayDate = 9[(openapi.v3.property) = {description:"出生日期",required:["birthdayDate"]}];
+    string outerPlatform = 10[(openapi.v3.property) = {description:"外部系统(BRis3.0,HIS等)",required:["outerPlatform"]}];
+    string outerPatientOrg = 11[(openapi.v3.property) = {description:"外部患者管理机构名称",required:["outerPatientOrg"]}];
+    string outerPatientId = 12[(openapi.v3.property) = {description:"外部患者编码",required:["outerPatientId"]}];
+    string createTime = 13[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+    string updateTime = 14[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Patientinfo {
+    string id = 1[(openapi.v3.property) ={description:"患者详细信息编码",required:["id"]}];
+    string province = 2[(openapi.v3.property) = {description:"省（自治区，直辖市）",required:["province"]}];
+    string city = 3[(openapi.v3.property) = {description:"市（地区）",required:["city"]}];
+    string county = 4[(openapi.v3.property) = {description:"县（区）",required:["county"]}];
+    string township = 5[(openapi.v3.property) = {description:"乡（镇、街道、路等）",required:["township"]}];
+    string village = 6[(openapi.v3.property) = {description:"村（街、路等）",required:["village"]}];
+    string houseNumber = 7[(openapi.v3.property) = {description:"门牌号码",required:["houseNumber"]}];
+    string residentialAddr = 8[(openapi.v3.property) = {description:"现居住地址",required:["residentialAddr"]}];
+    string postalCode = 9[(openapi.v3.property) = {description:"邮政编码",required:["postalCode"]}];
+    string contactNumber = 10[(openapi.v3.property) = {description:"联系电话（座机）",required:["contactNumber"]}];
+    string maritalStatus = 11[(openapi.v3.property) = {description:"婚姻状况",required:["maritalStatus"]}];
+    string workUnitName = 12[(openapi.v3.property) = {description:"工作单位名称",required:["workUnitName"]}];
+    string educationCode = 13[(openapi.v3.property) = {description:"教育编码"}];
+    string occStatus = 14;
+    string occCode = 15;
+    string healthRecordCode = 16[(openapi.v3.property) = {description:"健康档案编码",required:["healthRecordCode"]}];
+    bool mobileCertified = 17[(openapi.v3.property) = {description:"手机号是否验证",required:["mobileCertified"]}];
+    bool emailCertified = 18[(openapi.v3.property) = {description:"邮箱号是否验证",required:["emailCertified"]}];
+    string tbPatientId = 19[(openapi.v3.property) = {description:"患者编码",required:["tbPatientId"]}];
+    string createTime = 20[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+    string updateTime = 21[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Data {
+    Patient patient = 1;
+    Patientinfo patientInfo = 2;
+  }
+
+  uint32 code = 1;
+  string message = 2;
+  string err = 3;
+  string requestId = 4;
+  Data data = 5;
+}
+
+message PatientDetailRequest {
+  string id =1 ;
+}
+
+message PatientDetailResponse {
+  message Patient {
+    string id = 1[(openapi.v3.property) = {description:"患者编码",required:["id"]}];
+    string name = 2[(openapi.v3.property) = {description:"姓名（身份证）",required:["name"]}];
+    string gender = 3[(openapi.v3.property) = {description:"性别(MALE, FEMALE,NOT_SET)",required:["gender"]}];
+    string nation = 4[(openapi.v3.property) = {description:"民族",required:["nation"]}];
+    string idNumber = 5[(openapi.v3.property) = {description:"身份证号码",required:["idNumber"]}];
+    string mobile = 6[(openapi.v3.property) = {description:"手机号",required:["mobile"]}];
+    string email = 7[(openapi.v3.property) = {description:"邮箱",required:["email"]}];
+    bool certified = 8[(openapi.v3.property) = {description:"是否实名认证(身份证、姓名、性别)",required:["certified"]}];
+    string birthdayDate = 9[(openapi.v3.property) = {description:"出生日期",required:["birthdayDate"]}];
+    string outerPlatform = 10[(openapi.v3.property) = {description:"外部系统(BRis3.0,HIS等)",required:["outerPlatform"]}];
+    string outerPatientOrg = 11[(openapi.v3.property) = {description:"外部患者管理机构名称",required:["outerPatientOrg"]}];
+    string outerPatientId = 12[(openapi.v3.property) = {description:"外部患者编码",required:["outerPatientId"]}];
+    string createTime = 13[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+    string updateTime = 14[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Patientinfo {
+    string id = 1[(openapi.v3.property) ={description:"患者详细信息编码",required:["id"]}];
+    string province = 2[(openapi.v3.property) = {description:"省（自治区，直辖市）",required:["province"]}];
+    string city = 3[(openapi.v3.property) = {description:"市（地区）",required:["city"]}];
+    string county = 4[(openapi.v3.property) = {description:"县（区）",required:["county"]}];
+    string township = 5[(openapi.v3.property) = {description:"乡（镇、街道、路等）",required:["township"]}];
+    string village = 6[(openapi.v3.property) = {description:"村（街、路等）",required:["village"]}];
+    string houseNumber = 7[(openapi.v3.property) = {description:"门牌号码",required:["houseNumber"]}];
+    string residentialAddr = 8[(openapi.v3.property) = {description:"现居住地址",required:["residentialAddr"]}];
+    string postalCode = 9[(openapi.v3.property) = {description:"邮政编码",required:["postalCode"]}];
+    string contactNumber = 10[(openapi.v3.property) = {description:"联系电话（座机）",required:["contactNumber"]}];
+    string maritalStatus = 11[(openapi.v3.property) = {description:"婚姻状况",required:["maritalStatus"]}];
+    string workUnitName = 12[(openapi.v3.property) = {description:"工作单位名称",required:["workUnitName"]}];
+    string educationCode = 13[(openapi.v3.property) = {description:"教育编码"}];
+    string occStatus = 14;
+    string occCode = 15;
+    string healthRecordCode = 16[(openapi.v3.property) = {description:"健康档案编码",required:["healthRecordCode"]}];
+    bool mobileCertified = 17[(openapi.v3.property) = {description:"手机号是否验证",required:["mobileCertified"]}];
+    bool emailCertified = 18[(openapi.v3.property) = {description:"邮箱号是否验证",required:["emailCertified"]}];
+    string tbPatientId = 19[(openapi.v3.property) = {description:"患者编码",required:["tbPatientId"]}];
+    string createTime = 20[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+    string updateTime = 21[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Data {
+    Patient patient = 1;
+    Patientinfo patientInfo = 2;
+  }
+
+  uint32 code = 1;
+  string message = 2;
+  string err = 3;
+  string requestId = 4;
+  Data data = 5;
+}
+
+message PatientFilterRequest {
+  message Filter {
+    string key = 1;
+    repeated string ids = 2;
+    repeated string mobiles = 3;
+    string name = 4;
+    string outerPatientId = 5;
+    repeated string idNumbers = 6;
+  }
+
+  uint32 page = 1;
+  uint32 perPage = 2;
+  Filter filter = 3;
+}
+
+message PatientFilterResponse {
+
+  message Patient {
+    string id = 1[(openapi.v3.property) = {description:"患者编码",required:["id"]}];
+    string name = 2[(openapi.v3.property) = {description:"姓名（身份证）",required:["name"]}];
+    string gender = 3[(openapi.v3.property) = {description:"性别(MALE, FEMALE,NOT_SET)",required:["gender"]}];
+    string nation = 4[(openapi.v3.property) = {description:"民族",required:["nation"]}];
+    string idNumber = 5[(openapi.v3.property) = {description:"身份证号码",required:["idNumber"]}];
+    string mobile = 6[(openapi.v3.property) = {description:"手机号",required:["mobile"]}];
+    string email = 7[(openapi.v3.property) = {description:"邮箱",required:["email"]}];
+    bool certified = 8[(openapi.v3.property) = {description:"是否实名认证(身份证、姓名、性别)",required:["certified"]}];
+    string birthdayDate = 9[(openapi.v3.property) = {description:"出生日期",required:["birthdayDate"]}];
+    string outerPlatform = 10[(openapi.v3.property) = {description:"外部系统(BRis3.0,HIS等)",required:["outerPlatform"]}];
+    string outerPatientOrg = 11[(openapi.v3.property) = {description:"外部患者管理机构名称",required:["outerPatientOrg"]}];
+    string outerPatientId = 12[(openapi.v3.property) = {description:"外部患者编码",required:["outerPatientId"]}];
+    string createTime = 13[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+    string updateTime = 14[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Patientinfo {
+    string id = 1[(openapi.v3.property) ={description:"患者详细信息编码",required:["id"]}];
+    string province = 2[(openapi.v3.property) = {description:"省（自治区，直辖市）",required:["province"]}];
+    string city = 3[(openapi.v3.property) = {description:"市（地区）",required:["city"]}];
+    string county = 4[(openapi.v3.property) = {description:"县（区）",required:["county"]}];
+    string township = 5[(openapi.v3.property) = {description:"乡（镇、街道、路等）",required:["township"]}];
+    string village = 6[(openapi.v3.property) = {description:"村（街、路等）",required:["village"]}];
+    string houseNumber = 7[(openapi.v3.property) = {description:"门牌号码",required:["houseNumber"]}];
+    string residentialAddr = 8[(openapi.v3.property) = {description:"现居住地址",required:["residentialAddr"]}];
+    string postalCode = 9[(openapi.v3.property) = {description:"邮政编码",required:["postalCode"]}];
+    string contactNumber = 10[(openapi.v3.property) = {description:"联系电话（座机）",required:["contactNumber"]}];
+    string maritalStatus = 11[(openapi.v3.property) = {description:"婚姻状况",required:["maritalStatus"]}];
+    string workUnitName = 12[(openapi.v3.property) = {description:"工作单位名称",required:["workUnitName"]}];
+    string educationCode = 13[(openapi.v3.property) = {description:"教育编码"}];
+    string occStatus = 14;
+    string occCode = 15;
+    string healthRecordCode = 16[(openapi.v3.property) = {description:"健康档案编码",required:["healthRecordCode"]}];
+    bool mobileCertified = 17[(openapi.v3.property) = {description:"手机号是否验证",required:["mobileCertified"]}];
+    bool emailCertified = 18[(openapi.v3.property) = {description:"邮箱号是否验证",required:["emailCertified"]}];
+    string tbPatientId = 19[(openapi.v3.property) = {description:"患者编码",required:["tbPatientId"]}];
+    string createTime = 20[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+    string updateTime = 21[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Results {
+    Patient patient = 1;
+    Patientinfo patientInfo = 2;
+  }
+
+  message Data {
+    uint32 total = 1;
+    uint32 totalPage = 2;
+    uint32 page = 3;
+    uint32 perPage = 4;
+    repeated Results results = 5;
+  }
+
+  uint32 code = 1;
+  string message = 2;
+  string err = 3;
+  string requestId = 4;
+  Data data = 5;
+}

@@ -1,0 +1,346 @@
+syntax = "proto3";
+
+package api;
+
+
+option go_package = "followup/api";
+
+import "google/api/annotations.proto";
+import "openapi/v3/annotations.proto";
+import "formcss.proto";
+import "columnopt.proto";
+import "columnthreshold.proto";
+import "formcolumn.proto";
+
+
+service Form {
+  //表单模板数据添加
+  rpc FormCreate (FormCreateRequest) returns (FormCreateResponse) {
+    option (google.api.http) = {
+      post:"/form",
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单模板数据添加"
+    };
+  }
+  //表单模板数据删除
+  rpc FormDelete (FormDeleteRequest) returns (FormDeleteResponse) {
+    option (google.api.http) = {
+      delete:"/form"
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单模板数据删除"
+    };
+  }
+  //表单模板数据更新
+  rpc FormUpdate (FormUpdateRequest) returns (FormUpdateResponse) {
+    option (google.api.http) = {
+      put:"/form",
+      body:"body"
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单模板数据更新"
+    };
+  }
+  //表单模板数据详情查询
+  rpc FormDetail (FormDetailRequest) returns (FormDetailResponse) {
+    option (google.api.http) = {
+      get:"/form",
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单模板数据详情查询",
+    };
+  }
+  //表单模板数据过滤查询
+  rpc FormFilter (FormFilterRequest) returns (FormFilterResponse) {
+    option (google.api.http) = {
+      post:"/form/filter",
+      body:"*",
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单模板数据过滤查询"
+    };
+  }
+
+  //表单模板导入
+  rpc FormImport (FormImportRequest) returns (FormImportResponse) {
+    option (google.api.http) = {
+      post:"/form/import",
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单模板导入"
+    };
+  }
+
+  //表单模板导出
+  rpc FormExport (FormExportRequest) returns (FormExportResponse) {
+    option (google.api.http) = {
+      post:"/form/export",
+      body:"*",
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单模板导出",
+    };
+  }
+
+  // 表单模板静态文件上传
+  rpc FormModelUpload (FormModelUploadRequest) returns (FormModelUploadResponse) {
+    option (google.api.http) = {
+      post:"/form/model/upload",
+      body:"*",
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单模板静态文件上传"
+    };
+  }
+}
+
+message FormOpts {
+  string id = 1;
+  int32 sortIndex = 2;
+  string value = 3;
+  string nextFiledID = 4;
+  int32 score = 5;
+  string createTime = 6;
+  string updateTime = 7;
+  string tbFormColumnID = 8;
+}
+
+message FormInfo {
+  FormBean Form = 1;
+  FormCssBean FormCss = 2;
+  repeated FormColumnInfo   FormColumnInfos = 3;
+}
+
+message FormColumnInfo {
+  Formcolumns Formcolumn = 1;
+  repeated Columnopts  Columnopts =2;
+  repeated Columnthresholds ColumnThresholds = 3;
+}
+
+message FormDetailPreloadInfo {
+  FormBean form = 1;
+  repeated Formcolumns formcolumn = 2;
+  FormCssBean formCss = 3;
+}
+
+message FormModelUploadApiReq {
+//  QueryParams QueryParams = 1;
+//  HeaderParams HeaderParams = 2;
+  FormModelUploadRequest FormModelUploadReq = 3;
+}
+
+message QueryParams {
+  string id = 1;
+  int64 page = 2;
+  int64 pageSize = 3;
+  string account = 4;
+  string authCode = 5;
+  string token =6;
+  string bodyType = 7;
+  string bodyId = 8;
+  string memberId= 9;
+  string  jsCode = 10;
+}
+
+
+message FormBean {
+  string belongTo = 1[(openapi.v3.property) = {description:"归属资源编码",required:["belongTo"]}];
+  string belongType = 2[(openapi.v3.property) = {description:"归属类型",required:["belongType"]}];
+  bool branchLogic = 3[(openapi.v3.property) = {description:"是否启用分支逻辑功能",required:["branchLogic"]}];
+  string description = 4[(openapi.v3.property) = {description:"表单模板描述",required:["description"]}];
+  string name = 5[(openapi.v3.property) = {description:"表单模板名称",required:["name"]}];
+  string status = 6[(openapi.v3.property) = {description:"表单模板状态",required:["status"]}];
+  string type = 7[(openapi.v3.property) = {description:"表单类型('SAF 症状评估表', 'IC 知情同意书','UP 用户协议','SP 隐私协议')",required:["type"]}];
+  int32 versionCode = 8[(openapi.v3.property) = {description:"版本编码",required:["versionCode"]}];
+  string versionName = 9[(openapi.v3.property) = {description:"版本名称",required:["versionName"]}];
+  string id = 10[(openapi.v3.property) = {description:"表单模板编码",required:["id"]}];
+  string createTime = 11[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+  string updateTime = 12[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+  string deleteAt = 13[(openapi.v3.property) = {description:"删除时间",required:["deleteAt"]}];
+}
+
+message FormCreateRequest {
+  string belongTo = 1[(openapi.v3.property) = {description:"归属资源编码",required:["belongTo"]}];
+  string belongType = 2[(openapi.v3.property) = {description:"归属类型",required:["belongType"]}];
+  bool branchLogic = 3[(openapi.v3.property) = {description:"是否启用分支逻辑功能",required:["branchLogic"]}];
+  string description = 4[(openapi.v3.property) = {description:"表单模板描述",required:["description"]}];
+  string name = 5[(openapi.v3.property) = {description:"表单模板名称",required:["name"]}];
+  string status = 6[(openapi.v3.property) = {description:"表单模板状态",required:["status"]}];
+  string type = 7[(openapi.v3.property) = {description:"表单类型('SAF 症状评估表', 'IC 知情同意书','UP 用户协议','SP 隐私协议')",required:["type"]}];
+  int32 versionCode = 8[(openapi.v3.property) = {description:"版本编码",required:["versionCode"]}];
+  string versionName = 9[(openapi.v3.property) = {description:"版本名称",required:["versionName"]}];
+}
+
+
+message FormCreateResponse{
+  string id = 1[(openapi.v3.property) = {description:"表单模板编码",required:["id"]}];
+}
+
+
+message FormDeleteRequest {
+  string id = 1[(openapi.v3.property) = {description:"表单模板编码",required:["id"]}];
+}
+
+message  FormDeleteResponse {
+  string id = 1[(openapi.v3.property) = {description:"表单模板编码",required:["id"]}];
+}
+
+message FormUpdateRequest {
+  string id = 1;
+  FormUpdateReqBody body = 2;
+}
+
+message FormUpdateReqBody {
+  string belongTo = 1[(openapi.v3.property) = {description:"归属资源编码",required:["belongTo"]}];
+  string belongType = 2[(openapi.v3.property) = {description:"归属类型",required:["belongType"]}];
+  bool branchLogic = 3[(openapi.v3.property) = {description:"是否启用分支逻辑功能",required:["branchLogic"]}];
+  string description = 4[(openapi.v3.property) = {description:"表单模板描述",required:["description"]}];
+  string name = 5[(openapi.v3.property) = {description:"表单模板名称",required:["name"]}];
+  string status = 6[(openapi.v3.property) = {description:"表单模板状态",required:["status"]}];
+  string type = 7[(openapi.v3.property) = {description:"表单类型('SAF 症状评估表', 'IC 知情同意书','UP 用户协议','SP 隐私协议')",required:["type"]}];
+  int32 versionCode = 8[(openapi.v3.property) = {description:"版本编码",required:["versionCode"]}];
+  string versionName = 9[(openapi.v3.property) = {description:"版本名称",required:["versionName"]}];
+}
+
+message FormUpdateResponse {
+  string belongTo = 1[(openapi.v3.property) = {description:"归属资源编码",required:["belongTo"]}];
+  string belongType = 2[(openapi.v3.property) = {description:"归属类型",required:["belongType"]}];
+  bool branchLogic = 3[(openapi.v3.property) = {description:"是否启用分支逻辑功能",required:["branchLogic"]}];
+  string createTime = 4[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+  string description = 5[(openapi.v3.property) = {description:"表单模板描述",required:["description"]}];
+  string id = 6[(openapi.v3.property) = {description:"表单模板编码",required:["id"]}];
+  string name = 7[(openapi.v3.property) = {description:"表单模板名称",required:["name"]}];
+  string status = 8[(openapi.v3.property) = {description:"表单模板状态",required:["status"]}];
+  string type = 9[(openapi.v3.property) = {description:"表单类型('SAF 症状评估表', 'IC 知情同意书','UP 用户协议','SP 隐私协议')",required:["type"]}];
+  string updateTime = 10[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+}
+
+message FormDetailRequest {
+  string id =1[(openapi.v3.property) = {description:"表单模板编码",required:["id"]}] ;
+  QueryParams QueryParams = 2;
+}
+
+message FormDetailResponse {
+
+  message Formcolumn {
+    Formcolumns column = 1;
+    repeated Columnopts columnOpts = 2;
+    repeated Columnthresholds columnThresholds = 3;
+  }
+
+  FormBean form = 1;
+  FormCssBean formCss = 2;
+  repeated Formcolumn formColumns = 3;
+}
+
+message FormFilterRequest {
+  message Notin {
+    repeated string types = 1;
+    string projectId = 2;
+  }
+
+  message Filter {
+    string belongType = 1;
+    repeated string ids = 2;
+    string key = 3;
+    repeated string status = 4;
+    string type = 5;
+    Notin notIn = 6;
+  }
+  Filter filter = 2;
+  int32 page = 3;
+  int32 perPage = 4;
+}
+
+message FormFilterResponse {
+  int32 page = 1;
+  int32 perPage = 2;
+  repeated FormDetailPreloadInfo results = 3;
+  int64 total = 4;
+}
+
+message FormImportRequest {
+  message Column {
+    string availableValue = 1;
+    string dataType = 2;
+    string defaultValue = 3;
+    string description = 4;
+    string groupName = 5;
+    string name = 6;
+    string regexp = 7;
+    int32 sortIndex = 8;
+    string tbFormId = 9;
+    string viewType = 10;
+  }
+
+  message Formcolumns {
+    Column column = 1;
+    repeated Columnopts columnOpts = 2;
+    repeated Columnthresholds columnThresholds = 3;
+  }
+
+  FormBean form = 1;
+  FormCssBean formCss = 2;
+  repeated Formcolumns formColumns = 3;
+}
+
+message FormImportResponse {
+  string id = 1;
+}
+
+message FormExportRequest {
+  repeated string ids = 1;
+}
+
+message FormExportResponse {
+
+  message Column {
+    string availableValue = 1;
+    string createTime = 2;
+    string dataType = 3;
+    string defaultValue = 4;
+    string description = 5;
+    bool editable = 6;
+    string groupName = 7;
+    string id = 8;
+    string name = 9;
+    string regexp = 10;
+    bool required = 11;
+    int32 sortIndex = 12;
+    string tbFormId = 13;
+    string updateTime = 14;
+    string viewType = 15;
+    bool visible = 16;
+  }
+
+  message Formcolumns {
+    Column column = 1;
+    repeated Columnopts columnOpts = 2;
+    repeated Columnthresholds columnThresholds = 3;
+  }
+
+  message Nested {
+    FormBean form = 1;
+    FormCssBean formCss = 2;
+    repeated Formcolumns formColumns = 3;
+  }
+
+  repeated Nested items = 1;
+}
+
+message FormModelUploadRequest {
+  string fileId = 1;
+  string formId = 2;
+  uint32 versionCode = 3;
+  string versionName = 4;
+}
+
+message FormModelUploadResponse {
+  uint32 code = 1;
+  string message = 2;
+  string err = 3;
+  string requestId = 4;
+}

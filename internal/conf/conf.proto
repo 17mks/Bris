@@ -1,0 +1,526 @@
+syntax = "proto3";
+package kratos.api;
+
+option go_package = "followup/internal/conf;conf";
+
+import "google/protobuf/duration.proto";
+
+message Bootstrap {
+  Server server = 1;
+  Data data = 2;
+}
+
+
+message Minion {
+  string addr = 1;
+  string accessKeyID = 2;
+  string secretAccessKey = 3;
+  string useSSl = 4;
+  bool sslUrl = 5;
+  string bucketName = 6;
+}
+
+message Server {
+  message HTTP {
+    string network = 1;
+    string addr = 2;
+    google.protobuf.Duration timeout = 3;
+  }
+  message GRPC {
+    string network = 1;
+    string addr = 2;
+    google.protobuf.Duration timeout = 3;
+  }
+  message JWT {
+    string token = 1;
+  }
+  HTTP http = 1;
+  GRPC grpc = 2;
+  JWT jwt = 3;
+  HYK huiyikang = 4;
+}
+
+message Data {
+  message Database {
+    string driver = 1;
+    string source = 2;
+  }
+  message Redis {
+    string network = 1;
+    string addr = 2;
+    google.protobuf.Duration read_timeout = 3;
+    google.protobuf.Duration write_timeout = 4;
+  }
+  message FileService {
+    string unZipPath = 1;
+  }
+  Database database = 1;
+  Redis redis = 2;
+
+  JWT jwt = 3;
+  Minion minion = 4;
+  BucketName bucketName = 5;
+  SerachPath searchPath = 6;
+  FileService fileService = 7;
+}
+
+message JWT {
+  string secret = 1;
+}
+
+message BucketName{
+  string bucketName = 1;
+}
+
+message SerachPath {
+  string searchPath = 1;
+}
+
+message HYK {
+  string addr = 1;
+  string systemCode = 2;
+  string requestPort = 3;
+  string postPort = 4;
+  string filePath = 5;
+  google.protobuf.Duration timeout = 6;
+}
+
+
+message HycConsultationApplysList {
+  string adNumber = 1;                     //病人住院号
+  string address = 2;                      //患者地址
+  string addressCity = 3;                  //城市
+  string addressCountry = 4;               //区县
+  string addressProvince = 5;              //省份
+  int32 age = 6;                           //年龄
+  string ageUnit = 7;                      //年龄单位
+  string allergicHistory = 8;              //过敏史
+  string applicationConsultationTime = 9;  //申请方预期的会诊开始时间
+  int32 applicationConsultationType = 10;  //申请会诊类型
+  string applicationDepartmentId = 11;     //申请人所在部门(科室)id
+  string applicationDepartmentName = 12;   //申请人所在部门(科室)名称
+  string applicationDoctor = 13;  //申请上级医院提供会诊的医生
+  string applicationDoctorDepartment = 14;  //申请上级医院提供会诊的医生所属科室
+  string applicationHospitalId = 15;  //会诊申请人所在机构(医院)ID
+  string applicationHospitalName = 16;  //会诊申请人所在机构(医院)名称
+  string applicationNumber = 17;        //会诊单编号
+  string applicationUserId = 18;        //申请人ID
+  string applicationUserName = 19;      //申请人姓名
+  string arrangeActualTime = 20;  //远程会诊安排人员实际操作申请单时间
+  int32 arrangeConsultationType = 21;  //远程会诊安排人员安排的会诊类型
+  string arrangeDoctor = 22;           //安排的会诊方医生
+  string arrangeDoctorDepartment = 23;  //安排的会诊方医生所属科室
+  string arrangeOptions = 24;           //安排建议
+  string arrangeRemarks = 25;           //安排备注
+  string arrangeScheduleTime = 26;  //远程会诊安排人员预期的会诊开始实际
+  string arrangeUserId = 27;    //远程会诊安排人员ID
+  string arrangeUserName = 28;  //远程会诊安排人员姓名
+  string assistedCheck = 29;    //辅助检查
+  string attachmentPath = 30;   //附件列表关联id
+  string birthDate = 31;        //出生日期
+  string checkUserID = 32;      //报到使用的用户id
+  int32 checkinFlag = 33;       // 0（未报到），1（已报到）
+  string consultationActualStartTime = 34;  //会诊实际开始时间
+  string consultationCompleteTime = 35;     //会诊完成(结束)时间
+  string consultationHospitalId = 36;       //远程会诊方医院ID
+  string consultationHospitalName = 37;     //远程会诊方医院名称
+  string createdBy = 38;                    //创建人
+  string createdDate = 39;                  //创建时间
+  int32 delFlag = 40;                       //是否删除
+  string directorDoctorName = 41;           //患者主管医生姓名
+  string directorDoctorPhone = 42;          //主管医生电话
+  string doctorAdviceDetail = 43;           //医嘱明细
+  string familyIllHistory = 44;             //家族史
+  string familyName = 45;                   //联系人(家属)姓名
+  string familyPhoneNumber = 46;            //联系人(家属)电话
+  string hospitalCheckInTime = 47;          //入院时间
+  string hpiHistory = 48;                   //现病史
+  string id = 49;                           //申请主键ID
+  string idCard = 50;                       //身份证号
+  string illness = 51;                      //病情概述
+  string imageId = 52;                      //影像业务ID
+  string inspectionResult = 53;             //检验检查结果
+  string inviteUserID = 54;                 //发起邀请医生ID
+  bool isAccompany = 55;                    //是否有家属陪同
+  bool isTransfer = 56;                     //是否转院
+  bool isUrgent = 57;                       //会诊申请是否紧急
+  string maritalStatus = 58;                //婚姻状况
+  string patientId = 59;                    //病人号
+  string patientName = 60;                  //患者姓名
+  string patientSelfIllDesc = 61;           //患者主诉
+  string personalHistory = 62;              //个人史
+  string phoneNumber = 63;                  //患者电话
+  string physicalCheck = 64;                //体格检查
+  string pmhHistory = 65;                   //既往史
+  string preliminaryConclusion = 66;        //初步结论
+  int32 printCount = 67;                    //打印次数
+  string profession = 68;                   //职业
+  string progressNotes = 69;                //病程概述
+  string refuseReason = 70;  //远程会诊安排人员拒绝原因
+  int32 sex = 71;            //病人性别(0男，1女，2不确定)
+  string solveProblem = 72;  //申请备注信息(会诊诉求)需要解决的问题
+  int32 status = 73;  //会诊单状态(1草稿，2已申请，3已安排， 4
+  //已创建会议，5，会诊中 6，未结论  7 已结论
+  // 8已取消（用户自己取消的）,9.已拒绝（安排人员拒绝安排）
+  string treatmentHistory = 74;  //治疗经过
+}
+
+message HykAddHospitalServiceReq {
+  string address = 1;
+  string createBy = 2;
+  string createName = 3;
+  string departname = 4;
+  string departnameEn = 5;
+  string description = 6;
+  string fax = 7;
+  string hospitalCode = 8;
+  string id = 9;
+  string memo = 10;
+  string orgCode = 11;
+  string parentdepartid = 12;
+}
+
+message TshospitaldeptReq {
+  string createdBy = 1;
+  string hospitalId = 2;
+  string hospitalName = 3;
+  string id = 4;
+  string name = 5;
+  string superiorHospitalDeptId = 6;
+  string treatmentRange = 7;
+}
+
+message hycConsultationApply {
+  string adNumber = 1;
+  string address = 2;
+  string addressCity = 3;
+  string addressCountry = 4;
+  string addressProvince = 5;
+  int32 age = 6;
+  string ageUnit = 7;
+  string allergicHistory = 8;
+  string applicationConsultationTime = 9;
+  int32 applicationConsultationType = 10;
+  string applicationDepartmentId = 11;
+  string applicationDepartmentName = 12;
+  string applicationDoctor = 13;
+  string applicationDoctorDepartment = 14;
+  string applicationHospitalId = 15;
+  string applicationHospitalName = 16;
+  string applicationNumber = 17;
+  string applicationUserId = 18;
+  string applicationUserName = 19;
+  string arrangeActualTime = 20;
+  int32 arrangeConsultationType = 21;
+  string arrangeDoctor = 22;
+  string arrangeDoctorDepartment = 23;
+  string arrangeOptions = 24;
+  string arrangeRemarks = 25;
+  string arrangeScheduleTime = 26;
+  string arrangeUserId = 27;
+  string arrangeUserName = 28;
+  string assistedCheck = 29;
+  repeated Attachments attachments = 30;
+  string birthDate = 31;
+  int64 checkInFlag = 32;
+  string conclusionButtonFlag = 33;
+  string consultationActualStartTime = 34;
+  string consultationCompleteTime = 35;
+  string consultationHospitalId = 36;
+  string consultationHospitalName = 37;
+  string createdBy = 38;
+  string createdDate = 39;
+  int32 delFlag = 40;
+  string directorDoctorName = 41;
+  string directorDoctorPhone = 42;
+  string doctorAdviceDetail = 43;
+  string endDate = 44;
+  string familyIllHistory = 45;
+  string familyName = 46;
+  string familyPhoneNumber = 47;
+  string hospitalCheckInTime = 48;
+  string hpiHistory = 49;
+  string id = 50;
+  string idCard = 51;
+  string illness = 52;
+  string imageId = 53;
+  string inspectionResult = 54;
+  bool isAccompany = 55;
+  bool isEvaluated = 56;
+  bool isTransfer = 57;
+  bool isUrgent = 58;
+  string maritalStatus = 59;
+  string patientId = 60;
+  string patientName = 61;
+  string patientNature = 62;
+  string patientSelfIllDesc = 63;
+  string personalHistory = 64;
+  string phoneNumber = 65;
+  string physicalCheck = 66;
+  string pmhHistory = 67;
+  string preliminaryConclusion = 68;
+  int32 printCount = 69;
+  string profession = 70;
+  string progressNotes = 71;
+  string refuseReason = 72;
+  int32 sex = 73;
+  string solveProblem = 74;
+  string startDate = 75;
+  int32 status = 76;
+  string treatmentHistory = 77;
+  int32 ycType = 78;
+}
+
+message Attachments {
+  string attachemnttypename = 1;
+  string attachmentcontent = 2;
+  string attachmenttype = 3;
+  string createdate = 4;
+  string extend = 5;
+  string fileSize = 6;
+  string fileUrl = 7;
+  int32 heigth = 8;
+  string id = 9;
+  string originalFileName = 10;
+  string osskey = 11;
+  string realpath = 12;
+  string subclassname = 13;
+  string swfpath = 14;
+  string userid = 15;
+  int32 width = 16;
+}
+
+
+message HycDualReferralApplys {
+  string advice = 1;
+  string allergicHistory = 2;
+  string applyDate = 3;
+  string applyDoctorId = 4;
+  string applyDoctorName = 5;
+  string applyHospitalId = 6;
+  string applyHospitalName = 7;
+  string arrangeintoDate = 8;
+  string attachmentPath = 9;
+  int32 backHospitalFlag = 10;
+  string birthDate = 11;
+  string cancelDate = 12;
+  string city = 13;
+  string comDocDepart = 14;
+  string comDocDepartId = 15;
+  string comDoctorPhone = 16;
+  string competentDoctorName = 17;
+  string county = 18;
+  string createdBy = 19;
+  string createdDate = 20;
+  string dependentsName = 21;
+  string dependentsPhone = 22;
+  string diagnosis = 23;
+  string draftDate = 24;
+  string familyIllHistory = 25;
+  string firstImpression = 26;
+  string fromType = 27;
+  string id = 28;
+  string inHospitalNum = 29;
+  string intoHospitalId = 30;
+  string intoHospitalName = 31;
+  string intodoctorId = 32;
+  string intodoctorName = 33;
+  string intodoctordepartName = 34;
+  string mainCheckResult = 35;
+  string medicalHistory = 36;
+  string nowMedicalHistory = 37;
+  string patientAge = 38;
+  string patientId = 39;
+  string patientIdCard = 40;
+  string patientName = 41;
+  string patientPhone = 42;
+  string patientSex = 43;
+  string patientreportDate = 44;
+  string province = 45;
+  string referralNumber = 46;
+  string refuseReason = 47;
+  int32 status = 48;
+  string street = 49;
+  string treatmentProcedure = 50;
+}
+
+message HycDualReferralApply {
+  string advice = 1;
+  string allergicHistory = 2;
+  string applyDate = 3;
+  string applyDoctorId = 4;
+  string applyDoctorName = 5;
+  string applyHospitalId = 6;
+  string applyHospitalName = 7;
+  string arrangeintoDate = 8;
+  repeated Attachments attachments = 9;
+  int32 backHospitalFlag = 10;
+  string birthDate = 11;
+  string cancelDate = 12;
+  string city = 13;
+  string comDocDepart = 14;
+  string comDocDepartId = 15;
+  string comDoctorPhone = 16;
+  string competentDoctorName = 17;
+  string county = 18;
+  string createdBy = 19;
+  string createdDate = 20;
+  string dependentsName = 21;
+  string dependentsPhone = 22;
+  string diagnosis = 23;
+  string draftDate = 24;
+  string endDate = 25;
+  string familyIllHistory = 26;
+  string firstImpression = 27;
+  string fromType = 28;
+  string id = 29;
+  string inHospitalNum = 30;
+  string intoHospitalId = 31;
+  string intoHospitalName = 32;
+  string intodoctorId = 33;
+  string intodoctorName = 34;
+  string intodoctordepartName = 35;
+  string mainCheckResult = 36;
+  string medicalHistory = 37;
+  string nowMedicalHistory = 38;
+  string patientAge = 39;
+  string patientId = 40;
+  string patientIdCard = 41;
+  string patientName = 42;
+  string patientPhone = 43;
+  string patientSex = 44;
+  string patientreportDate = 45;
+  string province = 46;
+  string referralNumber = 47;
+  string refuseReason = 48;
+  string startDate = 49;
+  int32 status = 50;
+  string street = 51;
+  string treatmentProcedure = 52;
+  string updatedBy = 53;
+  string updatedDate = 54;
+}
+
+message TsDoctorsVo {
+  string areasOfExpertise = 1;
+  string contactPhone = 2;
+  string createdBy = 3;
+  string doctorLevel = 4;
+  string doctorTitle = 5;
+  string hospitalDeptId = 6;
+  string hospitalDeptName = 7;
+  string hospitalId = 8;
+  string hospitalName = 9;
+  string id = 10;
+  string jobNumber = 11;
+  string name = 12;
+  string selfIntroduction = 13;
+  string telePhone = 14;
+}
+
+message AddSystemUser {
+  string citizenNo = 1;
+  string createBy = 2;
+  string createName = 3;
+  string email = 4;
+  string empNo = 5;
+  string id = 6;
+  string mobilephone = 7;
+  string officePhone = 8;
+  string orgId = 9;
+  string password = 10;
+  string profile = 11;
+  string realname = 12;
+  string sex = 13;
+  string weChat = 14;
+}
+
+message HycOutpatientApply {
+  string accompanyingDoctor = 1;       //陪诊医生
+  int32 age = 2;                       //年龄
+  string applyDate = 3;                //申请日期
+  string applyDoctorDepartName = 4;    //基层门诊预约医生科室
+  string applyDoctorHospitalName = 5;  //基层门诊预约医生医院
+  string applyDoctorId = 6;  //基层门诊预约医生ID（关联t_s_user表主键）
+  string applyDoctorName = 7;               //基层门诊预约医生名称
+  int32 applyarray = 8;                     //报到队列排序
+  string arrangeDoctorDepartmentId = 9;     //门诊医生科室id
+  string arrangeDoctorDepartmentName = 10;  //门诊医生科室名称
+  string arrangeDoctorId = 11;              //门诊医生id
+  string arrangeDoctorName = 12;            //门诊医生姓名
+  string arrangeTimeEnd = 13;               //门诊结束时间
+  string arrangeTimeStart = 14;             //门诊开始时间
+  string arrangeType = 15;                  //门诊时间段
+  string attachmentPath = 16;               //附件地址
+  repeated Attachments attachments = 17;    //附件列表
+  string birthDate = 18;                    //出生日期
+  string chiefComplaint = 19;               //主诉
+  string createName = 20;                   //创建人名称
+  string createdBy = 21;          //创建人ID（关联t_s_user表主键）
+  string createdDate = 22;        //创建日期
+  string diagnosis = 23;          //诊断
+  string diagnosisCode = 24;      //诊断代码
+  string doctorPhone = 25;        //医生电话
+  string examineSuggestion = 26;  //检查建议
+  string familyPhone = 27;        //家属电话
+  int32 firstVisit = 28;          //初复诊（1 初诊、2 复诊）
+  string fkHospitalId = 29;       //医院ID（关联t_s_depart表主键）
+  int32 gender = 30;              //性别（0 男、1 女 2其他）
+  string hospitalName = 31;       //医院名称
+  string id = 32;
+  string idNumber = 33;              //身份证号
+  string inspectionSuggestion = 34;  //检验建议
+  string medicalHistory = 35;        //病史
+  string medicationAdvice = 36;      //用药建议
+  string otherSuggestion = 37;       //其他建议
+  float outpatientExpenses = 38;     //门诊费用
+  string patientId = 39;             //病人号
+  string patientName = 40;           //姓名
+  string patientPhone = 41;          //患者电话
+  string queryEndDate = 42;          //远程门诊日期查询终点
+  string queryStartDate = 43;        //远程门诊日期查询起点
+  string remoteInspection = 44;      //远程查体
+  string reservationNumber = 45;     //门诊预约号
+  string serialNumber = 46;          //门诊编号
+  string startDate = 47;             //门诊开始日期
+  int32 status = 48;  //状态（0 草稿、1 已取消、2 已确认（已预约）、3 已报到、4
+  //已叫号、5 已结论、6 已过期、7 开始随访、8 随访中、9
+  //已完成）
+  int32 time = 49;  //安排时间（1 上午、2 下午）
+}
+
+message HycOutpatientApplysReq {
+  string endTime = 1;
+  string number = 2;
+  string patientId = 3;
+  string patientName = 4;
+  string startTime = 5;
+}
+
+message Job {
+  bool switch = 2;
+  message JobConfig {
+    string name = 1;
+    string schedule = 2;
+    bool switch = 3;
+  }
+  repeated JobConfig jobs = 1;
+}
+
+message HycConsultationConclusions {
+  string applicationDoctorDepartment = 1;
+  string applicationDoctorId = 2;
+  string applicationDoctorName = 3;
+  string applicationId = 4;
+  string conclusion = 5;
+  string conclusionButtonFlag = 6;
+  string createdBy = 7;
+  string createdDate = 8;
+  int32 delFlag = 9;
+  int32 groupTag = 10;
+  string id = 11;
+  int32 isTransfer = 12;
+  string suggestion = 13;
+  string sysCompanyCode = 14;
+  string sysOrgCode = 15;
+}

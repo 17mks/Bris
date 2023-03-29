@@ -1,0 +1,1022 @@
+syntax = "proto3";
+
+package api;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+import "openapi/v3/annotations.proto";
+
+import "relate.proto";
+option go_package = "followup/api";
+
+
+
+service WorkItem {
+  //工作项创建
+  rpc WorkItemCreate (WorkItemCreateRequest) returns (WorkItemCreateResponse) {
+    option (google.api.http) = {
+      post:"/workitem",
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary:"工作项创建"
+    };
+  }
+  //工作项删除
+  rpc WorkItemDelete (WorkItemDeleteRequest) returns (WorkItemDeleteResponse) {
+    option (google.api.http) = {
+      delete:"/workitem/{id}"
+    };
+    option (openapi.v3.operation) = {
+      summary:"工作项删除"
+    };
+  }
+  //工作项信息更新
+  rpc WorkItemUpdate (WorkItemUpdateRequest) returns (WorkItemUpdateResponse) {
+    option (google.api.http) = {
+      put:"/workitem",
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary:"工作项信息更新"
+    };
+  }
+  //工作项详情查询
+  rpc WorkItemDetail (WorkItemDetailRequest) returns (WorkItemDetailResponse) {
+    option (google.api.http) = {
+      get:"/workitem/{id}",
+    };
+    option (openapi.v3.operation) = {
+      summary:"工作项详情查询"
+    };
+  }
+  //工作项过滤查询
+  rpc WorkItemFilter (WorkItemFilterRequest) returns (WorkItemFilterResponse) {
+    option (google.api.http) = {
+      post:"/workitem/filter",
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary:"工作项过滤查询"
+    };
+  }
+}
+
+message WorkItemDetailGenInfo {
+  WorkItems workItems = 1;
+  repeated Relates relates = 2;
+}
+
+message WorkItemDetailBean {
+  WorkItems workItems = 1;
+  repeated Relates relates = 2;
+}
+
+message WorkItems{
+  string actualEndTime = 1[(openapi.v3.property) = {description:"实际结束时间",required:["actualEndTime"]}];
+  string actualStartTime = 2[(openapi.v3.property) = {description:"实际开始时间",required:["actualStartTime"]}];
+  string assignedTo = 3[(openapi.v3.property) = {description:"指派给谁(多个值用','分隔)",required:["assignedTo"]}];
+  string assignedToName = 4[(openapi.v3.property) = {description:"被指派人姓名",required:["assignedToName"]}];
+  string assignedType = 5[(openapi.v3.property) = {description:"指派类型(用户,成员,患者,未指派)",required:["assignedType"]}];
+  string belongTo = 6[(openapi.v3.property) = {description:"规则资源编码(e.g. 如果归属类型是项目则填项目编码)",required:["belongTo"]}];
+  string belongType = 7[(openapi.v3.property) = {description:"归属类型",required:["belongType"]}];
+  string cc = 8[(openapi.v3.property) = {description:"抄送成员编码(多个值用','分隔)",required:["cc"]}];
+  string creatBy = 9[(openapi.v3.property) = {description:"创建人成员编码",required:["creatBy"]}];
+  string creatByName = 10[(openapi.v3.property) = {description:"创建人姓名",required:["creatByName"]}];
+  string description = 11[(openapi.v3.property) = {description:"描述(可存富文本内容或Markdown内容)",required:["description"]}];
+  string event = 12[(openapi.v3.property) = {description:"触发事件('RY 入院','SS 手术', 'CY 出院', 'JZ 就诊', 'CS 出生' ,'NONE')",required:["event"]}];
+  int32 frequencyInterval = 13[(openapi.v3.property) = {description:"频次间隔",required:["frequencyInterval"]}];
+  string frequencyUnit = 14[(openapi.v3.property) = {description:"频次单位(年,月,周,日,小时)",required:["frequencyUnit"]}];
+  string participant = 15[(openapi.v3.property) = {description:"参与者成员编码(多个值用','分隔)",required:["participant"]}];
+  string pid = 16[(openapi.v3.property) = {description:"父工作项编码",required:["pid"]}];
+  string planEndTime = 17[(openapi.v3.property) = {description:"计划结束时间",required:["planEndTime"]}];
+  string planStartTime = 18[(openapi.v3.property) = {description:"计划开始时间",required:["planStartTime"]}];
+  string principalId = 19[(openapi.v3.property) = {description:"负责人成员编码",required:["principalId"]}];
+  string principalName = 20[(openapi.v3.property) = {description:"负责人姓名",required:["principalName"]}];
+  string principalType = 21[(openapi.v3.property) = {description:"负责人类型",required:["principalType"]}];
+  uint32 sortNum = 22[(openapi.v3.property) = {description:"排序号码",required:["sortNum"]}];
+  string status = 23[(openapi.v3.property) = {description:"状态('MODEL 模板', 'DRAFT 草稿', 'NEW 新建-待处理', 'ACTIVE 正在进行', 'RESOLVED', 'CLOSED 已关闭', 'REMOVED 已移除')",required:["status"]}];
+  string tag = 24[(openapi.v3.property) = {description:"标签(多个值用','分隔)",required:["tag"]}];
+  string title = 25[(openapi.v3.property) = {description:"标题",required:["title"]}];
+  string type = 26[(openapi.v3.property) = {description:"工作项类型(FOLLOW_UP:随访,SA:症状评估,TREAT:治疗任务,WORK_FLOW:工作流)",required:["type"]}];
+  string updateBy = 27[(openapi.v3.property) = {description:"最近更新人成员编码",required:["updateBy"]}];
+  repeated Relates relates = 28;
+  string id = 29[(openapi.v3.property) = {description:"工作项编码",required:["id"]}];
+  string createTime = 30[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+  string updateTime = 31[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+  string deletedAt = 40;
+  string appId = 32;
+  int32 notifyLeftOffset = 33;
+  int32 notifyRightOffset = 34;
+  string notifyOffsetUnit = 35;
+  string notifyLeftDate = 36;
+  string notifyRightDate = 37;
+  string notifyNode = 38;
+  string execArea = 39;
+}
+
+message WorkItemCreateRequest {
+  string actualEndTime = 1[(openapi.v3.property) = {description:"实际结束时间",required:["actualEndTime"]}];
+  string actualStartTime = 2[(openapi.v3.property) = {description:"实际开始时间",required:["actualStartTime"]}];
+  string assignedTo = 3[(openapi.v3.property) = {description:"指派给谁(多个值用','分隔)",required:["assignedTo"]}];
+  string assignedToName = 4[(openapi.v3.property) = {description:"被指派人姓名",required:["assignedToName"]}];
+  string assignedType = 5[(openapi.v3.property) = {description:"指派类型(用户,成员,患者,未指派)",required:["assignedType"]}];
+  string belongTo = 6[(openapi.v3.property) = {description:"规则资源编码(e.g. 如果归属类型是项目则填项目编码)",required:["belongTo"]}];
+  string belongType = 7[(openapi.v3.property) = {description:"归属类型",required:["belongType"]}];
+  string cc = 8[(openapi.v3.property) = {description:"抄送成员编码(多个值用','分隔)",required:["cc"]}];
+  string creatBy = 9[(openapi.v3.property) = {description:"创建人成员编码",required:["creatBy"]}];
+  string creatByName = 10[(openapi.v3.property) = {description:"创建人姓名",required:["creatByName"]}];
+  string description = 11[(openapi.v3.property) = {description:"描述(可存富文本内容或Markdown内容)",required:["description"]}];
+  string event = 12[(openapi.v3.property) = {description:"触发事件('RY 入院','SS 手术', 'CY 出院', 'JZ 就诊', 'CS 出生' ,'NONE')",required:["event"]}];
+  int32 frequencyInterval = 13[(openapi.v3.property) = {description:"频次间隔",required:["frequencyInterval"]}];
+  string frequencyUnit = 14[(openapi.v3.property) = {description:"频次单位(年,月,周,日,小时)",required:["frequencyUnit"]}];
+  string participant = 15[(openapi.v3.property) = {description:"参与者成员编码(多个值用','分隔)",required:["participant"]}];
+  string pid = 16[(openapi.v3.property) = {description:"父工作项编码",required:["pid"]}];
+  string planEndTime = 17[(openapi.v3.property) = {description:"计划结束时间",required:["planEndTime"]}];
+  string planStartTime = 18[(openapi.v3.property) = {description:"计划开始时间",required:["planStartTime"]}];
+  string principalId = 19[(openapi.v3.property) = {description:"负责人成员编码",required:["principalId"]}];
+  string principalName = 20[(openapi.v3.property) = {description:"负责人姓名",required:["principalName"]}];
+  string principalType = 21[(openapi.v3.property) = {description:"负责人类型",required:["principalType"]}];
+  int32 sortNum = 22[(openapi.v3.property) = {description:"排序号码",required:["sortNum"]}];
+  string status = 23[(openapi.v3.property) = {description:"状态('MODEL 模板', 'DRAFT 草稿', 'NEW 新建-待处理', 'ACTIVE 正在进行', 'RESOLVED', 'CLOSED 已关闭', 'REMOVED 已移除')",required:["status"]}];
+  string tag = 24[(openapi.v3.property) = {description:"标签(多个值用','分隔)",required:["tag"]}];
+  string title = 25[(openapi.v3.property) = {description:"标题",required:["title"]}];
+  string type = 26[(openapi.v3.property) = {description:"工作项类型(FOLLOW_UP:随访,SA:症状评估,TREAT:治疗任务,WORK_FLOW:工作流)",required:["type"]}];
+  string updateBy = 27[(openapi.v3.property) = {description:"最近更新人成员编码",required:["updateBy"]}];
+  repeated Relates relates = 28;
+  string id = 29[(openapi.v3.property) = {description:"工作项编码",required:["id"]}];
+}
+
+
+message WorkItemCreateResponse{
+  string id = 1[(openapi.v3.property) = {description:"工作项编码",required:["id"]}];
+}
+
+
+message WorkItemDeleteRequest {
+  string id = 1[(openapi.v3.property) = {description:"工作项编码",required:["id"]}];
+}
+
+message  WorkItemDeleteResponse {
+  string id = 1[(openapi.v3.property) = {description:"工作项编码",required:["id"]}];
+}
+
+message WorkItemUpdateRequest {
+  string actualEndTime = 1[(openapi.v3.property) = {description:"实际结束时间",required:["actualEndTime"]}];
+  string actualStartTime = 2[(openapi.v3.property) = {description:"实际开始时间",required:["actualStartTime"]}];
+  string assignedTo = 3[(openapi.v3.property) = {description:"指派给谁(多个值用','分隔)",required:["assignedTo"]}];
+  string assignedToName = 4[(openapi.v3.property) = {description:"被指派人姓名",required:["assignedToName"]}];
+  string assignedType = 5[(openapi.v3.property) = {description:"指派类型(用户,成员,患者,未指派)",required:["assignedType"]}];
+  string belongTo = 6[(openapi.v3.property) = {description:"规则资源编码(e.g. 如果归属类型是项目则填项目编码)",required:["belongTo"]}];
+  string belongType = 7[(openapi.v3.property) = {description:"归属类型",required:["belongType"]}];
+  string cc = 8[(openapi.v3.property) = {description:"抄送成员编码(多个值用','分隔)",required:["cc"]}];
+  string creatBy = 9[(openapi.v3.property) = {description:"创建人成员编码",required:["creatBy"]}];
+  string creatByName = 10[(openapi.v3.property) = {description:"创建人姓名",required:["creatByName"]}];
+  string description = 11[(openapi.v3.property) = {description:"描述(可存富文本内容或Markdown内容)",required:["description"]}];
+  string event = 12[(openapi.v3.property) = {description:"触发事件('RY 入院','SS 手术', 'CY 出院', 'JZ 就诊', 'CS 出生' ,'NONE')",required:["event"]}];
+  int32 frequencyInterval = 13[(openapi.v3.property) = {description:"频次间隔",required:["frequencyInterval"]}];
+  string frequencyUnit = 14[(openapi.v3.property) = {description:"频次单位(年,月,周,日,小时)",required:["frequencyUnit"]}];
+  string participant = 15[(openapi.v3.property) = {description:"参与者成员编码(多个值用','分隔)",required:["participant"]}];
+  string pid = 16[(openapi.v3.property) = {description:"父工作项编码",required:["pid"]}];
+  string planEndTime = 17[(openapi.v3.property) = {description:"计划结束时间",required:["planEndTime"]}];
+  string planStartTime = 18[(openapi.v3.property) = {description:"计划开始时间",required:["planStartTime"]}];
+  string principalId = 19[(openapi.v3.property) = {description:"负责人成员编码",required:["principalId"]}];
+  string principalName = 20[(openapi.v3.property) = {description:"负责人姓名",required:["principalName"]}];
+  string principalType = 21[(openapi.v3.property) = {description:"负责人类型",required:["principalType"]}];
+  int32 sortNum = 22[(openapi.v3.property) = {description:"排序号码",required:["sortNum"]}];
+  string status = 23[(openapi.v3.property) = {description:"状态('MODEL 模板', 'DRAFT 草稿', 'NEW 新建-待处理', 'ACTIVE 正在进行', 'RESOLVED', 'CLOSED 已关闭', 'REMOVED 已移除')",required:["status"]}];
+  string tag = 24[(openapi.v3.property) = {description:"标签(多个值用','分隔)",required:["tag"]}];
+  string title = 25[(openapi.v3.property) = {description:"标题",required:["title"]}];
+  string type = 26[(openapi.v3.property) = {description:"工作项类型(FOLLOW_UP:随访,SA:症状评估,TREAT:治疗任务,WORK_FLOW:工作流)",required:["type"]}];
+}
+
+message WorkItemUpdateResponse {
+  string actualEndTime = 1[(openapi.v3.property) = {description:"实际结束时间",required:["actualEndTime"]}];
+  string actualStartTime = 2[(openapi.v3.property) = {description:"实际开始时间",required:["actualStartTime"]}];
+  string assignedTo = 3[(openapi.v3.property) = {description:"指派给谁(多个值用','分隔)",required:["assignedTo"]}];
+  string assignedToName = 4[(openapi.v3.property) = {description:"被指派人姓名",required:["assignedToName"]}];
+  string assignedType = 5[(openapi.v3.property) = {description:"指派类型(用户,成员,患者,未指派)",required:["assignedType"]}];
+  string belongTo = 6[(openapi.v3.property) = {description:"规则资源编码(e.g. 如果归属类型是项目则填项目编码)",required:["belongTo"]}];
+  string belongType = 7[(openapi.v3.property) = {description:"归属类型",required:["belongType"]}];
+  string cc = 8[(openapi.v3.property) = {description:"抄送成员编码(多个值用','分隔)",required:["cc"]}];
+  string creatBy = 9[(openapi.v3.property) = {description:"创建人成员编码",required:["creatBy"]}];
+  string creatByName = 10[(openapi.v3.property) = {description:"创建人姓名",required:["creatByName"]}];
+  string createTime = 11[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+  string description = 12[(openapi.v3.property) = {description:"描述(可存富文本内容或Markdown内容)",required:["description"]}];
+  string event = 13[(openapi.v3.property) = {description:"触发事件('RY 入院','SS 手术', 'CY 出院', 'JZ 就诊', 'CS 出生' ,'NONE')",required:["event"]}];
+  string id = 14[(openapi.v3.property) = {description:"工作项编码",required:["id"]}];
+  string participant = 15[(openapi.v3.property) = {description:"参与者成员编码(多个值用','分隔)",required:["participant"]}];
+  string pid = 16[(openapi.v3.property) = {description:"父工作项编码",required:["pid"]}];
+  string planEndTime = 17[(openapi.v3.property) = {description:"计划结束时间",required:["planEndTime"]}];
+  string planStartTime = 18[(openapi.v3.property) = {description:"计划开始时间",required:["planStartTime"]}];
+  string principalId = 19[(openapi.v3.property) = {description:"负责人成员编码",required:["principalId"]}];
+  string principalName = 20[(openapi.v3.property) = {description:"负责人姓名",required:["principalName"]}];
+  string status = 21[(openapi.v3.property) = {description:"状态('MODEL 模板', 'DRAFT 草稿', 'NEW 新建-待处理', 'ACTIVE 正在进行', 'RESOLVED', 'CLOSED 已关闭', 'REMOVED 已移除')",required:["status"]}];
+  string tag = 22[(openapi.v3.property) = {description:"标签(多个值用','分隔)",required:["tag"]}];
+  string title = 23[(openapi.v3.property) = {description:"标题",required:["title"]}];
+  string type = 24[(openapi.v3.property) = {description:"工作项类型(FOLLOW_UP:随访,SA:症状评估,TREAT:治疗任务,WORK_FLOW:工作流)",required:["type"]}];
+  string updateBy = 25[(openapi.v3.property) = {description:"最近更新人成员编码",required:["updateBy"]}];
+  string updateTime = 26[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+}
+
+
+message WorkItemDetailRequest {
+  string id =1[(openapi.v3.property) = {description:"工作项编码",required:["id"]}];
+}
+
+message WorkItemDetailResponse {
+  message Workitem {
+    string appId = 1;
+    string actualEndTime = 2[(openapi.v3.property) = {description:"实际结束时间",required:["actualEndTime"]}];
+    string actualStartTime = 3[(openapi.v3.property) = {description:"实际开始时间",required:["actualStartTime"]}];
+    string assignedTo = 4[(openapi.v3.property) = {description:"指派给谁(多个值用','分隔)",required:["assignedTo"]}];
+    string assignedToName = 5[(openapi.v3.property) = {description:"被指派人姓名",required:["assignedToName"]}];
+    string assignedType = 6[(openapi.v3.property) = {description:"指派类型(用户,成员,患者,未指派)",required:["assignedType"]}];
+    string belongTo = 7[(openapi.v3.property) = {description:"规则资源编码(e.g. 如果归属类型是项目则填项目编码)",required:["belongTo"]}];
+    string belongType = 8[(openapi.v3.property) = {description:"归属类型",required:["belongType"]}];
+    string cc = 9[(openapi.v3.property) = {description:"抄送成员编码(多个值用','分隔)",required:["cc"]}];
+    string creatBy = 10[(openapi.v3.property) = {description:"创建人成员编码",required:["creatBy"]}];
+    string creatByName = 11[(openapi.v3.property) = {description:"创建人姓名",required:["creatByName"]}];
+    string createTime = 12[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+    string description = 13[(openapi.v3.property) = {description:"描述(可存富文本内容或Markdown内容)",required:["description"]}];
+    string event = 14[(openapi.v3.property) = {description:"触发事件('RY 入院','SS 手术', 'CY 出院', 'JZ 就诊', 'CS 出生' ,'NONE')",required:["event"]}];
+    int32 frequencyInterval = 15[(openapi.v3.property) = {description:"频次间隔",required:["frequencyInterval"]}];
+    string frequencyUnit = 16[(openapi.v3.property) = {description:"频次单位(年,月,周,日,小时)",required:["frequencyUnit"]}];
+    string id = 17[(openapi.v3.property) = {description:"工作项编码",required:["id"]}];
+    string participant = 18[(openapi.v3.property) = {description:"参与者成员编码(多个值用','分隔)",required:["participant"]}];
+    string pid = 19[(openapi.v3.property) = {description:"父工作项编码",required:["pid"]}];
+    string planEndTime = 20[(openapi.v3.property) = {description:"计划结束时间",required:["planEndTime"]}];
+    string planStartTime = 21[(openapi.v3.property) = {description:"计划开始时间",required:["planStartTime"]}];
+    string principalId = 22[(openapi.v3.property) = {description:"负责人成员编码",required:["principalId"]}];
+    string principalName = 23[(openapi.v3.property) = {description:"负责人姓名",required:["principalName"]}];
+    string principalType = 24[(openapi.v3.property) = {description:"负责人类型",required:["principalType"]}];
+    int32 sortNum = 25[(openapi.v3.property) = {description:"排序号码",required:["sortNum"]}];
+    string status = 26[(openapi.v3.property) = {description:"状态('MODEL 模板', 'DRAFT 草稿', 'NEW 新建-待处理', 'ACTIVE 正在进行', 'RESOLVED', 'CLOSED 已关闭', 'REMOVED 已移除')",required:["status"]}];
+    string tag = 27[(openapi.v3.property) = {description:"标签(多个值用','分隔)",required:["tag"]}];
+    string title = 28[(openapi.v3.property) = {description:"标题",required:["title"]}];
+    string type = 29[(openapi.v3.property) = {description:"工作项类型(FOLLOW_UP:随访,SA:症状评估,TREAT:治疗任务,WORK_FLOW:工作流)",required:["type"]}];
+    string updateBy = 30[(openapi.v3.property) = {description:"最近更新人成员编码",required:["updateBy"]}];
+    string updateTime = 31[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+  }
+  message Workitem1 {
+    string appId = 1;
+    string actualEndTime = 2[(openapi.v3.property) = {description:"实际结束时间",required:["actualEndTime"]}];
+    string actualStartTime = 3[(openapi.v3.property) = {description:"实际开始时间",required:["actualStartTime"]}];
+    string assignedTo = 4[(openapi.v3.property) = {description:"指派给谁(多个值用','分隔)",required:["assignedTo"]}];
+    string assignedToName = 5[(openapi.v3.property) = {description:"被指派人姓名",required:["assignedToName"]}];
+    string assignedType = 6[(openapi.v3.property) = {description:"指派类型(用户,成员,患者,未指派)",required:["assignedType"]}];
+    string belongTo = 7[(openapi.v3.property) = {description:"规则资源编码(e.g. 如果归属类型是项目则填项目编码)",required:["belongTo"]}];
+    string belongType = 8[(openapi.v3.property) = {description:"归属类型",required:["belongType"]}];
+    string cc = 9[(openapi.v3.property) = {description:"抄送成员编码(多个值用','分隔)",required:["cc"]}];
+    string creatBy = 10[(openapi.v3.property) = {description:"创建人成员编码",required:["creatBy"]}];
+    string creatByName = 11[(openapi.v3.property) = {description:"创建人姓名",required:["creatByName"]}];
+    string createTime = 12[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+    string description = 13[(openapi.v3.property) = {description:"描述(可存富文本内容或Markdown内容)",required:["description"]}];
+    string event = 14[(openapi.v3.property) = {description:"触发事件('RY 入院','SS 手术', 'CY 出院', 'JZ 就诊', 'CS 出生' ,'NONE')",required:["event"]}];
+    int32 frequencyInterval = 15[(openapi.v3.property) = {description:"频次间隔",required:["frequencyInterval"]}];
+    string frequencyUnit = 16[(openapi.v3.property) = {description:"频次单位(年,月,周,日,小时)",required:["frequencyUnit"]}];
+    string id = 17[(openapi.v3.property) = {description:"工作项编码",required:["id"]}];
+    string participant = 18[(openapi.v3.property) = {description:"参与者成员编码(多个值用','分隔)",required:["participant"]}];
+    string pid = 19[(openapi.v3.property) = {description:"父工作项编码",required:["pid"]}];
+    string planEndTime = 20[(openapi.v3.property) = {description:"计划结束时间",required:["planEndTime"]}];
+    string planStartTime = 21[(openapi.v3.property) = {description:"计划开始时间",required:["planStartTime"]}];
+    string principalId = 22[(openapi.v3.property) = {description:"负责人成员编码",required:["principalId"]}];
+    string principalName = 23[(openapi.v3.property) = {description:"负责人姓名",required:["principalName"]}];
+    string principalType = 24[(openapi.v3.property) = {description:"负责人类型",required:["principalType"]}];
+    int32 sortNum = 25[(openapi.v3.property) = {description:"排序号码",required:["sortNum"]}];
+    string status = 26[(openapi.v3.property) = {description:"状态('MODEL 模板', 'DRAFT 草稿', 'NEW 新建-待处理', 'ACTIVE 正在进行', 'RESOLVED', 'CLOSED 已关闭', 'REMOVED 已移除')",required:["status"]}];
+    string tag = 27[(openapi.v3.property) = {description:"标签(多个值用','分隔)",required:["tag"]}];
+    string title = 28[(openapi.v3.property) = {description:"标题",required:["title"]}];
+    string type = 29[(openapi.v3.property) = {description:"工作项类型(FOLLOW_UP:随访,SA:症状评估,TREAT:治疗任务,WORK_FLOW:工作流)",required:["type"]}];
+    string updateBy = 30[(openapi.v3.property) = {description:"最近更新人成员编码",required:["updateBy"]}];
+    string updateTime = 31[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Parent {
+    Workitem1 workItem = 1;
+    Relates1 relates = 2;
+  }
+
+  message Workitem2 {
+    string appId = 1;
+    string actualEndTime = 2[(openapi.v3.property) = {description:"实际结束时间",required:["actualEndTime"]}];
+    string actualStartTime = 3[(openapi.v3.property) = {description:"实际开始时间",required:["actualStartTime"]}];
+    string assignedTo = 4[(openapi.v3.property) = {description:"指派给谁(多个值用','分隔)",required:["assignedTo"]}];
+    string assignedToName = 5[(openapi.v3.property) = {description:"被指派人姓名",required:["assignedToName"]}];
+    string assignedType = 6[(openapi.v3.property) = {description:"指派类型(用户,成员,患者,未指派)",required:["assignedType"]}];
+    string belongTo = 7[(openapi.v3.property) = {description:"规则资源编码(e.g. 如果归属类型是项目则填项目编码)",required:["belongTo"]}];
+    string belongType = 8[(openapi.v3.property) = {description:"归属类型",required:["belongType"]}];
+    string cc = 9[(openapi.v3.property) = {description:"抄送成员编码(多个值用','分隔)",required:["cc"]}];
+    string creatBy = 10[(openapi.v3.property) = {description:"创建人成员编码",required:["creatBy"]}];
+    string creatByName = 11[(openapi.v3.property) = {description:"创建人姓名",required:["creatByName"]}];
+    string createTime = 12[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+    string description = 13[(openapi.v3.property) = {description:"描述(可存富文本内容或Markdown内容)",required:["description"]}];
+    string event = 14[(openapi.v3.property) = {description:"触发事件('RY 入院','SS 手术', 'CY 出院', 'JZ 就诊', 'CS 出生' ,'NONE')",required:["event"]}];
+    int32 frequencyInterval = 15[(openapi.v3.property) = {description:"频次间隔",required:["frequencyInterval"]}];
+    string frequencyUnit = 16[(openapi.v3.property) = {description:"频次单位(年,月,周,日,小时)",required:["frequencyUnit"]}];
+    string id = 17[(openapi.v3.property) = {description:"工作项编码",required:["id"]}];
+    string participant = 18[(openapi.v3.property) = {description:"参与者成员编码(多个值用','分隔)",required:["participant"]}];
+    string pid = 19[(openapi.v3.property) = {description:"父工作项编码",required:["pid"]}];
+    string planEndTime = 20[(openapi.v3.property) = {description:"计划结束时间",required:["planEndTime"]}];
+    string planStartTime = 21[(openapi.v3.property) = {description:"计划开始时间",required:["planStartTime"]}];
+    string principalId = 22[(openapi.v3.property) = {description:"负责人成员编码",required:["principalId"]}];
+    string principalName = 23[(openapi.v3.property) = {description:"负责人姓名",required:["principalName"]}];
+    string principalType = 24[(openapi.v3.property) = {description:"负责人类型",required:["principalType"]}];
+    int32 sortNum = 25[(openapi.v3.property) = {description:"排序号码",required:["sortNum"]}];
+    string status = 26[(openapi.v3.property) = {description:"状态('MODEL 模板', 'DRAFT 草稿', 'NEW 新建-待处理', 'ACTIVE 正在进行', 'RESOLVED', 'CLOSED 已关闭', 'REMOVED 已移除')",required:["status"]}];
+    string tag = 27[(openapi.v3.property) = {description:"标签(多个值用','分隔)",required:["tag"]}];
+    string title = 28[(openapi.v3.property) = {description:"标题",required:["title"]}];
+    string type = 29[(openapi.v3.property) = {description:"工作项类型(FOLLOW_UP:随访,SA:症状评估,TREAT:治疗任务,WORK_FLOW:工作流)",required:["type"]}];
+    string updateBy = 30[(openapi.v3.property) = {description:"最近更新人成员编码",required:["updateBy"]}];
+    string updateTime = 31[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+  }
+
+
+  message Children {
+    Workitem2 workItem = 1;
+    Relates2 relates = 2;
+  }
+
+  message User {
+    string createTime = 1[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string email = 2[(openapi.v3.property)={description:"邮箱地址",required:["email"]}];
+    string employeeNum = 3[(openapi.v3.property)={description:"内部工号",required:["employeeNum"]}];
+    string id = 4[(openapi.v3.property)={description:"用户编码",required:["id"]}] ;
+    string mobile = 5[(openapi.v3.property)={description:"手机号",required:["mobile"]}];
+    string password = 6[(openapi.v3.property)={description:"密码",required:["password"]}];
+    string source = 7;
+    string status = 8[(openapi.v3.property)={description:"账号状态(0：正常1：锁定)",required:["status"]}];
+    string updateTime = 9[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Userinfo {
+    string id = 1[(openapi.v3.property)={description:"用户详细编码",required:["id"]}];
+    string name =2[(openapi.v3.property)={description:"姓名",required:["name"]}];
+    string gender = 3[(openapi.v3.property)={description:"性别('MALE', 'FEMALE', 'OTHER', 'NONE')",required:["gender"]}];
+    string nation = 4[(openapi.v3.property)={description:"民族",required:["nation"]}];
+    string dateOfBirth = 5[(openapi.v3.property)={description:"出生日期(yyyy-MM-DD)",required:["dateOfBirth"]}];
+    string idNumber = 6[(openapi.v3.property)={description:"身份证号码",required:["idNumber"]}];
+    string address = 7[(openapi.v3.property)={description:"户籍地址",required:["address"]}];
+    string issuingAuthority = 8[(openapi.v3.property)={description:"签发机关(派出所或发证机构)",required:["issuingAuthority"]}];
+    string effectiveDate = 9[(openapi.v3.property)={description:"证件生效日期",required:["effectiveDate"]}];
+    string expirationDate = 10[(openapi.v3.property)={description:"证件失效日期",required:["expirationDate"]}];
+    string profilePhoto = 11[(openapi.v3.property)={description:"证件头像",required:["profilePhoto"]}];
+    bool certified = 12[(openapi.v3.property)={description:"是否实名认证(身份证和姓名二元素认证)",required:["certified"]}];
+    string certifiedTime = 13[(openapi.v3.property)={description:"是否实名认证(身份证和姓名二元素认证)",required:["certified"]}];
+    string avatar = 14[(openapi.v3.property)={description:"用户头像",required:["avatar"]}];
+    string residentialAddr = 15[(openapi.v3.property)={description:"居住地址",required:["residentialAddr"]}];
+    string formerName = 16[(openapi.v3.property)={description:"曾用名",required:["formerName"]}];
+    string nickname = 17[(openapi.v3.property)={description:"昵称",required:["nickname"]}];
+    bool mobileVerified = 18[(openapi.v3.property)={description:"手机号是否验证",required:["mobileVerified"]}];
+    string mobileVerifiedTime = 19[(openapi.v3.property)={description:"手机号认证时间",required:["mobileVerifiedTime"]}];
+    bool emailVerified = 20[(openapi.v3.property)={description:"邮箱地址是否验证",required:["emailVerified"]}];
+    string emailVerifiedTime = 21[(openapi.v3.property)={description:"邮箱认证时间",required:["emailVerifiedTime"]}];
+    string createTime = 22 [(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string updateTime = 23[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+    string tbUserId = 24[(openapi.v3.property)={description:"用户表用户编码",required:["tbUserId"]}];
+  }
+
+  message Thirdaccounts {
+    string id = 1;
+    string platform = 2[(openapi.v3.property)={description:"第三方平台(WC：微信 BR：BRis)",required:["platform"]}];
+    string accountType = 3[(openapi.v3.property)={description:"第三方账号类型('MOBILE', 'EMAIL', 'ID_NUMBER', 'EMPLOYEE_NUM')",required:["accountType"]}];
+    string account = 4[(openapi.v3.property)={description:"第三方平台账号",required:["account"]}];
+    string outerUserId = 5[(openapi.v3.property)={description:"外部系统用户编码",required:["outerUserId"]}];
+    string tbUserId = 6[(openapi.v3.property)={description:"用户编码",required:["tbUserId"]}];
+    string createTime = 7[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string updateTime = 8[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Orgs {
+    string id = 1[(openapi.v3.property)={description:"组织编码",required:["id"]}];
+    string name = 2[(openapi.v3.property)={description:"组织名称",required:["name"]}];
+    string type = 3[(openapi.v3.property)={description:"类型",required:["type"]}];
+    string pid = 4[(openapi.v3.property)={description:"父级编码",required:["pid"]}];
+    string address = 5[(openapi.v3.property)={description:"组织地址",required:["address"]}];
+    string phone = 6[(openapi.v3.property)={description:"联系电话",required:["phone"]}];
+    string owner = 7[(openapi.v3.property)={description:"组织所有者",required:["owner"]}];
+    string prefixTag = 8[(openapi.v3.property)={description:"前缀标记(助记符用于区分不同院区的患者)",required:["prefixTag"]}];
+    string description = 9[(openapi.v3.property)={description:"组织描述",required:["description"]}];
+    string createTime = 10[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string updateTime = 11[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Roles {
+    string id = 1[(openapi.v3.property)={description:"角色编码",required:["id"]}];
+    string name = 2[(openapi.v3.property)={description:"角色名称",required:["name"]}];
+    string level = 3[(openapi.v3.property)={description:"角色级别(SYSTEM,USER)",required:["level"]}];
+    string status = 4[(openapi.v3.property)={description:"角色状态(启用,停用)",required:["status"]}];
+    string tag = 5[(openapi.v3.property)={description:"备用",required:["tag"]}];
+    string description = 6[(openapi.v3.property)={description:"描述",required:["description"]}];
+    string createTime = 7[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string updateTime = 8[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Userdetail {
+    User user = 1;
+    Userinfo userInfo = 2;
+    repeated Thirdaccounts thirdAccounts = 3;
+    repeated Orgs orgs = 4;
+    repeated Roles roles = 5;
+  }
+
+  message Additionalprop1 {
+    string id = 1;
+    Userdetail userDetail = 2;
+  }
+
+  message User1 {
+    string createTime = 1[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string email = 2[(openapi.v3.property)={description:"邮箱地址",required:["email"]}];
+    string employeeNum = 3[(openapi.v3.property)={description:"内部工号",required:["employeeNum"]}];
+    string id = 4[(openapi.v3.property)={description:"用户编码",required:["id"]}] ;
+    string mobile = 5[(openapi.v3.property)={description:"手机号",required:["mobile"]}];
+    string password = 6[(openapi.v3.property)={description:"密码",required:["password"]}];
+    string source = 7;
+    string status = 8[(openapi.v3.property)={description:"账号状态(0：正常1：锁定)",required:["status"]}];
+    string updateTime = 9[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Userinfo1 {
+    string id = 1[(openapi.v3.property)={description:"用户详细编码",required:["id"]}];
+    string name =2[(openapi.v3.property)={description:"姓名",required:["name"]}];
+    string gender = 3[(openapi.v3.property)={description:"性别('MALE', 'FEMALE', 'OTHER', 'NONE')",required:["gender"]}];
+    string nation = 4[(openapi.v3.property)={description:"民族",required:["nation"]}];
+    string dateOfBirth = 5[(openapi.v3.property)={description:"出生日期(yyyy-MM-DD)",required:["dateOfBirth"]}];
+    string idNumber = 6[(openapi.v3.property)={description:"身份证号码",required:["idNumber"]}];
+    string address = 7[(openapi.v3.property)={description:"户籍地址",required:["address"]}];
+    string issuingAuthority = 8[(openapi.v3.property)={description:"签发机关(派出所或发证机构)",required:["issuingAuthority"]}];
+    string effectiveDate = 9[(openapi.v3.property)={description:"证件生效日期",required:["effectiveDate"]}];
+    string expirationDate = 10[(openapi.v3.property)={description:"证件失效日期",required:["expirationDate"]}];
+    string profilePhoto = 11[(openapi.v3.property)={description:"证件头像",required:["profilePhoto"]}];
+    bool certified = 12[(openapi.v3.property)={description:"是否实名认证(身份证和姓名二元素认证)",required:["certified"]}];
+    string certifiedTime = 13[(openapi.v3.property)={description:"是否实名认证(身份证和姓名二元素认证)",required:["certified"]}];
+    string avatar = 14[(openapi.v3.property)={description:"用户头像",required:["avatar"]}];
+    string residentialAddr = 15[(openapi.v3.property)={description:"居住地址",required:["residentialAddr"]}];
+    string formerName = 16[(openapi.v3.property)={description:"曾用名",required:["formerName"]}];
+    string nickname = 17[(openapi.v3.property)={description:"昵称",required:["nickname"]}];
+    bool mobileVerified = 18[(openapi.v3.property)={description:"手机号是否验证",required:["mobileVerified"]}];
+    string mobileVerifiedTime = 19[(openapi.v3.property)={description:"手机号认证时间",required:["mobileVerifiedTime"]}];
+    bool emailVerified = 20[(openapi.v3.property)={description:"邮箱地址是否验证",required:["emailVerified"]}];
+    string emailVerifiedTime = 21[(openapi.v3.property)={description:"邮箱认证时间",required:["emailVerifiedTime"]}];
+    string createTime = 22 [(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string updateTime = 23[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+    string tbUserId = 24[(openapi.v3.property)={description:"用户表用户编码",required:["tbUserId"]}];
+  }
+
+  message Thirdaccounts1 {
+    string id = 1;
+    string platform = 2[(openapi.v3.property)={description:"第三方平台(WC：微信 BR：BRis)",required:["platform"]}];
+    string accountType = 3[(openapi.v3.property)={description:"第三方账号类型('MOBILE', 'EMAIL', 'ID_NUMBER', 'EMPLOYEE_NUM')",required:["accountType"]}];
+    string account = 4[(openapi.v3.property)={description:"第三方平台账号",required:["account"]}];
+    string outerUserId = 5[(openapi.v3.property)={description:"外部系统用户编码",required:["outerUserId"]}];
+    string tbUserId = 6[(openapi.v3.property)={description:"用户编码",required:["tbUserId"]}];
+    string createTime = 7[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string updateTime = 8[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Orgs1 {
+    string id = 1[(openapi.v3.property)={description:"组织编码",required:["id"]}];
+    string name = 2[(openapi.v3.property)={description:"组织名称",required:["name"]}];
+    string type = 3[(openapi.v3.property)={description:"类型",required:["type"]}];
+    string pid = 4[(openapi.v3.property)={description:"父级编码",required:["pid"]}];
+    string address = 5[(openapi.v3.property)={description:"组织地址",required:["address"]}];
+    string phone = 6[(openapi.v3.property)={description:"联系电话",required:["phone"]}];
+    string owner = 7[(openapi.v3.property)={description:"组织所有者",required:["owner"]}];
+    string prefixTag = 8[(openapi.v3.property)={description:"前缀标记(助记符用于区分不同院区的患者)",required:["prefixTag"]}];
+    string description = 9[(openapi.v3.property)={description:"组织描述",required:["description"]}];
+    string createTime = 10[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string updateTime = 11[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Roles1 {
+    string id = 1[(openapi.v3.property)={description:"角色编码",required:["id"]}];
+    string name = 2[(openapi.v3.property)={description:"角色名称",required:["name"]}];
+    string level = 3[(openapi.v3.property)={description:"角色级别(SYSTEM,USER)",required:["level"]}];
+    string status = 4[(openapi.v3.property)={description:"角色状态(启用,停用)",required:["status"]}];
+    string tag = 5[(openapi.v3.property)={description:"备用",required:["tag"]}];
+    string description = 6[(openapi.v3.property)={description:"描述",required:["description"]}];
+    string createTime = 7[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string updateTime = 8[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Userdetail1 {
+    User1 user = 1;
+    Userinfo1 userInfo = 2;
+    repeated Thirdaccounts1 thirdAccounts = 3;
+    repeated Orgs1 orgs = 4;
+    repeated Roles1 roles = 5;
+  }
+
+  message Additionalprop2 {
+    string id = 1;
+    Userdetail1 userDetail = 2;
+  }
+
+  message User2 {
+    string createTime = 1[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string email = 2[(openapi.v3.property)={description:"邮箱地址",required:["email"]}];
+    string employeeNum = 3[(openapi.v3.property)={description:"内部工号",required:["employeeNum"]}];
+    string id = 4[(openapi.v3.property)={description:"用户编码",required:["id"]}] ;
+    string mobile = 5[(openapi.v3.property)={description:"手机号",required:["mobile"]}];
+    string password = 6[(openapi.v3.property)={description:"密码",required:["password"]}];
+    string source = 7;
+    string status = 8[(openapi.v3.property)={description:"账号状态(0：正常1：锁定)",required:["status"]}];
+    string updateTime = 9[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Userinfo2 {
+    string id = 1[(openapi.v3.property)={description:"用户详细编码",required:["id"]}];
+    string name =2[(openapi.v3.property)={description:"姓名",required:["name"]}];
+    string gender = 3[(openapi.v3.property)={description:"性别('MALE', 'FEMALE', 'OTHER', 'NONE')",required:["gender"]}];
+    string nation = 4[(openapi.v3.property)={description:"民族",required:["nation"]}];
+    string dateOfBirth = 5[(openapi.v3.property)={description:"出生日期(yyyy-MM-DD)",required:["dateOfBirth"]}];
+    string idNumber = 6[(openapi.v3.property)={description:"身份证号码",required:["idNumber"]}];
+    string address = 7[(openapi.v3.property)={description:"户籍地址",required:["address"]}];
+    string issuingAuthority = 8[(openapi.v3.property)={description:"签发机关(派出所或发证机构)",required:["issuingAuthority"]}];
+    string effectiveDate = 9[(openapi.v3.property)={description:"证件生效日期",required:["effectiveDate"]}];
+    string expirationDate = 10[(openapi.v3.property)={description:"证件失效日期",required:["expirationDate"]}];
+    string profilePhoto = 11[(openapi.v3.property)={description:"证件头像",required:["profilePhoto"]}];
+    bool certified = 12[(openapi.v3.property)={description:"是否实名认证(身份证和姓名二元素认证)",required:["certified"]}];
+    string certifiedTime = 13[(openapi.v3.property)={description:"是否实名认证(身份证和姓名二元素认证)",required:["certified"]}];
+    string avatar = 14[(openapi.v3.property)={description:"用户头像",required:["avatar"]}];
+    string residentialAddr = 15[(openapi.v3.property)={description:"居住地址",required:["residentialAddr"]}];
+    string formerName = 16[(openapi.v3.property)={description:"曾用名",required:["formerName"]}];
+    string nickname = 17[(openapi.v3.property)={description:"昵称",required:["nickname"]}];
+    bool mobileVerified = 18[(openapi.v3.property)={description:"手机号是否验证",required:["mobileVerified"]}];
+    string mobileVerifiedTime = 19[(openapi.v3.property)={description:"手机号认证时间",required:["mobileVerifiedTime"]}];
+    bool emailVerified = 20[(openapi.v3.property)={description:"邮箱地址是否验证",required:["emailVerified"]}];
+    string emailVerifiedTime = 21[(openapi.v3.property)={description:"邮箱认证时间",required:["emailVerifiedTime"]}];
+    string createTime = 22 [(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string updateTime = 23[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+    string tbUserId = 24[(openapi.v3.property)={description:"用户表用户编码",required:["tbUserId"]}];
+  }
+
+  message Thirdaccounts2 {
+    string id = 1;
+    string platform = 2[(openapi.v3.property)={description:"第三方平台(WC：微信 BR：BRis)",required:["platform"]}];
+    string accountType = 3[(openapi.v3.property)={description:"第三方账号类型('MOBILE', 'EMAIL', 'ID_NUMBER', 'EMPLOYEE_NUM')",required:["accountType"]}];
+    string account = 4[(openapi.v3.property)={description:"第三方平台账号",required:["account"]}];
+    string outerUserId = 5[(openapi.v3.property)={description:"外部系统用户编码",required:["outerUserId"]}];
+    string tbUserId = 6[(openapi.v3.property)={description:"用户编码",required:["tbUserId"]}];
+    string createTime = 7[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string updateTime = 8[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Orgs2 {
+    string id = 1[(openapi.v3.property)={description:"组织编码",required:["id"]}];
+    string name = 2[(openapi.v3.property)={description:"组织名称",required:["name"]}];
+    string type = 3[(openapi.v3.property)={description:"类型",required:["type"]}];
+    string pid = 4[(openapi.v3.property)={description:"父级编码",required:["pid"]}];
+    string address = 5[(openapi.v3.property)={description:"组织地址",required:["address"]}];
+    string phone = 6[(openapi.v3.property)={description:"联系电话",required:["phone"]}];
+    string owner = 7[(openapi.v3.property)={description:"组织所有者",required:["owner"]}];
+    string prefixTag = 8[(openapi.v3.property)={description:"前缀标记(助记符用于区分不同院区的患者)",required:["prefixTag"]}];
+    string description = 9[(openapi.v3.property)={description:"组织描述",required:["description"]}];
+    string createTime = 10[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string updateTime = 11[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Roles2 {
+    string id = 1[(openapi.v3.property)={description:"角色编码",required:["id"]}];
+    string name = 2[(openapi.v3.property)={description:"角色名称",required:["name"]}];
+    string level = 3[(openapi.v3.property)={description:"角色级别(SYSTEM,USER)",required:["level"]}];
+    string status = 4[(openapi.v3.property)={description:"角色状态(启用,停用)",required:["status"]}];
+    string tag = 5[(openapi.v3.property)={description:"备用",required:["tag"]}];
+    string description = 6[(openapi.v3.property)={description:"描述",required:["description"]}];
+    string createTime = 7[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string updateTime = 8[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Userdetail2 {
+    User2 user = 1;
+    Userinfo2 userInfo = 2;
+    repeated Thirdaccounts2 thirdAccounts = 3;
+    repeated Orgs2 orgs = 4;
+    repeated Roles2 roles = 5;
+  }
+
+  message Additionalprop3 {
+    string id = 1;
+    Userdetail2 userDetail = 2;
+  }
+
+  message Members {
+    Additionalprop1 additionalProp1 = 1;
+    Additionalprop2 additionalProp2 = 2;
+    Additionalprop3 additionalProp3 = 3;
+  }
+
+  message User3 {
+    string createTime = 1[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string email = 2[(openapi.v3.property)={description:"邮箱地址",required:["email"]}];
+    string employeeNum = 3[(openapi.v3.property)={description:"内部工号",required:["employeeNum"]}];
+    string id = 4[(openapi.v3.property)={description:"用户编码",required:["id"]}] ;
+    string mobile = 5[(openapi.v3.property)={description:"手机号",required:["mobile"]}];
+    string password = 6[(openapi.v3.property)={description:"密码",required:["password"]}];
+    string source = 7;
+    string status = 8[(openapi.v3.property)={description:"账号状态(0：正常1：锁定)",required:["status"]}];
+    string updateTime = 9[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Userinfo3 {
+    string id = 1[(openapi.v3.property)={description:"用户详细编码",required:["id"]}];
+    string name =2[(openapi.v3.property)={description:"姓名",required:["name"]}];
+    string gender = 3[(openapi.v3.property)={description:"性别('MALE', 'FEMALE', 'OTHER', 'NONE')",required:["gender"]}];
+    string nation = 4[(openapi.v3.property)={description:"民族",required:["nation"]}];
+    string dateOfBirth = 5[(openapi.v3.property)={description:"出生日期(yyyy-MM-DD)",required:["dateOfBirth"]}];
+    string idNumber = 6[(openapi.v3.property)={description:"身份证号码",required:["idNumber"]}];
+    string address = 7[(openapi.v3.property)={description:"户籍地址",required:["address"]}];
+    string issuingAuthority = 8[(openapi.v3.property)={description:"签发机关(派出所或发证机构)",required:["issuingAuthority"]}];
+    string effectiveDate = 9[(openapi.v3.property)={description:"证件生效日期",required:["effectiveDate"]}];
+    string expirationDate = 10[(openapi.v3.property)={description:"证件失效日期",required:["expirationDate"]}];
+    string profilePhoto = 11[(openapi.v3.property)={description:"证件头像",required:["profilePhoto"]}];
+    bool certified = 12[(openapi.v3.property)={description:"是否实名认证(身份证和姓名二元素认证)",required:["certified"]}];
+    string certifiedTime = 13[(openapi.v3.property)={description:"是否实名认证(身份证和姓名二元素认证)",required:["certified"]}];
+    string avatar = 14[(openapi.v3.property)={description:"用户头像",required:["avatar"]}];
+    string residentialAddr = 15[(openapi.v3.property)={description:"居住地址",required:["residentialAddr"]}];
+    string formerName = 16[(openapi.v3.property)={description:"曾用名",required:["formerName"]}];
+    string nickname = 17[(openapi.v3.property)={description:"昵称",required:["nickname"]}];
+    bool mobileVerified = 18[(openapi.v3.property)={description:"手机号是否验证",required:["mobileVerified"]}];
+    string mobileVerifiedTime = 19[(openapi.v3.property)={description:"手机号认证时间",required:["mobileVerifiedTime"]}];
+    bool emailVerified = 20[(openapi.v3.property)={description:"邮箱地址是否验证",required:["emailVerified"]}];
+    string emailVerifiedTime = 21[(openapi.v3.property)={description:"邮箱认证时间",required:["emailVerifiedTime"]}];
+    string createTime = 22 [(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string updateTime = 23[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+    string tbUserId = 24[(openapi.v3.property)={description:"用户表用户编码",required:["tbUserId"]}];
+  }
+
+  message Thirdaccounts3 {
+    string id = 1;
+    string platform = 2[(openapi.v3.property)={description:"第三方平台(WC：微信 BR：BRis)",required:["platform"]}];
+    string accountType = 3[(openapi.v3.property)={description:"第三方账号类型('MOBILE', 'EMAIL', 'ID_NUMBER', 'EMPLOYEE_NUM')",required:["accountType"]}];
+    string account = 4[(openapi.v3.property)={description:"第三方平台账号",required:["account"]}];
+    string outerUserId = 5[(openapi.v3.property)={description:"外部系统用户编码",required:["outerUserId"]}];
+    string tbUserId = 6[(openapi.v3.property)={description:"用户编码",required:["tbUserId"]}];
+    string createTime = 7[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string updateTime = 8[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Orgs3 {
+    string id = 1[(openapi.v3.property)={description:"组织编码",required:["id"]}];
+    string name = 2[(openapi.v3.property)={description:"组织名称",required:["name"]}];
+    string type = 3[(openapi.v3.property)={description:"类型",required:["type"]}];
+    string pid = 4[(openapi.v3.property)={description:"父级编码",required:["pid"]}];
+    string address = 5[(openapi.v3.property)={description:"组织地址",required:["address"]}];
+    string phone = 6[(openapi.v3.property)={description:"联系电话",required:["phone"]}];
+    string owner = 7[(openapi.v3.property)={description:"组织所有者",required:["owner"]}];
+    string prefixTag = 8[(openapi.v3.property)={description:"前缀标记(助记符用于区分不同院区的患者)",required:["prefixTag"]}];
+    string description = 9[(openapi.v3.property)={description:"组织描述",required:["description"]}];
+    string createTime = 10[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string updateTime = 11[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Roles3 {
+    string id = 1[(openapi.v3.property)={description:"角色编码",required:["id"]}];
+    string name = 2[(openapi.v3.property)={description:"角色名称",required:["name"]}];
+    string level = 3[(openapi.v3.property)={description:"角色级别(SYSTEM,USER)",required:["level"]}];
+    string status = 4[(openapi.v3.property)={description:"角色状态(启用,停用)",required:["status"]}];
+    string tag = 5[(openapi.v3.property)={description:"备用",required:["tag"]}];
+    string description = 6[(openapi.v3.property)={description:"描述",required:["description"]}];
+    string createTime = 7[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string updateTime = 8[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Additionalprop11 {
+    User3 user = 1;
+    Userinfo3 userInfo = 2;
+    repeated Thirdaccounts3 thirdAccounts = 3;
+    repeated Orgs3 orgs = 4;
+    repeated Roles3 roles = 5;
+  }
+
+  message User4 {
+    string createTime = 1[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string email = 2[(openapi.v3.property)={description:"邮箱地址",required:["email"]}];
+    string employeeNum = 3[(openapi.v3.property)={description:"内部工号",required:["employeeNum"]}];
+    string id = 4[(openapi.v3.property)={description:"用户编码",required:["id"]}] ;
+    string mobile = 5[(openapi.v3.property)={description:"手机号",required:["mobile"]}];
+    string password = 6[(openapi.v3.property)={description:"密码",required:["password"]}];
+    string source = 7;
+    string status = 8[(openapi.v3.property)={description:"账号状态(0：正常1：锁定)",required:["status"]}];
+    string updateTime = 9[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+  message Userinfo4 {
+    string id = 1[(openapi.v3.property)={description:"用户详细编码",required:["id"]}];
+    string name =2[(openapi.v3.property)={description:"姓名",required:["name"]}];
+    string gender = 3[(openapi.v3.property)={description:"性别('MALE', 'FEMALE', 'OTHER', 'NONE')",required:["gender"]}];
+    string nation = 4[(openapi.v3.property)={description:"民族",required:["nation"]}];
+    string dateOfBirth = 5[(openapi.v3.property)={description:"出生日期(yyyy-MM-DD)",required:["dateOfBirth"]}];
+    string idNumber = 6[(openapi.v3.property)={description:"身份证号码",required:["idNumber"]}];
+    string address = 7[(openapi.v3.property)={description:"户籍地址",required:["address"]}];
+    string issuingAuthority = 8[(openapi.v3.property)={description:"签发机关(派出所或发证机构)",required:["issuingAuthority"]}];
+    string effectiveDate = 9[(openapi.v3.property)={description:"证件生效日期",required:["effectiveDate"]}];
+    string expirationDate = 10[(openapi.v3.property)={description:"证件失效日期",required:["expirationDate"]}];
+    string profilePhoto = 11[(openapi.v3.property)={description:"证件头像",required:["profilePhoto"]}];
+    bool certified = 12[(openapi.v3.property)={description:"是否实名认证(身份证和姓名二元素认证)",required:["certified"]}];
+    string certifiedTime = 13[(openapi.v3.property)={description:"是否实名认证(身份证和姓名二元素认证)",required:["certified"]}];
+    string avatar = 14[(openapi.v3.property)={description:"用户头像",required:["avatar"]}];
+    string residentialAddr = 15[(openapi.v3.property)={description:"居住地址",required:["residentialAddr"]}];
+    string formerName = 16[(openapi.v3.property)={description:"曾用名",required:["formerName"]}];
+    string nickname = 17[(openapi.v3.property)={description:"昵称",required:["nickname"]}];
+    bool mobileVerified = 18[(openapi.v3.property)={description:"手机号是否验证",required:["mobileVerified"]}];
+    string mobileVerifiedTime = 19[(openapi.v3.property)={description:"手机号认证时间",required:["mobileVerifiedTime"]}];
+    bool emailVerified = 20[(openapi.v3.property)={description:"邮箱地址是否验证",required:["emailVerified"]}];
+    string emailVerifiedTime = 21[(openapi.v3.property)={description:"邮箱认证时间",required:["emailVerifiedTime"]}];
+    string createTime = 22 [(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string updateTime = 23[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+    string tbUserId = 24[(openapi.v3.property)={description:"用户表用户编码",required:["tbUserId"]}];
+  }
+
+  message Thirdaccounts4 {
+    string id = 1;
+    string platform = 2;
+    string accountType = 3;
+    string account = 4;
+    string outerUserId = 5;
+    string tbUserId = 6;
+    google.protobuf.Timestamp createTime = 7;
+    google.protobuf.Timestamp updateTime = 8;
+  }
+
+  message Orgs4 {
+    string id = 1;
+    string name = 2;
+    string type = 3;
+    string pid = 4;
+    string address = 5;
+    string phone = 6;
+    string owner = 7;
+    string prefixTag = 8;
+    string description = 9;
+    google.protobuf.Timestamp createTime = 10;
+    google.protobuf.Timestamp updateTime = 11;
+  }
+
+  message Roles4 {
+    string id = 1;
+    string name = 2;
+    string level = 3;
+    string status = 4;
+    string tag = 5;
+    string description = 6;
+    google.protobuf.Timestamp createTime = 7;
+    google.protobuf.Timestamp updateTime = 8;
+  }
+
+  message Additionalprop21 {
+    User4 user = 1;
+    Userinfo4 userInfo = 2;
+    repeated Thirdaccounts4 thirdAccounts = 3;
+    repeated Orgs4 orgs = 4;
+    repeated Roles4 roles = 5;
+  }
+
+  message User5 {
+    string createTime = 1;
+    string email = 2;
+    string employeeNum = 3;
+    string id = 4;
+    string mobile = 5;
+    string password = 6;
+    string source = 7;
+    string status = 8;
+    string updateTime = 9;
+  }
+
+  message Userinfo5 {
+    string address = 1;
+    string avatar = 2;
+    bool certified = 3;
+    string certifiedTime = 4;
+    string createTime = 5;
+    string dateOfBirth = 6;
+    string effectiveDate = 7;
+    bool emailVerified = 8;
+    string emailVerifiedTime = 9;
+    string expirationDate = 10;
+    string formerName = 11;
+    string gender = 12;
+    string id = 13;
+    string idNumber = 14;
+    string issuingAuthority = 15;
+    bool mobileVerified = 16;
+    string mobileVerifiedTime = 17;
+    string name = 18;
+    string nation = 19;
+    string nickname = 20;
+    string profilePhoto = 21;
+    string residentialAddr = 22;
+    string tbUserId = 23;
+    string updateTime = 24;
+  }
+
+  message Thirdaccounts5 {
+    string id = 1;
+    string platform = 2;
+    string accountType = 3;
+    string account = 4;
+    string outerUserId = 5;
+    string tbUserId = 6;
+    google.protobuf.Timestamp createTime = 7;
+    google.protobuf.Timestamp updateTime = 8;
+  }
+
+  message Orgs5 {
+    string id = 1;
+    string name = 2;
+    string type = 3;
+    string pid = 4;
+    string address = 5;
+    string phone = 6;
+    string owner = 7;
+    string prefixTag = 8;
+    string description = 9;
+    google.protobuf.Timestamp createTime = 10;
+    google.protobuf.Timestamp updateTime = 11;
+  }
+
+  message Roles5 {
+    string id = 1;
+    string name = 2;
+    string level = 3;
+    string status = 4;
+    string tag = 5;
+    string description = 6;
+    google.protobuf.Timestamp createTime = 7;
+    google.protobuf.Timestamp updateTime = 8;
+  }
+
+  message Additionalprop31 {
+    User5 user = 1;
+    Userinfo5 userInfo = 2;
+    repeated Thirdaccounts5 thirdAccounts = 3;
+    repeated Orgs5 orgs = 4;
+    repeated Roles5 roles = 5;
+  }
+
+  message Users {
+    Additionalprop11 additionalProp1 = 1;
+    Additionalprop21 additionalProp2 = 2;
+    Additionalprop31 additionalProp3 = 3;
+  }
+
+  message Additionalprop12 {
+    string id = 1;
+    string name = 2;
+    string gender = 3;
+    string nation = 4;
+    string idNumber = 5;
+    string mobile = 6;
+    string email = 7;
+    bool certified = 8;
+    google.protobuf.Timestamp birthdayDate = 9;
+    string outerPlatform = 10;
+    string outerPatientOrg = 11;
+    string outerPatientId = 12;
+    google.protobuf.Timestamp createTime = 13;
+    google.protobuf.Timestamp updateTime = 14;
+  }
+
+  message Additionalprop22 {
+    string id = 1;
+    string name = 2;
+    string gender = 3;
+    string nation = 4;
+    string idNumber = 5;
+    string mobile = 6;
+    string email = 7;
+    bool certified = 8;
+    google.protobuf.Timestamp birthdayDate = 9;
+    string outerPlatform = 10;
+    string outerPatientOrg = 11;
+    string outerPatientId = 12;
+    google.protobuf.Timestamp createTime = 13;
+    google.protobuf.Timestamp updateTime = 14;
+  }
+
+  message Additionalprop32 {
+    string id = 1;
+    string name = 2;
+    string gender = 3;
+    string nation = 4;
+    string idNumber = 5;
+    string mobile = 6;
+    string email = 7;
+    bool certified = 8;
+    google.protobuf.Timestamp birthdayDate = 9;
+    string outerPlatform = 10;
+    string outerPatientOrg = 11;
+    string outerPatientId = 12;
+    google.protobuf.Timestamp createTime = 13;
+    google.protobuf.Timestamp updateTime = 14;
+  }
+
+  message Patients {
+    Additionalprop12 additionalProp1 = 1;
+    Additionalprop22 additionalProp2 = 2;
+    Additionalprop32 additionalProp3 = 3;
+  }
+
+  message Workitemusersinfo {
+    Members members = 1;
+    Users users = 2;
+    Patients patients = 3;
+  }
+
+  Workitem workItem = 1;
+  Relates relates = 2;
+  repeated Parent parent = 3;
+  repeated Children children = 4;
+  Workitemusersinfo workItemUsersInfo = 5;
+}
+
+message WorkItemFilterRequest {
+  message Notin {
+    repeated string status = 1;
+  }
+
+  message Planstarttime {
+    string begin = 1;
+    string end = 2;
+  }
+
+  message Planendtime {
+    string begin = 1;
+    string end = 2;
+  }
+
+  message Actualstarttime {
+    string begin = 1;
+    string end = 2;
+  }
+
+  message Actualendtime {
+    string begin = 1;
+    string end = 2;
+  }
+
+  message Filter {
+    string assignedType = 1;
+    string assignedTo = 2;
+    string belongType = 3;
+    string belongTo = 4;
+    repeated string principalIds = 5;
+    repeated string ids = 6;
+    string key = 7;
+    repeated string status = 8;
+    Notin notIn = 9;
+    repeated string types = 10;
+    Planstarttime planStartTime = 11;
+    Planendtime planEndTime = 12;
+    Actualstarttime actualStartTime = 13;
+    Actualendtime actualEndTime = 14;
+  }
+
+  Filter filter = 1;
+  int32 page = 2;
+  int32 perPage = 3;
+}
+
+message WorkItemFilterResponse {
+  message Results {
+    string appId = 1;
+    string actualEndTime = 2;
+    string actualStartTime = 3;
+    string assignedTo = 4;
+    string assignedToName = 5;
+    string assignedType = 6;
+    string belongTo = 7;
+    string belongType = 8;
+    string cc = 9;
+    string creatBy = 10;
+    string creatByName = 11;
+    string createTime = 12;
+    string description = 13;
+    string event = 14;
+    int32 frequencyInterval = 15;
+    string frequencyUnit = 16;
+    string id = 17;
+    string participant = 18;
+    string pid = 19;
+    string planEndTime = 20;
+    string planStartTime = 21;
+    string principalId = 22;
+    string principalName = 23;
+    string principalType = 24;
+    int32 sortNum = 25;
+    string status = 26;
+    string tag = 27;
+    string title = 28;
+    string type = 29;
+    string updateBy = 30;
+    string updateTime = 31;
+  }
+
+  int32 page = 1;
+  int32 perPage = 2;
+  repeated Results results = 3;
+  int32 total = 4;
+}

@@ -1,0 +1,29 @@
+server:
+  http:
+    addr: 0.0.0.0:9200
+    timeout: 1s
+  grpc:
+    addr: 0.0.0.0:9100
+    timeout: 1s
+data:
+  database:
+    driver: mysql
+    source: "root:bfr123123@tcp(10.0.59.233:33308)/followup?charset=utf8mb4&parseTime=True&loc=Local"
+  #  解析TOKEN，此处没用需要删除；
+  jwt:
+    secret: "hello"
+    tokenExpire: 30 #token有效时长（分钟）
+    signingKey: gogo #签名使用的key
+  minion:
+    addr: "10.0.59.233:9000"
+    accessKeyID: "root"
+    secretAccessKey: "Y2iaciej@bfr"
+    bucketName: "bfr"
+    sslUrl:
+  identification:
+    appCode: "494e73cedcb749699b032c35f5968d4c"
+    url: "https://naidcard.market.alicloudapi.com/nidCard?"
+  fileService:
+    # 表单模板解压路径
+    unZipPath: "/home/microFollowup/formModelStatic"
+

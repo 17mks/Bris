@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package api;
+option go_package = "followup/api";
+import "google/api/annotations.proto";
+import "openapi/v3/annotations.proto";
+
+
+
+service AuthToken {
+  //根据外部ID生成Token
+  rpc CreateAuthToken (CreateAuthTokenRequest) returns (CreateAuthTokenResponse) {
+    option (google.api.http) = {
+      post:"/auth/token",
+      body:"*",
+    };
+    option (openapi.v3.operation) = {
+      summary:"根据外部ID生成Token",
+    };
+  }
+}
+
+message CreateAuthTokenRequest {
+  string userId = 1;
+  string userName = 2;
+  string appId = 3;
+}
+
+message CreateAuthTokenResponse {
+  message Data {
+    string token = 1;
+  }
+  uint32 code = 1;
+  string message = 2;
+  string err = 3;
+  string requestId = 4;
+  Data data = 5;
+}

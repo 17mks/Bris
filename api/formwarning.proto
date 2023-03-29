@@ -1,0 +1,122 @@
+syntax = "proto3";
+
+package api;
+
+
+option go_package = "followup/api";
+
+import "google/api/annotations.proto";
+import "openapi/v3/annotations.proto";
+import "columnthreshold.proto";
+import "formcolumn.proto";
+import "formrow.proto";
+import "patient.proto";
+import "relate.proto";
+
+service FormWarning {
+//表单预警数据过滤查询
+    rpc FormWarningFilter (FormWarningFilterRequest) returns (FormWarningFilterResponse) {
+      option (google.api.http) = {
+        post:"/form_warning/filter",
+        body:"*",
+      };
+      option (openapi.v3.operation) = {
+        summary:"表单预警数据过滤查询"
+      };
+    }
+
+    //预警信息条件查询（App首页查询表单预警，按表单维度查询：一次提交一条数据）
+    rpc FormWarningXfilter (FormWarningXfilterRequest) returns (FormWarningXfilterResponse) {
+      option (google.api.http) = {
+        post:"/form_warning/xfilter",
+        body:"*",
+      };
+      option (openapi.v3.operation) = {
+        summary:"表单预警数据过滤查询"
+      };
+    }
+}
+
+message Formwarning {
+  string assignedTo = 1[(openapi.v3.property) = {description:"指派给谁",required:["assignedTo"]}];
+  string assignedToName = 2[(openapi.v3.property) = {description:"被指派人姓名",required:["assignedToName"]}];
+  string assignedType = 3[(openapi.v3.property) = {description:"指派类型",required:["assignedType"]}];
+  string createTime = 4[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+  uint32 fieldValue = 5[(openapi.v3.property) = {description:"字段值",required:["fieldValue"]}];
+  string id = 6[(openapi.v3.property) = {description:"字段预警编码",required:["id"]}];
+  string principalId = 7[(openapi.v3.property) = {description:"负责人成员编码",required:["principalId"]}];
+  string principalName = 8[(openapi.v3.property) = {description:"负责人姓名",required:["principalName"]}];
+  string principalType = 9[(openapi.v3.property) = {description:"负责人类型",required:["principalType"]}];
+  string tbColumnThresholdId = 10[(openapi.v3.property) = {description:"字段阈值编码",required:["tbColumnThresholdId"]}];
+  string tbFormColumnId = 11[(openapi.v3.property) = {description:"字段编码（是哪个字段的预警）",required:["tbFormColumnId"]}];
+  string tbFormRowId = 12[(openapi.v3.property) = {description:"表单行编码",required:["tbFormRowId"]}];
+  string updateTime = 13[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+  string WarningInfo = 14;
+}
+message FormWarningFilterRequest {
+  message Filter {
+    string key = 1;
+    string principalMemId = 2;
+    repeated string ids = 3;
+  }
+
+  Filter filter = 1;
+  uint32 page = 2;
+  uint32 perPage = 3;
+}
+
+message FormWarningFilterResponse {
+  message Results {
+    Formwarning formWarning = 1;
+    Columnthresholds columnThreshold = 2;
+    Formcolumns formColumn = 3;
+    Formrow formRow = 4;
+  }
+
+  uint32 page = 1;
+  uint32 perPage = 2;
+  repeated Results results = 3;
+  uint32 total = 4;
+}
+
+message FormWarningXfilterRequest {
+  message Createtime {
+    string startTime = 1;
+    string endTime = 2;
+  }
+
+  message Filter {
+    string principalType = 1;
+    string principalMemId = 2;
+    string status = 3;
+    Createtime createTime = 4;
+  }
+
+  Filter filter = 1;
+  uint32 page = 2;
+  uint32 perPage = 3;
+}
+
+message FormWarningXfilterResponse {
+
+  message Formwarnings {
+    string warningInfo = 1;
+    uint32 level = 2;
+  }
+  message Results {
+    string assignedType = 1[(openapi.v3.property) = {description:"指派类型",required:["assignedType"]}];
+    string assignedTo = 2[(openapi.v3.property) = {description:"指派给谁",required:["assignedTo"]}];
+    Patients patient = 3;
+    string assignedToName = 4[(openapi.v3.property) = {description:"被指派人姓名",required:["assignedToName"]}];
+    repeated Formwarnings formWarnings = 5;
+    uint32 maxLevel = 6;
+    string createTime = 7;
+    Formrow formRow = 8;
+    Relates relate = 9;
+  }
+
+  uint32 page = 1;
+  uint32 perPage = 2;
+  repeated Results results = 3;
+  uint32 total = 4;
+}

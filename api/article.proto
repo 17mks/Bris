@@ -1,0 +1,175 @@
+syntax = "proto3";
+
+package api;
+
+import "google/protobuf/any.proto";
+import "google/api/annotations.proto";
+import "openapi/v3/annotations.proto";
+option go_package = "followup/api";
+
+service Article{
+  //新建文章
+  rpc ArticleCreate (ArticleCreateRequest) returns (ArticleCreateResponse) {
+    option (google.api.http) = {
+      post:"/article",
+      body:"*"
+    };
+    option (openapi.v3.operation) ={
+      summary:"新建文章"
+    };
+  }
+  //删除文章
+  rpc ArticleDelete (ArticleDeleteRequest) returns (ArticleDeleteResponse) {
+    option (google.api.http) = {
+      delete:"/article"
+    };
+    option (openapi.v3.operation) = {
+      summary:"删除文章"
+    };
+
+  }
+  //更新文章信息
+  rpc ArticleUpdate (ArticleUpdateRequest) returns (ArticleUpdateResponse) {
+    option (google.api.http) = {
+      put:"/article",
+      body:"body",
+    };
+    option (openapi.v3.operation) = {
+      summary:"更新文章信息"
+    };
+  }
+  //文章详情查询
+  rpc ArticleDetail (ArticleDetailRequest) returns (ArticleDetailResponse) {
+    option (google.api.http) = {
+      get:"/article"
+    };
+    option (openapi.v3.operation) = {
+      summary:"文章详情查询"
+    };
+  }
+  //文章过滤查询
+  rpc ArticleFilter (ArticleFilterRequest) returns (ArticleFilterResponse) {
+    option (google.api.http) = {
+      post:"/article/filter"
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary:"文章过滤查询"
+    };
+  }
+
+}
+
+message Articles {
+  string id =1[(openapi.v3.property)={description:"文章编码",required:["id"]}];
+  string type = 2[(openapi.v3.property)={description:"文章类型(MISSION：宣教 KNOWLEDGE：专家知识)",required:["type"]}];
+  string title = 3[(openapi.v3.property)={description:"文章标题",required:["title"]}];
+  string thumbImgUrl = 4[(openapi.v3.property)={description:"缩略图地址",required:["thumbImgUrl"]}];
+  string summary = 5[(openapi.v3.property)={description:"文章概要",required:["summary"]}];
+  string author = 6[(openapi.v3.property)={description:"文章作者",required:"author"}];
+  string status = 7[(openapi.v3.property)={description:"文章状态(DRAFT：草稿 ONLINE：上线  OFFLINE：下线)",required:["status"]}];
+  string contentUrl = 8[(openapi.v3.property)={description:"文章内容地址",required:["contentUrl"]}];
+  string contents = 9[(openapi.v3.property)={description:"文章内容",required:["contents"]}];
+  string createTime  = 10;
+  string updateTime = 11;
+}
+
+message ArticleCreateRequest {
+  string type = 1[(openapi.v3.property)={description:"文章类型(MISSION：宣教 KNOWLEDGE：专家知识)",required:["type"]}];
+  string title = 2[(openapi.v3.property)={description:"文章标题",required:["title"]}];
+  string thumbImgUrl = 3[(openapi.v3.property)={description:"缩略图地址",required:["thumbImgUrl"]}];
+  string summary = 4[(openapi.v3.property)={description:"文章概要",required:["summary"]}];
+  string author = 5[(openapi.v3.property)={description:"文章作者",required:"author"}];
+  string status = 6[(openapi.v3.property)={description:"文章状态(DRAFT：草稿 ONLINE：上线  OFFLINE：下线)",required:["status"]}];
+  string contentUrl = 7[(openapi.v3.property)={description:"文章内容地址",required:["contentUrl"]}];
+  string contents = 8[(openapi.v3.property)={description:"文章内容",required:["contents"]}];
+}
+message ArticleCreateResponse {
+ string id =1[(openapi.v3.property)={description:"文章编码",required:["id"]}];
+}
+
+
+message ArticleDeleteRequest {
+  string id = 1[(openapi.v3.property)={description:"文章编码",required:["id"]}];
+}
+
+message ArticleDeleteResponse {
+  string id =1[(openapi.v3.property)={description:"文章编码",required:["id"]}];
+}
+
+message ArticleUpdateRequest {
+  string id = 1[(openapi.v3.property)={description:"文章编码",required:["id"]}];
+  ArticleUpdateReqBody body = 2;
+}
+
+message ArticleUpdateReqBody {
+  string type = 1[(openapi.v3.property)={description:"文章类型(MISSION：宣教 KNOWLEDGE：专家知识)",required:["type"]}];
+  string thumbImgUrl = 2[(openapi.v3.property)={description:"缩略图地址",required:["thumbImgUrl"]}];
+  string title = 3[(openapi.v3.property)={description:"文章标题",required:["title"]}];
+  string summary = 4[(openapi.v3.property)={description:"文章概要",required:["summary"]}];
+  string author = 5[(openapi.v3.property)={description:"文章作者",required:"author"}];
+  string status = 6[(openapi.v3.property)={description:"文章状态(DRAFT：草稿 ONLINE：上线  OFFLINE：下线)",required:["status"]}];
+  string contentUrl = 7[(openapi.v3.property)={description:"文章内容地址",required:["contentUrl"]}];
+  string contents = 8[(openapi.v3.property)={description:"文章内容",required:["contents"]}];
+}
+
+message ArticleUpdateResponse {
+    string id = 1[(openapi.v3.property)={description:"文章编码",required:["id"]}];
+    string type = 2[(openapi.v3.property)={description:"文章类型(MISSION：宣教 KNOWLEDGE：专家知识)",required:["type"]}];
+    string title = 3[(openapi.v3.property)={description:"文章标题",required:["title"]}];
+    string thumbImgUrl = 4[(openapi.v3.property)={description:"缩略图地址",required:["thumbImgUrl"]}];
+    string summary = 5[(openapi.v3.property)={description:"文章概要",required:["summary"]}];
+    string author = 6[(openapi.v3.property)={description:"文章作者",required:"author"}];
+    string status = 7[(openapi.v3.property)={description:"文章状态(DRAFT：草稿 ONLINE：上线  OFFLINE：下线)",required:["status"]}];
+    string contentUrl = 8[(openapi.v3.property)={description:"文章内容地址",required:["contentUrl"]}];
+    string contents = 9[(openapi.v3.property)={description:"文章内容",required:["contents"]}];
+    string createTime = 10[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string updateTime = 11[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+}
+
+message ArticleDetailRequest {
+  string id =1 [(openapi.v3.property)={description:"文章编码",required:["id"]}];
+//  QueryParams QueryParams = 2;
+}
+
+message ArticleDetailResponse{
+    string id = 1[(openapi.v3.property)={description:"文章编码",required:["id"]}];
+    string type = 2[(openapi.v3.property)={description:"文章类型",required:["type"]}];
+    string title = 3[(openapi.v3.property)={description:"文章标题",required:["title"]}];
+    string thumbImgUrl = 4[(openapi.v3.property)={description:"缩略图地址",required:["thumbImgUrl"]}];
+    string summary = 5[(openapi.v3.property)={description:"文章概要",required:["summary"]}];
+    string author = 6[(openapi.v3.property)={description:"文章作者",required:["author"]}];
+    string status = 7[(openapi.v3.property)={description:"文章状态(DRAFT：草稿 ONLINE：上线  OFFLINE：下线)",required:["status"]}];
+    string contentUrl = 8[(openapi.v3.property)={description:"文章内容地址",required:["contentUrl"]}];
+    string contents = 9[(openapi.v3.property)={description:"文章内容",required:["content"]}];
+    string createTime = 10[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string updateTime = 11[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+
+}
+
+message ArticleFilterRequest {
+  message Filter {
+    string key = 1;
+    repeated string id = 2;
+    repeated google.protobuf.Any type = 3;
+    repeated string status = 4;
+  }
+
+  int32 page = 1;
+  int32 perPage = 2;
+  Filter filter = 3;
+//  HeaderParams HeaderParams = 4;
+}
+
+message ArticleFilterResponse {
+    int64 totalPage = 1;
+    int32 page = 2;
+    int32 perPage = 3;
+    repeated Articles results = 4;
+    int64 total = 5;
+}
+
+
+
+
+

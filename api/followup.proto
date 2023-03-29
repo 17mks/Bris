@@ -1,0 +1,181 @@
+syntax = "proto3";
+
+package api;
+
+
+option go_package = "followup/api";
+
+import "google/api/annotations.proto";
+import "openapi/v3/annotations.proto";
+import "relate.proto";
+import "formrow.proto";
+import "formwarning.proto";
+import "workitem.proto";
+import "patient.proto";
+
+import "models/dbmodel.proto";
+
+service Followup {
+  //随访工作项创建
+  rpc FollowupCreate (FollowupCreateRequest) returns (FollowupCreateResponse) {
+    option (google.api.http) = {
+      post:"/followup",
+      body:"*",
+    };
+    option (openapi.v3.operation) = {
+      summary:"随访工作项创建",
+    };
+  }
+  //随访工作项删除
+  rpc FollowupDelete (FollowupDeleteRequest) returns (FollowupDeleteResponse) {
+    option (google.api.http) = {
+      delete:"/followup"
+    };
+    option (openapi.v3.operation) = {
+      summary:"随访工作项删除"
+    };
+  }
+  //随访工作项详情查询
+  rpc FollowupDetail (FollowupDetailRequest) returns (FollowupDetailResponse) {
+    option (google.api.http) = {
+      get:"/followup"
+    };
+    option (openapi.v3.operation) = {
+      summary:"随访工作项详情查询"
+    };
+  }
+  //随访工作项过滤查询
+  rpc FollowupFilter (FollowupFilterRequest) returns (FollowupFilterResponse) {
+    option (google.api.http) = {
+      post:"/followup/filter",
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary:"随访工作项过滤查询",
+    };
+  }
+}
+
+
+message FollowupWiFilterPreload {
+  WorkItems workItem = 1;
+  Relates planRelate = 2;
+  Patients patient = 3;
+  string patientAge = 4;
+}
+
+message FollowupWiDetailPreload {
+  WorkItems workItems = 1;
+  Relates patient = 2;
+  repeated FollowupWiChild Children = 3;
+}
+message FollowupWiChild {
+  WorkItems workItems = 1;
+  repeated WiRelatePreload wiRelatePreloads = 2;
+}
+
+message WiRelatePreload {
+  Relates relate = 1;
+  Formrow formRow = 2;
+  repeated Formwarning formWarning = 3;
+}
+
+message PlanrelateS {
+  string conclusion = 1;
+  string createTime = 2;
+  string id = 3;
+  string resourceId = 4;
+  string resourceType = 5;
+  string status = 6;
+  string suggestion = 7;
+  string tbWorkItemId = 8;
+  string title = 9;
+  string updateTime = 10;
+}
+
+
+
+message TokenInfo {
+  string userID = 1;
+  string userName = 2;
+  string appID = 3;
+  string exTime = 4;
+}
+
+message FollowupCreateRequest {
+  string principalType = 1;
+  string principalId = 2;
+  string principalName = 3;
+  string patientId = 4;
+  string patientName = 5;
+  string planId = 6;
+  string eventStartTime = 7;
+  //  HeaderParams headerParams = 8;
+}
+
+
+message FollowupCreateResponse {
+  string id = 1;
+}
+
+
+message FollowupDeleteRequest {
+  string id = 1;
+  //  QueryParams QueryParams = 2;
+}
+
+message FollowupDeleteResponse {
+  string id = 1;
+}
+
+message FollowupDetailRequest {
+  string id = 1;
+  // QueryParams QueryParams = 2;
+}
+
+message FollowupDetailResponse {
+  message RelateS {
+    // 工作项关联信息
+    Relates relate = 1;
+    // 工作项关联的表单资源
+    models.FormCss relateFormCss = 2 [(openapi.v3.property) = {description:"关联的表单样式"}];
+    string warningNum = 3;
+  }
+
+  message Children {
+    WorkItems workItem = 1;
+    repeated RelateS  relates = 2;
+  }
+
+  WorkItems workItem = 1;
+  Relates planRelate = 2;
+  repeated Children children = 3;
+}
+
+message FollowupFilterRequest {
+  message PlanStartTime {
+    string start = 1 [(openapi.v3.property) = {description:"预计开始时间 - 开始(格式：yyyy-MM-DD HH:ss:mm)"}];
+    string end = 2 [(openapi.v3.property) = {description:"预计开始时间 - 截止(格式：yyyy-MM-DD HH:ss:mm)"}];
+  }
+
+  message Filter {
+    string key = 1;
+    string patientId = 2;
+    PlanStartTime planStartTime = 3 [(openapi.v3.property) = {description:"预计开始时间条件过滤"}];
+  }
+
+  int32 page = 1;
+  int32 perPage = 2;
+  Filter filter = 3;
+  //  HeaderParams HeaderParams = 4;
+}
+
+message FollowupFilterResponse {
+  option (openapi.v3.schema) = {
+    required:["total","page","perPage","results"]
+  };
+  int64 total = 1;
+  int32 page = 2;
+  int32 perPage = 3;
+  repeated FollowupWiFilterPreload results = 4;
+}

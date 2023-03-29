@@ -1,0 +1,172 @@
+syntax = "proto3";
+
+package api;
+
+
+option go_package = "followup/api";
+
+import "google/api/annotations.proto";
+import "openapi/v3/annotations.proto";
+
+service FormRowService {
+  //表单行数据数据添加
+  rpc FormRowCreate (FormRowCreateRequest) returns (FormRowCreateResponse) {
+    option (google.api.http) = {
+      post:"/form_row",
+      body:"*",
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单行数据数据添加"
+    };
+  }
+  //表单行数据数据删除
+  rpc FormRowDelete (FormRowDeleteRequest) returns (FormRowDeleteResponse) {
+    option (google.api.http) = {
+      delete:"/form_row",
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单行数据数据删除"
+    };
+  }
+  //表单行数据数据更新
+  rpc FormRowUpdate (FormRowUpdateRequest) returns (FormRowUpdateResponse) {
+    option (google.api.http) = {
+      put:"/form_row",
+      body:"body",
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单行数据数据更新"
+    };
+  }
+  //表单行数据数据详情查询
+  rpc FormRowDetail (FormRowDetailRequest) returns (FormRowDetailResponse) {
+    option (google.api.http) = {
+      get:"/form_row",
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单行数据数据查询"
+    };
+  }
+  //表单行数据数据过滤查询
+  rpc FormRowFilter (FormRowFilterRequest) returns (FormRowFilterResponse) { option (google.api.http) = {
+    post:"/form_row/filter",
+    body:"*",
+  };
+    option (openapi.v3.operation) = {
+      summary:"表单行数据数据过滤查询"
+    };
+  }
+}
+
+message Formrow {
+  string createTime = 1[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+  string data = 2[(openapi.v3.property) = {description:"提交的表单数据(JSON格式)",required:["data"]}];
+  string id = 3[(openapi.v3.property) = {description:"表单编码",required:["id"]}];
+  string remark = 4[(openapi.v3.property) = {description:"表单备注",required:["remark"]}];
+  string status = 5[(openapi.v3.property) = {description:"表单状态(OPEN：开放,允许修改 LOCKED：锁定,禁止修改)",required:["status"]}];
+  string tbFormId = 6[(openapi.v3.property) = {description:"表单模板编码",required:["tbFormId"]}];
+  string tbRelateId = 7[(openapi.v3.property) = {description:"工作项关联编码",required:["tbRelateId"]}];
+  string title = 8[(openapi.v3.property) = {description:"表单名称",required:["title"]}];
+  string updateTime = 9[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+  string submitter = 10;
+  string signaturePath = 11;
+  string signerID = 12;
+  string signerName = 13;
+  bool SignOnBehalf = 14;
+}
+
+message FormRowCreateRequest {
+  string data = 1[(openapi.v3.property) = {description:"提交的表单数据(JSON格式)",required:["data"]}];
+  string remark = 2[(openapi.v3.property) = {description:"表单备注",required:["remark"]}];
+  string status = 3[(openapi.v3.property) = {description:"表单状态(OPEN：开放,允许修改 LOCKED：锁定,禁止修改)",required:["status"]}];
+  string tbFormId = 4[(openapi.v3.property) = {description:"表单模板编码",required:["tbFormId"]}];
+  string tbRelateId = 5[(openapi.v3.property) = {description:"工作项关联编码",required:["tbRelateId"]}];
+  string title = 6[(openapi.v3.property) = {description:"表单名称",required:["title"]}];
+  bool signOnBehalf = 7;
+  string signaturePath = 8;
+  string signerId = 9;
+  string signerName = 10;
+}
+
+
+message FormRowCreateResponse{
+  string id = 1[(openapi.v3.property) = {description:"表单编码",required:["id"]}];
+}
+
+
+message FormRowDeleteRequest {
+  string id = 1[(openapi.v3.property) = {description:"表单编码",required:["id"]}];
+}
+
+message  FormRowDeleteResponse {
+  string id = 1[(openapi.v3.property) = {description:"表单编码",required:["id"]}];
+}
+
+message FormRowUpdateRequest {
+  string id = 1;
+  FormRowUpdateBody body = 2;
+}
+
+message FormRowUpdateBody {
+  string data = 1[(openapi.v3.property) = {description:"提交的表单数据(JSON格式)",required:["data"]}];
+  string remark = 2[(openapi.v3.property) = {description:"表单备注",required:["remark"]}];
+  string status = 3[(openapi.v3.property) = {description:"表单状态(OPEN：开放,允许修改 LOCKED：锁定,禁止修改)",required:["status"]}];
+  string tbFormId = 4[(openapi.v3.property) = {description:"表单模板编码",required:["tbFormId"]}];
+  string tbRelateId = 5[(openapi.v3.property) = {description:"工作项关联编码",required:["tbRelateId"]}];
+  string title = 6[(openapi.v3.property) = {description:"表单名称",required:["title"]}];
+}
+
+message FormRowUpdateResponse {
+  string createTime = 1[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+  string data = 2[(openapi.v3.property) = {description:"提交的表单数据(JSON格式)",required:["data"]}];
+  string id = 3[(openapi.v3.property) = {description:"表单编码",required:["id"]}];
+  string remark = 4[(openapi.v3.property) = {description:"表单备注",required:["remark"]}];
+  string status = 5[(openapi.v3.property) = {description:"表单状态(OPEN：开放,允许修改 LOCKED：锁定,禁止修改)",required:["status"]}];
+  string tbFormId = 6[(openapi.v3.property) = {description:"表单模板编码",required:["tbFormId"]}];
+  string tbRelateId = 7[(openapi.v3.property) = {description:"工作项关联编码",required:["tbRelateId"]}];
+  string title = 8[(openapi.v3.property) = {description:"表单名称",required:["title"]}];
+  string updateTime = 9[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+}
+
+message FormRowDetailRequest {
+  string id = 1[(openapi.v3.property) = {description:"表单编码",required:["id"]}];
+}
+
+message FormRowDetailResponse {
+  string createTime = 1[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+  string data = 2[(openapi.v3.property) = {description:"提交的表单数据(JSON格式)",required:["data"]}];
+  string id = 3[(openapi.v3.property) = {description:"表单编码",required:["id"]}];
+  string remark = 4[(openapi.v3.property) = {description:"表单备注",required:["remark"]}];
+  string status = 5[(openapi.v3.property) = {description:"表单状态(OPEN：开放,允许修改 LOCKED：锁定,禁止修改)",required:["status"]}];
+  string tbFormId = 6[(openapi.v3.property) = {description:"表单模板编码",required:["tbFormId"]}];
+  string tbRelateId = 7[(openapi.v3.property) = {description:"工作项关联编码",required:["tbRelateId"]}];
+  string title = 8[(openapi.v3.property) = {description:"表单名称",required:["title"]}];
+  string updateTime = 9[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+  bool signOnBehalf = 10;
+  string signaturePath = 11;
+  string signerId = 12;
+  string signerName = 13;
+
+}
+
+message FormRowFilterRequest {
+  message Filter {
+    repeated string ids = 1;
+    string key = 2;
+    string tbRelateId = 3;
+    string tbFormId = 4;
+    string status = 5;
+  }
+
+  Filter filter = 1;
+  int32 page = 2;
+  int32 perPage = 3;
+}
+
+message FormRowFilterResponse {
+
+  int32 page = 1;
+  int32 perPage = 2;
+  repeated Formrow results = 3;
+  int64 total = 4;
+}

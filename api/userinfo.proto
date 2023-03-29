@@ -1,0 +1,251 @@
+syntax = "proto3";
+
+package api;
+
+import "google/api/annotations.proto";
+import "openapi/v3/annotations.proto";
+
+option go_package = "followup/api";
+
+service UserInfo {
+  //用户基础信息表数据添加
+  rpc UserInfoCreate (UserInfoCreateRequest) returns (UserInfoCreateResponse) {
+      option (google.api.http) = {
+        post:"/user_info",
+        body:"*"
+      };
+      option (openapi.v3.operation) = {
+        summary:"用户基础信息表数据添加"
+      };
+  }
+  //用户信息表数据删除
+  rpc UserInfoDelete (UserInfoDeleteRequest) returns (UserInfoDeleteResponse) {
+    option (google.api.http) = {
+      delete:"/user_info/{id}",
+    };
+    option (openapi.v3.operation) = {
+      summary:"/用户信息表数据删除"
+    };
+  }
+  //用户信息表数据更新
+  rpc UserInfoUpdate (UserInfoUpdateRequest) returns (UserInfoUpdateResponse) {
+    option (google.api.http) = {
+      put:"/user_info",
+      body:"*"
+    };
+    option (openapi.v3.operation) ={
+      summary:"用户信息表数据更新"
+    };
+  }
+  //用户信息表数据查询
+  rpc UserInfoDetail (UserInfoDetailRequest) returns (UserInfoDetailResponse) {
+    option (google.api.http) = {
+      get:"/user_info/{id}"
+    };
+    option (openapi.v3.operation) = {
+      summary:"用户信息表数据查询"
+    };
+  }
+  //用户信息表数据过滤查询
+  rpc UserInfoFilter (UserInfoFilterRequest) returns (UserInfoFilterResponse) {
+    option (google.api.http) = {
+      post:"/user_info/filter",
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary:"用户信息表数据过滤查询"
+    };
+  }
+}
+
+message UserInfo1 {
+  string id = 1[(openapi.v3.property)={description:"用户详细编码",required:["id"]}];
+  string name =2[(openapi.v3.property)={description:"姓名",required:["name"]}];
+  string gender = 3[(openapi.v3.property)={description:"性别('MALE', 'FEMALE', 'OTHER', 'NONE')",required:["gender"]}];
+  string nation = 4[(openapi.v3.property)={description:"民族",required:["nation"]}];
+  string dateOfBirth = 5[(openapi.v3.property)={description:"出生日期(yyyy-MM-DD)",required:["dateOfBirth"]}];
+  string idNumber = 6[(openapi.v3.property)={description:"身份证号码",required:["idNumber"]}];
+  string address = 7[(openapi.v3.property)={description:"户籍地址",required:["address"]}];
+  string issuingAuthority = 8[(openapi.v3.property)={description:"签发机关(派出所或发证机构)",required:["issuingAuthority"]}];
+  string effectiveDate = 9[(openapi.v3.property)={description:"证件生效日期",required:["effectiveDate"]}];
+  string expirationDate = 10[(openapi.v3.property)={description:"证件失效日期",required:["expirationDate"]}];
+  string profilePhoto = 11[(openapi.v3.property)={description:"证件头像",required:["profilePhoto"]}];
+  bool certified = 12[(openapi.v3.property)={description:"是否实名认证(身份证和姓名二元素认证)",required:["certified"]}];
+  string certifiedTime = 13[(openapi.v3.property)={description:"是否实名认证(身份证和姓名二元素认证)",required:["certified"]}];
+  string avatar = 14[(openapi.v3.property)={description:"用户头像",required:["avatar"]}];
+  string residentialAddr = 15[(openapi.v3.property)={description:"居住地址",required:["residentialAddr"]}];
+  string formerName = 16[(openapi.v3.property)={description:"曾用名",required:["formerName"]}];
+  string nickname = 17[(openapi.v3.property)={description:"昵称",required:["nickname"]}];
+  bool mobileVerified = 18[(openapi.v3.property)={description:"手机号是否验证",required:["mobileVerified"]}];
+  string mobileVerifiedTime = 19[(openapi.v3.property)={description:"手机号认证时间",required:["mobileVerifiedTime"]}];
+  bool emailVerified = 20[(openapi.v3.property)={description:"邮箱地址是否验证",required:["emailVerified"]}];
+  string emailVerifiedTime = 21[(openapi.v3.property)={description:"邮箱认证时间",required:["emailVerifiedTime"]}];
+  string createTime = 22 [(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+  string updateTime = 23[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  string tbUserId = 24[(openapi.v3.property)={description:"用户表用户编码",required:["tbUserId"]}];
+}
+
+message UserInfoCreateRequest {
+  string address = 1[(openapi.v3.property)={description:"户籍地址",required:["address"]}];
+  string avatar = 2[(openapi.v3.property)={description:"用户头像",required:["avatar"]}];
+  bool certified = 3[(openapi.v3.property)={description:"是否实名认证(身份证和姓名二元素认证)",required:["certified"]}];
+  string certifiedTime = 4[(openapi.v3.property)={description:"是否实名认证(身份证和姓名二元素认证)",required:["certified"]}];
+  string dateOfBirth = 5[(openapi.v3.property)={description:"出生日期(yyyy-MM-DD)",required:["dateOfBirth"]}];
+  string effectiveDate = 6[(openapi.v3.property)={description:"证件生效日期",required:["effectiveDate"]}];
+  bool emailVerified = 7[(openapi.v3.property)={description:"邮箱地址是否验证",required:["emailVerified"]}];
+  string emailVerifiedTime = 8[(openapi.v3.property)={description:"邮箱认证时间",required:["emailVerifiedTime"]}];
+  string expirationDate = 9[(openapi.v3.property)={description:"证件失效日期",required:["expirationDate"]}];
+  string formerName = 10[(openapi.v3.property)={description:"曾用名",required:["formerName"]}];
+  string gender = 11[(openapi.v3.property)={description:"性别('MALE', 'FEMALE', 'OTHER', 'NONE')",required:["gender"]}];
+  string idNumber = 12[(openapi.v3.property)={description:"身份证号码",required:["idNumber"]}];
+  string issuingAuthority = 13[(openapi.v3.property)={description:"签发机关(派出所或发证机构)",required:["issuingAuthority"]}];
+  bool mobileVerified = 14[(openapi.v3.property)={description:"手机号是否验证",required:["mobileVerified"]}];
+  string mobileVerifiedTime = 15[(openapi.v3.property)={description:"手机号认证时间",required:["mobileVerifiedTime"]}];
+  string name = 16[(openapi.v3.property)={description:"姓名",required:["name"]}];
+  string nation = 17[(openapi.v3.property)={description:"民族",required:["nation"]}];
+  string nickname = 18[(openapi.v3.property)={description:"昵称",required:["nickname"]}];
+  string profilePhoto = 19[(openapi.v3.property)={description:"证件头像",required:["profilePhoto"]}];
+  string residentialAddr = 20[(openapi.v3.property)={description:"居住地址",required:["residentialAddr"]}];
+  string tbUserId = 21[(openapi.v3.property)={description:"用户表用户编码",required:["tbUserId"]}];
+}
+
+message UserInfoCreateResponse {
+  string id = 1[(openapi.v3.property)={description:"用户详细编码",required:["id"]}];
+}
+
+message UserInfoDeleteRequest {
+  string id = 1[(openapi.v3.property)={description:"用户详细编码",required:["id"]}];
+}
+
+message UserInfoDeleteResponse {
+  string id = 1[(openapi.v3.property)={description:"用户详细编码",required:["id"]}];
+}
+
+message UserInfoUpdateRequest {
+  string address = 1[(openapi.v3.property)={description:"户籍地址",required:["address"]}];
+  string avatar = 2[(openapi.v3.property)={description:"用户头像",required:["avatar"]}];
+  bool certified = 3[(openapi.v3.property)={description:"是否实名认证(身份证和姓名二元素认证)",required:["certified"]}];
+  string certifiedTime = 4[(openapi.v3.property)={description:"是否实名认证(身份证和姓名二元素认证)",required:["certified"]}];
+  string dateOfBirth = 5[(openapi.v3.property)={description:"出生日期(yyyy-MM-DD)",required:["dateOfBirth"]}];
+  string effectiveDate = 6[(openapi.v3.property)={description:"证件生效日期",required:["effectiveDate"]}];
+  bool emailVerified = 7[(openapi.v3.property)={description:"邮箱地址是否验证",required:["emailVerified"]}];
+  string emailVerifiedTime = 8[(openapi.v3.property)={description:"邮箱认证时间",required:["emailVerifiedTime"]}];
+  string expirationDate = 9[(openapi.v3.property)={description:"证件失效日期",required:["expirationDate"]}];
+  string formerName = 10[(openapi.v3.property)={description:"曾用名",required:["formerName"]}];
+  string gender = 11[(openapi.v3.property)={description:"性别('MALE', 'FEMALE', 'OTHER', 'NONE')",required:["gender"]}];
+  string idNumber = 12[(openapi.v3.property)={description:"身份证号码",required:["idNumber"]}];
+  string issuingAuthority = 13[(openapi.v3.property)={description:"签发机关（派出所或发证机关）",required:["issuingAuthority"]}];
+  bool mobileVerified = 14[(openapi.v3.property)={description:"手机号是否验证",required:["mobileVerified"]}];
+  string mobileVerifiedTime = 15[(openapi.v3.property)={description:"手机号认证时间",required:["mobileVerifiedTime"]}];
+  string name = 16[(openapi.v3.property)={description:"姓名",required:["name"]}];
+  string nation = 17[(openapi.v3.property)={description:"身份证号码",required:["nation"]}];
+  string nickname = 18[(openapi.v3.property)={description:"身份证号码",required:["nickname"]}];
+  string profilePhoto = 19[(openapi.v3.property)={description:"身份证号码",required:["profilePhoto"]}];
+  string residentialAddr = 20[(openapi.v3.property)={description:"身份证号码",required:["residentialAddr"]}];
+  string tbUserId = 21[(openapi.v3.property)={description:"用户表用户编码",required:["tbUserId"]}];
+}
+
+message UserInfoUpdateResponse {
+  string address = 1[(openapi.v3.property)={description:"户籍地址",required:["address"]}];
+  string avatar = 2[(openapi.v3.property)={description:"用户头像",required:["avatar"]}];
+  bool certified = 3[(openapi.v3.property)={description:"是否实名认证(身份证和姓名二元素认证)",required:["certified"]}];
+  string certifiedTime = 4[(openapi.v3.property)={description:"实名认证认证时间",required:["certifiedTime"]}];
+  string createTime = 5[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+  string dateOfBirth = 6[(openapi.v3.property)={description:"出生日期(yyyy-MM-DD)",required:["dateBirth"]}];
+  string effectiveDate = 7[(openapi.v3.property)={description:"证件生效日期",required:["effectiveDate"]}];
+  bool emailVerified = 8[(openapi.v3.property)={description:"邮箱地址是否验证",required:["emailVerified"]}];
+  string emailVerifiedTime = 9[(openapi.v3.property)={description:"邮箱认证时间",required:["emailVerifiedTime"]}];
+  string expirationDate = 10[(openapi.v3.property)={description:"证件失效日期",required:["expirationDate"]}];
+  string formerName = 11[(openapi.v3.property)={description:"曾用名",required:["formerName"]}];
+  string gender = 12[(openapi.v3.property)={description:"民族",required:["gender"]}];
+  string id = 13[(openapi.v3.property)={description:"用户详细编码",required:["id"]}];
+  string idNumber = 14[(openapi.v3.property)={description:"身份证号码",required:["idNumber"]}];
+  string issuingAuthority = 15[(openapi.v3.property)={description:"签发机关(派出所或发证机构)",required:["issuingAuthority"]}];
+  bool mobileVerified = 16[(openapi.v3.property)={description:"手机号是否验证",required:["mobileVerified"]}];
+  string mobileVerifiedTime = 17[(openapi.v3.property)={description:"手机号认证时间",required:["mobileVerifiedTime"]}];
+  string name = 18[(openapi.v3.property)={description:"姓名",required:["name"]}];
+  string nation = 19[(openapi.v3.property)={description:"民族",required:["nation"]}];
+  string nickname = 20[(openapi.v3.property)={description:"昵称",required:["nickname"]}];
+  string profilePhoto = 21[(openapi.v3.property)={description:"证件头像",required:["profilePhoto"]}];
+  string residentialAddr = 22[(openapi.v3.property)={description:"居住地址",required:["residentialAddr"]}];
+  string tbUserId = 23[(openapi.v3.property)={description:"用户表用户编码",required:["tbUserId"]}];
+  string updateTime = 24[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+}
+
+message UserInfoDetailRequest {
+  string id =1[(openapi.v3.property)={description:"用户详细编码"}];
+}
+
+message UserInfoDetailResponse {
+  string address = 1[(openapi.v3.property)={description:"户籍地址",required:["address"]}];
+  string avatar = 2[(openapi.v3.property)={description:"用户头像",required:["avatar"]}];
+  bool certified = 3[(openapi.v3.property)={description:"是否实名认证(身份证和姓名二元素认证)",required:["certified"]}];
+  string certifiedTime = 4[(openapi.v3.property)={description:"实名认证认证时间",required:["certifiedTime"]}];
+  string createTime = 5[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+  string dateOfBirth = 6[(openapi.v3.property)={description:"出生日期(yyyy-MM-DD)",required:["dateBirth"]}];
+  string effectiveDate = 7[(openapi.v3.property)={description:"证件生效日期",required:["effectiveDate"]}];
+  bool emailVerified = 8[(openapi.v3.property)={description:"邮箱地址是否验证",required:["emailVerified"]}];
+  string emailVerifiedTime = 9[(openapi.v3.property)={description:"邮箱认证时间",required:["emailVerifiedTime"]}];
+  string expirationDate = 10[(openapi.v3.property)={description:"证件失效日期",required:["expirationDate"]}];
+  string formerName = 11[(openapi.v3.property)={description:"曾用名",required:["formerName"]}];
+  string gender = 12[(openapi.v3.property)={description:"民族",required:["gender"]}];
+  string id = 13[(openapi.v3.property)={description:"用户详细编码",required:["id"]}];
+  string idNumber = 14[(openapi.v3.property)={description:"身份证号码",required:["idNumber"]}];
+  string issuingAuthority = 15[(openapi.v3.property)={description:"签发机关(派出所或发证机构)",required:["issuingAuthority"]}];
+  bool mobileVerified = 16[(openapi.v3.property)={description:"手机号是否验证",required:["mobileVerified"]}];
+  string mobileVerifiedTime = 17[(openapi.v3.property)={description:"手机号认证时间",required:["mobileVerifiedTime"]}];
+  string name = 18[(openapi.v3.property)={description:"姓名",required:["name"]}];
+  string nation = 19[(openapi.v3.property)={description:"民族",required:["nation"]}];
+  string nickname = 20[(openapi.v3.property)={description:"昵称",required:["nickname"]}];
+  string profilePhoto = 21[(openapi.v3.property)={description:"证件头像",required:["profilePhoto"]}];
+  string residentialAddr = 22[(openapi.v3.property)={description:"居住地址",required:["residentialAddr"]}];
+  string tbUserId = 23[(openapi.v3.property)={description:"用户表用户编码",required:["tbUserId"]}];
+  string updateTime = 24[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+}
+
+message UserInfoFilterRequest {
+
+  message Filter {
+    string gender = 1[(openapi.v3.property)={description:"民族",required:["gender"]}];
+    repeated string ids = 2;
+    string key = 3;
+  }
+
+  Filter filter = 1;
+  uint32 page = 2;
+  uint32 perPage = 3;
+}
+
+message UserInfoFilterResponse {
+  message Results {
+    string address = 1[(openapi.v3.property)={description:"户籍地址",required:["address"]}];
+    string avatar = 2[(openapi.v3.property)={description:"用户头像",required:["avatar"]}];
+    bool certified = 3[(openapi.v3.property)={description:"是否实名认证(身份证和姓名二元素认证)",required:["certified"]}];
+    string certifiedTime = 4[(openapi.v3.property)={description:"实名认证认证时间",required:["certifiedTime"]}];
+    string createTime = 5[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string dateOfBirth = 6[(openapi.v3.property)={description:"出生日期(yyyy-MM-DD)",required:["dateBirth"]}];
+    string effectiveDate = 7[(openapi.v3.property)={description:"证件生效日期",required:["effectiveDate"]}];
+    bool emailVerified = 8[(openapi.v3.property)={description:"邮箱地址是否验证",required:["emailVerified"]}];
+    string emailVerifiedTime = 9[(openapi.v3.property)={description:"邮箱认证时间",required:["emailVerifiedTime"]}];
+    string expirationDate = 10[(openapi.v3.property)={description:"证件失效日期",required:["expirationDate"]}];
+    string formerName = 11[(openapi.v3.property)={description:"曾用名",required:["formerName"]}];
+    string gender = 12[(openapi.v3.property)={description:"民族",required:["gender"]}];
+    string id = 13[(openapi.v3.property)={description:"用户详细编码",required:["id"]}];
+    string idNumber = 14[(openapi.v3.property)={description:"身份证号码",required:["idNumber"]}];
+    string issuingAuthority = 15[(openapi.v3.property)={description:"签发机关(派出所或发证机构)",required:["issuingAuthority"]}];
+    bool mobileVerified = 16[(openapi.v3.property)={description:"手机号是否验证",required:["mobileVerified"]}];
+    string mobileVerifiedTime = 17[(openapi.v3.property)={description:"手机号认证时间",required:["mobileVerifiedTime"]}];
+    string name = 18[(openapi.v3.property)={description:"姓名",required:["name"]}];
+    string nation = 19[(openapi.v3.property)={description:"民族",required:["nation"]}];
+    string nickname = 20[(openapi.v3.property)={description:"昵称",required:["nickname"]}];
+    string profilePhoto = 21[(openapi.v3.property)={description:"证件头像",required:["profilePhoto"]}];
+    string residentialAddr = 22[(openapi.v3.property)={description:"居住地址",required:["residentialAddr"]}];
+    string tbUserId = 23[(openapi.v3.property)={description:"用户表用户编码",required:["tbUserId"]}];
+    string updateTime = 24[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+  uint32 page = 1;
+  uint32 perPage = 2;
+  repeated Results results = 3;
+  uint32 total = 4;
+}

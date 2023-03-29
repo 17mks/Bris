@@ -1,0 +1,175 @@
+syntax = "proto3";
+
+package api;
+
+
+option go_package = "followup/api";
+
+import "google/api/annotations.proto";
+import "openapi/v3/annotations.proto";
+
+service Disease {
+  //病种表数据添加
+  rpc DiseaseCreate (DiseaseCreateRequest) returns (DiseaseCreateResponse) {
+    option (google.api.http)= {
+      post:"/disease",
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary: "病种表数据添加";
+    };
+  }
+  //病种表数据删除
+  rpc DiseaseDelete (DiseaseDeleteRequest) returns (DiseaseDeleteResponse) {
+    option (google.api.http)= {
+      delete:"/disease"
+    };
+    option (openapi.v3.operation) = {
+      summary:"病种表数据删除";
+    };
+  }
+  //病种表数据更新
+  rpc DiseaseUpdate (DiseaseUpdateRequest) returns (DiseaseUpdateResponse) {
+    option(google.api.http) = {
+      put:"/disease",
+      body:"body"
+    };
+    option(openapi.v3.operation)= {
+      summary:"病种表数据更新";
+    };
+  }
+  //病种表数据详情查询
+  rpc DiseaseDetail (DiseaseDetailRequest) returns (DiseaseDetailResponse) {
+  option (google.api.http) = {
+    get:"/disease"
+  };
+  option(openapi.v3.operation) = {
+    summary:"病种表数据详情查询"
+  };
+  }
+  //病种表数据过滤查询
+  rpc DiseaseFilter (DiseaseFilterRequest) returns (DiseaseFilterResponse) {
+    option (google.api.http) = {
+      post:"/disease/filter",
+      body:"*"
+    };
+    option(openapi.v3.operation) = {
+      summary:"病种表数据过滤查询"
+    };
+  }
+}
+
+message Diseases {
+  string code = 1;
+  string createTime = 2[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+  string description = 3[(openapi.v3.property) = {description:"疾病描述",required:["description"]}];
+  string id = 4[(openapi.v3.property) = {description:"病种主键编码",required:["id"]}];
+  string name = 5[(openapi.v3.property) = {description:"疾病名称",required:["name"]}];
+  string nameJp = 6[(openapi.v3.property) = {description:"疾病名称首字母拼音",required:["nameJp"]}];
+  string nameQp = 7[(openapi.v3.property) = {description:"疾病名称拼音全拼",required:["nameQp"]}];
+  string pid = 8[(openapi.v3.property) = {description:"父级编码",required:["pid"]}];
+  string status = 9[(openapi.v3.property) = {description:"状态('ENABLED 启用', 'DISABLED 禁用')",required:["status"]}];
+  string tag = 10[(openapi.v3.property) = {description:"备用标记",required:["tag"]}];
+  string updateTime = 11[(openapi.v3.property)={description:"updateTime",required:["updateTime"]}];
+  string version = 12[(openapi.v3.property) = {description:"版本(e.g. 'ICD10')",required:["version"]}];
+}
+
+message DiseaseCreateRequest {
+  string code = 1[(openapi.v3.property)={description:"病种主键编码",required:["code"]}];
+  string description = 2[(openapi.v3.property)={description:"疾病描述",required:["description"]}];
+  string name = 3[(openapi.v3.property)={description:"疾病名称",required:["name"]}];
+  string nameJp = 4[(openapi.v3.property)={description:"疾病名称首字母拼音",required:["nameJp"]}];
+  string nameQp = 5[(openapi.v3.property)={description:"疾病名称全拼",required:["nameQp"]}];
+  string pid = 6[(openapi.v3.property)={description:"父级编码",required:["pid"]}];
+  string status = 7[(openapi.v3.property)={description:"状态('ENABLED 启用', 'DISABLED 禁用')",required:["status"]}];
+  string tag = 8[(openapi.v3.property)={description:"备用标记",required:["tag"]}];
+  string version = 9[(openapi.v3.property)={description:"版本",required:"version"}];
+}
+
+message DiseaseCreateResponse {
+  string id = 1[(openapi.v3.property)={description:"病种主键编码",required:["id"]}];
+  }
+
+
+message DiseaseDeleteRequest {
+  string id = 1[(openapi.v3.property)={description:"病种主键编码",required:["id"]}];
+}
+
+message DiseaseDeleteResponse {
+  string id = 1[(openapi.v3.property)={description:"病种主键编码",required:["id"]}];
+}
+
+message DiseaseUpdateRequest {
+  string id = 1;
+  DiseaseUpdateRequestBody body = 2;
+}
+
+message DiseaseUpdateRequestBody {
+  string code = 1[(openapi.v3.property)={description:"疾病编码(e.g. A00-B99 C00.1)",required:["code"]}];
+  string description = 2[(openapi.v3.property)={description:"疾病描述",required:["description"]}];
+  string name = 3[(openapi.v3.property)={description:"疾病名称",required:["name"]}];
+  string nameJp = 4[(openapi.v3.property)={description:"疾病名称首字母拼音",required:["nameJp"]}];
+  string nameQp = 5[(openapi.v3.property)={description:"疾病名称拼音全拼",required:"nameQp"}];
+  string pid = 6[(openapi.v3.property)={description:"父级编码",required:["pid"]}];
+  string status = 7[(openapi.v3.property)={description:"状态('ENABLED 启用', 'DISABLED 禁用",required:["status"]}];
+  string tag = 8[(openapi.v3.property)={description:"备用标记",required:["tag"]}];
+  string version = 9[(openapi.v3.property)={description:"版本",required:"version"}];
+}
+
+message DiseaseUpdateResponse {
+  string code = 1[(openapi.v3.property)={description:"疾病编码(e.g. A00-B99 C00.1)",required:["code"]}];
+  string createTime = 2[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+  string description = 3[(openapi.v3.property)={description:"疾病描述",required:["description"]}];
+  string id = 4[(openapi.v3.property)={description:"病种主键编码",required:["id"]}];
+  string name = 5[(openapi.v3.property)={description:"病种名称",required:["name"]}];
+  string nameJp = 6[(openapi.v3.property)={description:"疾病名称首字母拼音",required:["nameJp"]}];
+  string nameQp = 7[(openapi.v3.property)={description:"疾病名称拼音全拼",required:["nameQp"]}];
+  string pid = 8[(openapi.v3.property)={description:"父级编码",required:["pid"]}];
+  string status = 9[(openapi.v3.property)={description:"状态('ENABLED 启用', 'DISABLED 禁用",required:["status"]}];
+  string tag = 10[(openapi.v3.property)={description:"备用标记",required:["tag"]}];
+  string updateTime = 11[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  string version = 12[(openapi.v3.property)={description:"版本",required:["version"]}];
+}
+
+message DiseaseDetailRequest {
+  string id = 1[(openapi.v3.property)={description:"病种主键编码",required:["id"]}];
+}
+
+message DiseaseDetailResponse {
+  string code = 1[(openapi.v3.property)={description:"疾病编码(e.g. A00-B99 C00.1)",required:["code"]}];
+  string createTime = 2[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+  string description = 3[(openapi.v3.property)={description:"疾病描述",required:["description"]}];
+  string id = 4[(openapi.v3.property)={description:"病种主键编码",required:["id"]}];
+  string name = 5[(openapi.v3.property)={description:"病种名称",required:["name"]}];
+  string nameJp = 6[(openapi.v3.property)={description:"疾病名称首字母拼音",required:["nameJp"]}];
+  string nameQp = 7[(openapi.v3.property)={description:"疾病名称拼音全拼",required:["nameQp"]}];
+  string pid = 8[(openapi.v3.property)={description:"父级编码",required:["pid"]}];
+  string status = 9[(openapi.v3.property)={description:"状态('ENABLED 启用', 'DISABLED 禁用",required:["status"]}];
+  string tag = 10[(openapi.v3.property)={description:"备用标记",required:["tag"]}];
+  string updateTime = 11[(openapi.v3.property)={description:"更新时间",required:"updateTime"}];
+  string version = 12[(openapi.v3.property)={description:"版本",required:["version"]}];
+}
+
+message DiseaseFilterRequest {
+  message Filter {
+    repeated string ids = 1;
+    string key = 2;
+    string status = 3;
+  }
+
+  Filter filter = 1;
+  int32 page = 2;
+  int32 perPage = 3;
+}
+
+
+message DiseaseFilterResponse {
+  int32 page = 1;
+  int32 perPage = 2;
+  repeated Diseases results = 3;
+  int64 total = 4;
+}
+
+
+
+

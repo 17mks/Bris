@@ -1,0 +1,203 @@
+syntax = "proto3";
+
+package api;
+
+
+option go_package = "followup/api";
+
+import "google/api/annotations.proto";
+import "openapi/v3/annotations.proto";
+import "columnthreshold.proto";
+import "columnopt.proto";
+
+service Form_Column {
+  //表单列数据添加
+  rpc Form_ColumnCreate (Form_ColumnCreateRequest) returns (Form_ColumnCreateResponse) {
+    option (google.api.http) = {
+      post:"/form_column",
+      body:"*",
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单列数据添加"
+    };
+  }
+  //表单列数据删除
+  rpc Form_ColumnDelete (Form_ColumnDeleteRequest) returns (Form_ColumnDeleteResponse) {
+    option (google.api.http) = {
+      delete:"/form_column/{id}",
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单列数据删除"
+    };
+  }
+  //表单列数据更新
+  rpc Form_ColumnUpdate (Form_ColumnUpdateRequest) returns (Form_ColumnUpdateResponse) {
+    option (google.api.http) = {
+      put:"/form_column",
+      body:"*",
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单列数据更新"
+    };
+  }
+  //表单列数据详情查询
+  rpc Form_ColumnDetail (Form_ColumnDetailRequest) returns (Form_ColumnDetailResponse) {
+    option (google.api.http) = {
+      get:"/form_column/{id}",
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单列数据查询"
+    };
+  }
+  //表单列数据过滤查询
+  rpc Form_ColumnFilter (Form_ColumnFilterRequest) returns (Form_ColumnFilterResponse) {
+    option (google.api.http) = {
+      post:"/form_column/filter",
+      body:"*",
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单列数据过滤查询"
+    };
+  }
+}
+
+message Formcolumns {
+  string availableValue = 1;
+  string createTime = 2;
+  string dataType = 3;
+  string defaultValue = 4;
+  string description = 5;
+  string groupName = 6;
+  string id = 7;
+  string name = 8;
+  string regexp = 9;
+  int32 sortIndex = 10;
+  string tbFormId = 11;
+  string updateTime = 12;
+  string viewType = 13;
+  bool required= 14;
+  bool  visible = 15;
+  bool editable =16;
+  string deletedAt = 17;
+}
+
+message Form_ColumnCreateRequest {
+  string availableValue = 1;
+  string dataType = 2;
+  string defaultValue = 3;
+  string description = 4;
+  string groupName = 5;
+  string name = 6;
+  string regexp = 7;
+  int32 sortIndex = 8;
+  string tbFormId = 9;
+  string viewType = 10;
+}
+
+
+message Form_ColumnCreateResponse{
+ string id = 1;
+}
+
+
+message Form_ColumnDeleteRequest {
+  string id = 1 ;
+}
+
+message  Form_ColumnDeleteResponse {
+ string id = 1;
+}
+
+message Form_ColumnUpdateRequest {
+  string availableValue = 1;
+  string dataType = 2;
+  string defaultValue = 3;
+  string description = 4;
+  string groupName = 5;
+  string name = 6;
+  string regexp = 7;
+  int32 sortIndex = 8;
+  string tbFormId = 9;
+  string viewType = 10;
+}
+
+message Form_ColumnUpdateResponse {
+  string availableValue = 1;
+  string createTime = 2;
+  string dataType = 3;
+  string defaultValue = 4;
+  string description = 5;
+  string groupName = 6;
+  string id = 7;
+  string name = 8;
+  string regexp = 9;
+  int32 sortIndex = 10;
+  string tbFormId = 11;
+  string updateTime = 12;
+  string viewType = 13;
+}
+
+message Form_ColumnDetailRequest {
+  string id = 1;
+}
+
+message Form_ColumnDetailResponse {
+  message Column {
+    string availableValue = 1;
+    string createTime = 2;
+    string dataType = 3;
+    string defaultValue = 4;
+    string description = 5;
+    bool editable = 6;
+    string groupName = 7;
+    string id = 8;
+    string name = 9;
+    string regexp = 10;
+    bool required = 11;
+    int32 sortIndex = 12;
+    string tbFormId = 13;
+    string updateTime = 14;
+    string viewType = 15;
+    bool visible = 16;
+  }
+
+
+
+  Column column = 1;
+  repeated Columnthresholds columnThresholds = 2;
+  repeated Columnopts columnOpts = 3;
+}
+
+message Form_ColumnFilterRequest {
+  message Filter {
+    repeated string ids = 1;
+    string key = 2;
+  }
+
+  Filter filter = 1;
+  int32 page = 2;
+  int32 perPage = 3;
+}
+
+message Form_ColumnFilterResponse {
+  message Results {
+    string availableValue = 1;
+    string createTime = 2;
+    string dataType = 3;
+    string defaultValue = 4;
+    string description = 5;
+    string groupName = 6;
+    string id = 7;
+    string name = 8;
+    string regexp = 9;
+    int32 sortIndex = 10;
+    string tbFormId = 11;
+    string updateTime = 12;
+    string viewType = 13;
+  }
+
+  int32 page = 1;
+  int32 perPage = 2;
+  repeated Results results = 3;
+  int32 total = 4;
+}

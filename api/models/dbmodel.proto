@@ -1,0 +1,183 @@
+syntax = "proto3";
+
+package api.models;
+
+option go_package = "followup/api/models;models";
+option java_multiple_files = true;
+option java_package = "api.models";
+
+
+import "openapi/v3/annotations.proto";
+
+
+// Token解析后信息
+message TokenInfo {
+  string userId = 1;
+  string userName = 2;
+  string email = 3;
+  string mobile = 4;
+}
+// 请求头
+message HeaderParams {
+  string token = 1;
+  TokenInfo tokenInfo = 2;
+}
+
+
+message Plan {
+  option (openapi.v3.schema) = {
+    required:["id","name","type","status","belongType"]
+  };
+  string id = 1 [(openapi.v3.property) = {description:"id;varchar(45);方案编码"}];
+  string name = 2 [(openapi.v3.property) = {description:"name;varchar(128);方案名称"}];
+  string type = 3 [(openapi.v3.property) = {description:"type;enum('SA','FOLLOWUP');方案类型(SA 症状评估, FOLLOWUP 随访)"}];
+  string status = 4 [(openapi.v3.property) = {description:"status;enum('DRAFT','ENABLED','DISABLED');方案状态('DRAFT 草稿', 'ENABLED 启用', 'DISABLED 禁用')"}];
+  string belongType = 5 [(openapi.v3.property) = {description:"belong_type;enum('ORG','PROJECT','TEAM','GROUP','NONE');归属类型(组织、项目、团队、组等)"}];
+  optional string belongTo = 6 [(openapi.v3.property) = {description:"belong_to;varchar(45);规则资源编码(e.g. 如果归属类型时是项目则填项目编码)"}];
+  optional string applyDisease = 7 [(openapi.v3.property) = {description:"apply_disease;text;适用病种"}];
+  optional string applyDysfunction = 8 [(openapi.v3.property) = {description:"apply_dysfunction;text;适用功能障碍(多个功能障碍用','分隔)"}];
+  optional string applyAges = 9 [(openapi.v3.property) = {description:"apply_ages;text;适用年龄段(多个年龄段用','分隔)"}];
+  optional string event = 10 [(openapi.v3.property) = {description:"event;text;事件(随访开始触发事件)"}];
+  optional string creatorId = 11 [(openapi.v3.property) = {description:"creator_id;varchar(45);创建人编码"}];
+  optional string creatorName = 12 [(openapi.v3.property) = {description:"creator_name;varchar(45);创建人编码"}];
+  optional string appId = 13 [(openapi.v3.property) = {description:"app_id;varchar(45);应用编码"}];
+  optional string notifyNode = 14 [(openapi.v3.property) = {description:"notify_node;varchar(255);推送时间节点,多个值用逗号','分隔"}];
+  optional string createTime = 15 [(openapi.v3.property) = {description:"create_time;datetime;创建时间"}];
+  optional string updateTime = 16 [(openapi.v3.property) = {description:"update_time;datetime;更新时间"}];
+  optional string deleteAt = 17 [(openapi.v3.property) = {description:"delete_at;datetime;删除时间"}];
+}
+
+message PlanRelate {
+  option (openapi.v3.schema) = {
+    required:["id","title","resourceType","resourceId","createTime","updateTime","tbPlanId"]
+  };
+  string id = 1 [(openapi.v3.property) = {description:"id;varchar(45);方案信息编码"}];
+  string title = 2 [(openapi.v3.property) = {description:"title;varchar(255);标题(根据关联资源类型决定)"}];
+  string resourceType = 3 [(openapi.v3.property) = {description:"resource_type;enum('FORM','WI','BZ','GNZA');关联资源类型(‘FORM 表单’,'WI 工作项','BZ 病种','GNZA 功能障碍')"}];
+  string resourceId = 4 [(openapi.v3.property) = {description:"resource_id;varchar(45);关联资源编码"}];
+  optional int32 frequencyInterval = 5 [(openapi.v3.property) = {description:"frequency_interval;int(11);频次间隔(小时)"}];
+  optional int32 frequencyOffset = 6 [(openapi.v3.property) = {description:"frequency_offset;int(11);频次偏移(小时)"}];
+  optional int32 times = 7 [(openapi.v3.property) = {description:"times;int(11);次数"}];
+  optional uint32 sortNum = 8 [(openapi.v3.property) = {description:"sort_num;int(10) unsigned;排序号码"}];
+  string createTime = 9 [(openapi.v3.property) = {description:"create_time;datetime;创建时间"}];
+  string updateTime = 10 [(openapi.v3.property) = {description:"update_time;datetime;更新时间"}];
+  string tbPlanId = 11 [(openapi.v3.property) = {description:"tb_plan_id;varchar(45);"}];
+  optional string deleteAt = 12 [(openapi.v3.property) = {description:"delete_at;datetime;删除时间"}];
+}
+
+message WorkItem {
+  option (openapi.v3.schema) = {
+    required:["id", "type", "status", "assignedType", "belongType", "event"]
+  };
+  string id = 1 [(openapi.v3.property) = {description:"id;varchar(45);工作项编码"}];
+  optional string title = 2 [(openapi.v3.property) = {description:"title;varchar(255);标题"}];
+  string type = 3 [(openapi.v3.property) = {description:"type;enum('TASK','SA','TREAT','FOLLOW_UP','WORK_FLOW');工作项类型(FOLLOW_UP:随访,SA:症状评估,TREAT:治疗任务,WORK_FLOW:工作流)"}];
+  string status = 4 [(openapi.v3.property) = {description:"status;enum('MODEL','DRAFT','NEW','ACTIVE','RESOLVED','CLOSED','REMOVED');状态('MODEL 模板', 'DRAFT 草稿', 'NEW 新建-待处理', 'ACTIVE 正在进行', 'RESOLVED', 'CLOSED 已关闭', 'REMOVED 已移除')"}];
+  optional string principalType = 5 [(openapi.v3.property) = {description:"principal_type;enum('USER','MEMBER','NONE');负责人类型('USER', 'MEMBER', 'NONE')"}];
+  optional string principalId = 6 [(openapi.v3.property) = {description:"principal_id;varchar(45);负责人成员编码"}];
+  optional string principalName = 7 [(openapi.v3.property) = {description:"principal_name;varchar(128);负责人姓名"}];
+  optional string participant = 8 [(openapi.v3.property) = {description:"participant;text;参与者成员编码(多个值用','分隔)"}];
+  optional string cc = 9 [(openapi.v3.property) = {description:"cc;text;抄送成员编码(多个值用','分隔)"}];
+  optional string tag = 10 [(openapi.v3.property) = {description:"tag;text;标签(多个值用','分隔)"}];
+  optional string pid = 11 [(openapi.v3.property) = {description:"pid;varchar(45);父工作项编码"}];
+  string assignedType = 12 [(openapi.v3.property) = {description:"assigned_type;enum('USER','MEMBER','PATIENT','NONE');指派类型(用户,成员,患者,未指派)"}];
+  optional string assignedTo = 13 [(openapi.v3.property) = {description:"assigned_to;text;指派给谁(多个值用','分隔)"}];
+  optional string assignedToName = 14 [(openapi.v3.property) = {description:"assigned_to_name;varchar(128);被指派人姓名"}];
+  optional string planStartTime = 15 [(openapi.v3.property) = {description:"plan_start_time;datetime;计划开始时间"}];
+  optional string planEndTime = 16 [(openapi.v3.property) = {description:"plan_end_time;datetime;计划结束时间"}];
+  optional string actualStartTime = 17 [(openapi.v3.property) = {description:"actual_start_time;datetime;实际开始时间"}];
+  optional string actualEndTime = 18 [(openapi.v3.property) = {description:"actual_end_time;datetime;实际结束时间"}];
+  optional string creatBy = 19 [(openapi.v3.property) = {description:"creat_by;varchar(45);创建人成员编码"}];
+  optional string creatByName = 20 [(openapi.v3.property) = {description:"creat_by_name;varchar(128);创建人姓名"}];
+  optional string updateBy = 21 [(openapi.v3.property) = {description:"update_by;varchar(45);最近更新人成员编码"}];
+  string belongType = 22 [(openapi.v3.property) = {description:"belong_type;enum('ORG','PROJECT','TEAM','GROUP','NONE');归属类型"}];
+  optional string belongTo = 23 [(openapi.v3.property) = {description:"belong_to;varchar(45);规则资源编码(e.g. 如果归属类型是项目则填项目编码)"}];
+  optional uint32 sortNum = 24 [(openapi.v3.property) = {description:"sort_num;int(10) unsigned;排序号码"}];
+  string event = 25 [(openapi.v3.property) = {description:"event;enum('RY','SS','CY','JZ','CS','RC','NONE');触发事件('RY 入院','SS 手术', 'CY 出院', 'JZ 就诊', 'CS 出生','RC 入组','NONE')"}];
+  optional int32 frequencyInterval = 26 [(openapi.v3.property) = {description:"frequency_interval;int(11);频次间隔"}];
+  optional string frequencyUnit = 27 [(openapi.v3.property) = {description:"frequency_unit;enum('DAY','WEEK','MONTH','YEAR','NONE');频次单位(年,月,周,日,小时)"}];
+  optional string appId = 28 [(openapi.v3.property) = {description:"app_id;varchar(45);应用编码"}];
+  optional int32 notifyLeftOffset = 29 [(openapi.v3.property) = {description:"notify_left_offset;int(11);通知左偏移"}];
+  optional int32 notifyRightOffset = 30 [(openapi.v3.property) = {description:"notify_right_offset;int(11);通知右偏移"}];
+  optional string notifyOffsetUnit = 31 [(openapi.v3.property) = {description:"notify_offset_unit;enum('DAY','WEEK','MONTH','YEAR','NONE');通知偏移时间单位"}];
+  optional string notifyLeftDate = 32 [(openapi.v3.property) = {description:"notify_left_date;datetime;通知开始时间"}];
+  optional string notifyRightDate = 33 [(openapi.v3.property) = {description:"notify_right_date;datetime;通知截止时间"}];
+  optional string notifyNode = 34 [(openapi.v3.property) = {description:"notify_node;varchar(255);推送时间节点,多个值用逗号','分隔"}];
+  optional string execArea = 35 [(openapi.v3.property) = {description:"exec_area;enum('INSIDE','OUTSIDE','NONE');执行区域(院内,院外)"}];
+  optional string description = 36 [(openapi.v3.property) = {description:"description;text;描述(可存富文本内容或Markdown内容)"}];
+  optional string createTime = 37 [(openapi.v3.property) = {description:"create_time;datetime;创建时间"}];
+  optional string updateTime = 38 [(openapi.v3.property) = {description:"update_time;datetime;更新时间"}];
+  optional string deletedAt = 39 [(openapi.v3.property) = {description:"deleted_at;datetime;删除时间"}];
+}
+
+
+message Relate {
+  option (openapi.v3.schema) = {
+    required:["id","title","status","resourceType","resourceId","createTime","updateTime","tbWorkItemId"]
+  };
+  string id = 1 [(openapi.v3.property) = {description:"id;varchar(45);工作项关联编码"}];
+  string title = 2 [(openapi.v3.property) = {description:"title;varchar(255);标题(根据关联资源类型决定)"}];
+  string status = 3 [(openapi.v3.property) = {description:"status;enum('NEW','ACTIVE','CLOSED');关联资源状态('NEW 待处理', 'ACTIVE 正在处理 'CLOSED 已关闭')"}];
+  string resourceType = 4 [(openapi.v3.property) = {description:"resource_type;enum('PLAN','FORM','WORK_ITEM','ARTICLE','FU_WC','FU_M','RM_FZ','RM_YH','RM_HY','RM_SS','NONE');工作项关联资源类型ENUM('PLAN 方案', 'FORM 表单', 'WORK_ITEM 工作项', 'ARTICLE 宣教文章', 'FU_WC 微信随访', 'FU_M 电话随访', 'RM_FZ 复诊提醒', 'RM_YH 用药提醒', 'RM_HY 换药提醒', 'RM_SS 手术提醒', 'NONE')"}];
+  string resourceId = 5 [(openapi.v3.property) = {description:"resource_id;varchar(45);关联资源编码"}];
+  optional string conclusion = 6 [(openapi.v3.property) = {description:"conclusion;text;结论"}];
+  optional string suggestion = 7 [(openapi.v3.property) = {description:"suggestion;text;建议"}];
+  optional string comments = 8 [(openapi.v3.property) = {description:"comments;varchar(255);描述"}];
+  string createTime = 9 [(openapi.v3.property) = {description:"create_time;datetime;创建时间"}];
+  string updateTime = 10 [(openapi.v3.property) = {description:"update_time;datetime;更新时间"}];
+  string tbWorkItemId = 11 [(openapi.v3.property) = {description:"tb_work_item_id;varchar(45);工作项编码"}];
+}
+
+
+message Disease {
+  option (openapi.v3.schema) = {
+    required:["id","name","nameJp","nameQp","version"]
+  };
+  string id = 1 [(openapi.v3.property) = {description:"id;varchar(45);'病种主键编码'"}];
+  optional string code = 2 [(openapi.v3.property) = {description:"code;varchar(45);'疾病编码(e.g. A00-B99 C00.1)'"}];
+  string name = 3 [(openapi.v3.property) = {description:"name;varchar(512);'疾病名称'"}];
+  string nameJp = 4 [(openapi.v3.property) = {description:"name_jp;varchar(512);'疾病名称首字母拼音'"}];
+  string nameQp = 5 [(openapi.v3.property) = {description:"name_qp;varchar(512);'疾病名称拼音全拼'"}];
+  string version = 6 [(openapi.v3.property) = {description:"version;varchar(45);'版本(e.g. 'ICD10')'"}];
+  optional string status = 7 [(openapi.v3.property) = {description:"status;enum('ENABLED','DISABLED');'状态('ENABLED 启用', 'DISABLED 禁用')'"}];
+  optional string tag = 8 [(openapi.v3.property) = {description:"tag;varchar(512);'备用标记'"}];
+  optional string description = 9 [(openapi.v3.property) = {description:"description;varchar(512);'疾病描述'"}];
+  optional string pid = 10 [(openapi.v3.property) = {description:"pid;varchar(45);'父级编码'"}];
+  optional string createTime = 11 [(openapi.v3.property) = {description:"create_time;datetime;'创建时间'"}];
+  optional string updateTime = 12 [(openapi.v3.property) = {description:"update_time;datetime;'更新时间'"}];
+  optional string deleteAt = 13 [(openapi.v3.property) = {description:"delete_at;datetime;'删除时间'"}];
+}
+
+
+message DisFunc{
+  option (openapi.v3.schema) = {
+    required:["id","name","createTime","updateTime"]
+  };
+  string id = 1 [(openapi.v3.property) = {description:"id;varchar(45);'功能障碍编码'"}];
+  string name = 2 [(openapi.v3.property) = {description:"name;varchar(512);'功能障碍名称'"}];
+  optional string description = 3 [(openapi.v3.property) = {description:"description;varchar(512);'描述'"}];
+  optional string py = 4 [(openapi.v3.property) = {description:"py;datetime;'功能障碍名称拼音'"}];
+  string createTime = 5 [(openapi.v3.property) = {description:"create_time;datetime;'创建时间'"}];
+  string updateTime = 6 [(openapi.v3.property) = {description:"update_time;datetime;'更新时间'"}];
+  optional string deleteAt = 7 [(openapi.v3.property) = {description:"delete_at;datetime;'删除时间'"}];
+}
+
+
+
+message FormCss {
+  option (openapi.v3.schema) = {
+    required:["id","tbFormId"]
+  };
+  string id = 1 [(openapi.v3.property) = {description:"id;varchar(45);表单样式编码"}];
+  optional string name = 2 [(openapi.v3.property) = {description:"name;varchar(255);表单样式名称"}];
+  optional string status = 3 [(openapi.v3.property) = {description:"status;varchar(45);表单样式状态"}];
+  optional string cssCode = 4 [(openapi.v3.property) = {description:"css_code;longtext;表单样式代码"}];
+  optional string cssUrl = 5 [(openapi.v3.property) = {description:"css_url;varchar(512);表单模板通过/form/model访问的地址"}];
+  optional string ossUrl = 6 [(openapi.v3.property) = {description:"oss_url;varchar(512);表单模板在对象存储服务器的地址"}];
+  optional string description = 7 [(openapi.v3.property) = {description:"description;varchar(255);表单样式描述"}];
+  optional string versionName = 8 [(openapi.v3.property) = {description:"version_name;varchar(45);"}];
+  optional int32 versionCode = 9 [(openapi.v3.property) = {description:"version_code;int(11);"}];
+  optional string createTime = 10 [(openapi.v3.property) = {description:"create_time;datetime;创建时间"}];
+  optional string updateTime = 11 [(openapi.v3.property) = {description:"update_time;datetime;更新时间"}];
+  string tbFormId = 12 [(openapi.v3.property) = {description:"tb_form_id;varchar(45);"}];
+}

@@ -1,0 +1,214 @@
+syntax = "proto3";
+
+package api;
+
+
+
+option go_package = "followup/api";
+import "google/api/annotations.proto";
+import "openapi/v3/annotations.proto";
+
+service Relate {
+  //工作项关联表数据添加
+  rpc RelateCreate (RelateCreateRequest) returns (RelateCreateResponse) {
+    option (google.api.http) = {
+      post:"relate",
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary:"工作项关联表数据添加"
+    };
+  }
+  //工作项关联表数据删除
+  rpc RelateDelete (RelateDeleteRequest) returns (RelateDeleteResponse) {
+    option (google.api.http) = {
+      delete:"/relate/{id}"
+    };
+    option (openapi.v3.operation) = {
+      summary:"工作项关联表数据删除"
+    };
+  }
+  //工作项关联表数据更新
+  rpc RelateUpdate (RelateUpdateRequest) returns (RelateUpdateResponse) {
+    option (google.api.http) = {
+      put:"relate",
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary:"工作项关联表数据更新"
+    };
+  }
+  //工作项关联表数据详情查询
+  rpc RelateDetail (RelateDetailRequest) returns (RelateDetailResponse) {
+    option (google.api.http) = {
+      get:"/relate/{id}"
+    };
+    option (openapi.v3.operation) = {
+      summary:"工作项关联表数据详情查询"
+    };
+  }
+  //工作项关联表数据过滤查询
+  rpc RelateFilter (RelateFilterRequest) returns (RelateFilterResponse) {
+    option (google.api.http) = {
+      post:"/relate/filter",
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary:"工作项关联表数据过滤查询"
+    };
+  }
+}
+
+message Relates{
+  string id = 1[(openapi.v3.property)={description:"工作项关联编码",required:["id"]}];
+  string title = 2[(openapi.v3.property)={description:"标题(根据关联资源类型决定)",required:["title"]}];
+  string status = 3[(openapi.v3.property)={description:"关联资源状态('NEW 待处理', 'ACTIVE 正在处理 'CLOSED 已关闭')",required:["status"]}];
+  string conclusion = 4[(openapi.v3.property)={description:"结论",required:["conclusion"]}];
+  string resourceId = 5[(openapi.v3.property)={description:"关联资源编码",required:["resourceId"]}];
+  string resourceType = 6[(openapi.v3.property)={description:"工作项关联资源类型ENUM('PLAN 方案', 'FORM 表单', 'WORK_ITEM 工作项', 'ARTICLE 宣教文章', 'FU_WC 微信随访', 'FU_M 电话随访', 'RM_FZ 复诊提醒', 'RM_YH 用药提醒', 'RM_HY 换药提醒', 'RM_SS 手术提醒', 'NONE')",required:["resourceType"]}];
+  string suggestion = 7[(openapi.v3.property)={description:"建议",required:["suggestion"]}];
+  string tbWorkItemId = 8[(openapi.v3.property)={description:"工作项编码",required:["tbWorkItemId"]}];
+  string createTime = 9[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+  string updateTime = 10[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  string comment = 11[(openapi.v3.property)={description:"描述",required:["comment"]}];
+}
+
+message Relates1 {
+  string conclusion = 1[(openapi.v3.property)={description:"结论",required:["conclusion"]}];
+  string createTime = 2[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+  string id = 3[(openapi.v3.property)={description:"工作项关联编码",required:["id"]}];
+  string resourceId = 4[(openapi.v3.property)={description:"关联资源编码",required:["resourceId"]}];
+  string resourceType = 5[(openapi.v3.property)={description:"工作项关联资源类型ENUM('PLAN 方案', 'FORM 表单', 'WORK_ITEM 工作项', 'ARTICLE 宣教文章', 'FU_WC 微信随访', 'FU_M 电话随访', 'RM_FZ 复诊提醒', 'RM_YH 用药提醒', 'RM_HY 换药提醒', 'RM_SS 手术提醒', 'NONE')",required:["resourceType"]}];
+  string status = 6[(openapi.v3.property)={description:"关联资源状态('NEW 待处理', 'ACTIVE 正在处理 'CLOSED 已关闭')",required:["status"]}];
+  string suggestion = 7[(openapi.v3.property)={description:"建议",required:["suggestion"]}];
+  string tbWorkItemId = 8[(openapi.v3.property)={description:"工作项编码",required:["tbWorkItemId"]}];
+  string title = 9[(openapi.v3.property)={description:"标题(根据关联资源类型决定)",required:["title"]}];
+  string updateTime = 10[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+}
+message Relates2 {
+  string conclusion = 1[(openapi.v3.property)={description:"结论",required:["conclusion"]}];
+  string createTime = 2[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+  string id = 3[(openapi.v3.property)={description:"工作项关联编码",required:["id"]}];
+  string resourceId = 4[(openapi.v3.property)={description:"关联资源编码",required:["resourceId"]}];
+  string resourceType = 5[(openapi.v3.property)={description:"工作项关联资源类型ENUM('PLAN 方案', 'FORM 表单', 'WORK_ITEM 工作项', 'ARTICLE 宣教文章', 'FU_WC 微信随访', 'FU_M 电话随访', 'RM_FZ 复诊提醒', 'RM_YH 用药提醒', 'RM_HY 换药提醒', 'RM_SS 手术提醒', 'NONE')",required:["resourceType"]}];
+  string status = 6[(openapi.v3.property)={description:"关联资源状态('NEW 待处理', 'ACTIVE 正在处理 'CLOSED 已关闭')",required:["status"]}];
+  string suggestion = 7[(openapi.v3.property)={description:"建议",required:["suggestion"]}];
+  string tbWorkItemId = 8[(openapi.v3.property)={description:"工作项编码",required:["tbWorkItemId"]}];
+  string title = 9[(openapi.v3.property)={description:"标题(根据关联资源类型决定)",required:["title"]}];
+  string updateTime = 10[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+}
+
+message RelateCreateRequest {
+  string conclusion = 1[(openapi.v3.property)={description:"结论",required:["conclusion"]}];
+  string resourceId = 2[(openapi.v3.property)={description:"关联资源编码",required:["resourceId"]}];
+  string resourceType = 3[(openapi.v3.property)={description:"工作项关联资源类型ENUM('PLAN 方案', 'FORM 表单', 'WORK_ITEM 工作项', 'ARTICLE 宣教文章', 'FU_WC 微信随访', 'FU_M 电话随访', 'RM_FZ 复诊提醒', 'RM_YH 用药提醒', 'RM_HY 换药提醒', 'RM_SS 手术提醒', 'NONE')",required:["resourceType"]}];
+  string status = 4[(openapi.v3.property)={description:"关联资源状态('NEW 待处理', 'ACTIVE 正在处理 'CLOSED 已关闭')",required:["status"]}];
+  string suggestion = 5[(openapi.v3.property)={description:"建议",required:["suggestion"]}];
+  string tbWorkItemId = 6[(openapi.v3.property)={description:"工作项编码",required:["tbWorkItemId"]}];
+  string title = 7[(openapi.v3.property)={description:"标题(根据关联资源类型决定)",required:["title"]}];
+}
+
+
+message RelateCreateResponse{
+  message Data {
+    string id = 1[(openapi.v3.property)={description:"工作项关联编码",required:["id"]}];
+  }
+
+  uint32 code = 1;
+  string message = 2;
+  string err = 3;
+  string requestId = 4;
+  Data data = 5;
+}
+
+
+message RelateDeleteRequest {
+string id = 1[(openapi.v3.property)={description:"工作项关联编码",required:["id"]}];
+}
+
+message  RelateDeleteResponse {
+  message Data {
+    string id = 1[(openapi.v3.property)={description:"工作项关联编码",required:["id"]}];
+  }
+
+  uint32 code = 1;
+  string message = 2;
+  string err = 3;
+  string requestId = 4;
+  Data data = 5;
+}
+
+message RelateUpdateRequest {
+  string conclusion = 1[(openapi.v3.property)={description:"结论",required:["conclusion"]}];
+  string resourceId = 2[(openapi.v3.property)={description:"关联资源编码",required:["resourceId"]}];
+  string resourceType = 3[(openapi.v3.property)={description:"工作项关联资源类型ENUM('PLAN 方案', 'FORM 表单', 'WORK_ITEM 工作项', 'ARTICLE 宣教文章', 'FU_WC 微信随访', 'FU_M 电话随访', 'RM_FZ 复诊提醒', 'RM_YH 用药提醒', 'RM_HY 换药提醒', 'RM_SS 手术提醒', 'NONE')",required:["resourceType"]}];
+  string status = 4[(openapi.v3.property)={description:"关联资源状态('NEW 待处理', 'ACTIVE 正在处理 'CLOSED 已关闭')",required:["status"]}];
+  string suggestion = 5[(openapi.v3.property)={description:"建议",required:["suggestion"]}];
+  string tbWorkItemId = 6[(openapi.v3.property)={description:"工作项编码",required:["tbWorkItemId"]}];
+  string title = 7[(openapi.v3.property)={description:"标题(根据关联资源类型决定)",required:["title"]}];
+}
+
+message RelateUpdateResponse {
+  string conclusion = 1[(openapi.v3.property)={description:"结论",required:["conclusion"]}];
+  string createTime = 2[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+  string id = 3[(openapi.v3.property)={description:"工作项关联编码",required:["id"]}];
+  string resourceId = 4[(openapi.v3.property)={description:"关联资源编码",required:["resourceId"]}];
+  string resourceType = 5[(openapi.v3.property)={description:"工作项关联资源类型ENUM('PLAN 方案', 'FORM 表单', 'WORK_ITEM 工作项', 'ARTICLE 宣教文章', 'FU_WC 微信随访', 'FU_M 电话随访', 'RM_FZ 复诊提醒', 'RM_YH 用药提醒', 'RM_HY 换药提醒', 'RM_SS 手术提醒', 'NONE')",required:["resourceType"]}];
+  string status = 6[(openapi.v3.property)={description:"关联资源状态('NEW 待处理', 'ACTIVE 正在处理 'CLOSED 已关闭')",required:["status"]}];
+  string suggestion = 7[(openapi.v3.property)={description:"建议",required:["suggestion"]}];
+  string tbWorkItemId = 8[(openapi.v3.property)={description:"工作项编码",required:["tbWorkItemId"]}];
+  string title = 9[(openapi.v3.property)={description:"标题(根据关联资源类型决定)",required:["title"]}];
+  string updateTime = 10[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+}
+
+message RelateDetailRequest {
+  string id = 1;
+}
+
+message RelateDetailResponse {
+  string conclusion = 1[(openapi.v3.property)={description:"结论",required:["conclusion"]}];
+  string createTime = 2[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+  string id = 3[(openapi.v3.property)={description:"工作项关联编码",required:["id"]}];
+  string resourceId = 4[(openapi.v3.property)={description:"关联资源编码",required:["resourceId"]}];
+  string resourceType = 5[(openapi.v3.property)={description:"工作项关联资源类型ENUM('PLAN 方案', 'FORM 表单', 'WORK_ITEM 工作项', 'ARTICLE 宣教文章', 'FU_WC 微信随访', 'FU_M 电话随访', 'RM_FZ 复诊提醒', 'RM_YH 用药提醒', 'RM_HY 换药提醒', 'RM_SS 手术提醒', 'NONE')",required:["resourceType"]}];
+  string status = 6[(openapi.v3.property)={description:"关联资源状态('NEW 待处理', 'ACTIVE 正在处理 'CLOSED 已关闭')",required:["status"]}];
+  string suggestion = 7[(openapi.v3.property)={description:"建议",required:["suggestion"]}];
+  string tbWorkItemId = 8;
+  string title = 9[(openapi.v3.property)={description:"标题(根据关联资源类型决定)",required:["title"]}];
+  string updateTime = 10[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+}
+
+message RelateFilterRequest {
+  message Filter {
+    repeated string ids = 1;
+    string key = 2;
+    string resourceType = 3;
+    string status = 4;
+  }
+
+  Filter filter = 1;
+  uint32 page = 2;
+  uint32 perPage = 3;
+}
+
+message RelateFilterResponse {
+  message Results {
+    string conclusion = 1[(openapi.v3.property)={description:"结论",required:["conclusion"]}];
+    string createTime = 2[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+    string id = 3[(openapi.v3.property)={description:"资源主键编码",required:["id"]}];
+    string resourceId = 4[(openapi.v3.property)={description:"关联资源编码",required:["resourceId"]}];
+    string resourceType = 5[(openapi.v3.property)={description:"工作项关联资源类型ENUM('PLAN 方案', 'FORM 表单', 'WORK_ITEM 工作项', 'ARTICLE 宣教文章', 'FU_WC 微信随访', 'FU_M 电话随访', 'RM_FZ 复诊提醒', 'RM_YH 用药提醒', 'RM_HY 换药提醒', 'RM_SS 手术提醒', 'NONE')"
+    ,required:["resourceType"]}];
+    string status = 6[(openapi.v3.property)={description:"关联资源状态('NEW 待处理', 'ACTIVE 正在处理 'CLOSED 已关闭')",required:["status"]}];
+    string suggestion = 7[(openapi.v3.property)={description:"建议",required:["suggestion"]}];
+    string tbWorkItemId = 8[(openapi.v3.property)={description:"工作项编码",required:["tbWorkItemId"]}];
+    string title = 9[(openapi.v3.property)={description:"标题（根据关联资源类型决定"}];
+    string updateTime = 10[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+  }
+
+  uint32 page = 1;
+  uint32 perPage = 2;
+  repeated Results results = 3;
+  uint32 total = 4;
+}
+

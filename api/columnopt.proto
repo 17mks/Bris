@@ -1,0 +1,153 @@
+syntax = "proto3";
+
+package api;
+
+
+option go_package = "followup/api";
+
+import "google/api/annotations.proto";
+import "openapi/v3/annotations.proto";
+
+service ColumnOpt {
+  //表单字段可选值选项数据添加
+  rpc ColumnOptCreate (ColumnOptCreateRequest) returns (ColumnOptCreateResponse) {
+    option (google.api.http) = {
+      post:"/column_opt"
+      body:"*",
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单字段可选值选项数据添加"
+    };
+  }
+  //表单字段可选值选项数据删除
+  rpc ColumnOptDelete (ColumnOptDeleteRequest) returns (ColumnOptDeleteResponse) {
+    option (google.api.http) = {
+      delete:"/column_opt/{id}",
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单字段可选值选项数据删除"
+    };
+  }
+  //表单字段可选值选项数据更新
+  rpc ColumnOptUpdate (ColumnOptUpdateRequest) returns (ColumnOptUpdateResponse) {
+    option (google.api.http) = {
+      put:"/column_opt",
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单字段可选值选项数据更新"
+    };
+  }
+  //表单字段可选值选项数据详情查询
+  rpc ColumnOptDetail (ColumnOptDetailRequest) returns (ColumnOptDetailResponse) {
+    option (google.api.http) = {
+      get:"/column_opt/{id}",
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单字段可选值选项数据详情查询"
+    };
+  }
+  //表单字段可选值选项数据过滤查询
+  rpc ColumnOptFilter (ColumnOptFilterRequest) returns (ColumnOptFilterResponse) {
+    option (google.api.http) = {
+      post:"/column_opt/filter",
+      body:"*"
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单字段可选值选项数据过滤查询"
+    };
+  }
+}
+
+message Columnopts {
+  string createTime = 1[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+  string id = 2[(openapi.v3.property) = {description:"表单字段选项编码",required:["id"]}];
+  string nextFiledId = 3[(openapi.v3.property) = {description:"下一个表单字段编码(如果为空则按表单字段顺序展示)",required:["nextFiledId"]}];
+  int32 score = 4[(openapi.v3.property) = {description:"得分",required:["score"]}];
+  int32 sortIndex = 5[(openapi.v3.property) = {description:"表单字段选项排序索引",required:["sortIndex"]}];
+  string tbFormColumnId = 6[(openapi.v3.property) = {description:"表单字段编码",required:["tbFormColumnId"]}];
+  string updateTime = 7[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+  string value = 8[(openapi.v3.property) = {description:"表单字段选项值",required:["value"]}];
+}
+
+message ColumnOptCreateRequest {
+  string nextFiledId = 1[(openapi.v3.property) = {description:"下一个表单字段编码(如果为空则按表单字段顺序展示)",required:["nextFiledId"]}];
+  int32 score = 2[(openapi.v3.property) = {description:"得分",required:["score"]}];
+  int32 sortIndex = 3[(openapi.v3.property) = {description:"表单字段选项排序索引",required:["sortIndex"]}];
+  string updateTime = 4[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+  string value = 5[(openapi.v3.property) = {description:"表单字段选项值",required:["value"]}];
+}
+
+
+message ColumnOptCreateResponse{
+ string id =1[(openapi.v3.property) = {description:"表单字段选项编码",required:["id"]}];
+}
+
+
+message ColumnOptDeleteRequest {
+ string id = 1[(openapi.v3.property) = {description:"表单字段选项编码",required:["id"]}];
+}
+
+message  ColumnOptDeleteResponse {
+ string id = 1[(openapi.v3.property) = {description:"表单字段选项编码",required:["id"]}];
+}
+
+message ColumnOptUpdateRequest {
+  string nextFiledId = 1[(openapi.v3.property) = {description:"下一个表单字段编码(如果为空则按表单字段顺序展示)",required:["nextFiledId"]}];
+  int32 sortIndex = 2[(openapi.v3.property) = {description:"表单字段选项排序索引",required:["sortIndex"]}];
+  string tbFormColumnId = 3[(openapi.v3.property) = {description:"表单字段编码",required:["tbFormColumnId"]}];
+  string value = 4[(openapi.v3.property) = {description:"表单字段选项值",required:["value"]}];
+}
+
+message ColumnOptUpdateResponse {
+  string createTime = 1[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+  string id = 2[(openapi.v3.property) = {description:"表单字段选项编码",required:["id"]}];
+  string nextFiledId = 3[(openapi.v3.property) = {description:"下一个表单字段编码(如果为空则按表单字段顺序展示",required:["nextFiledId"]}];
+  int32 sortIndex = 4[(openapi.v3.property) = {description:"表单字段选项排序索引",required:["sortIndex"]}];
+  string tbFormColumnId = 5[(openapi.v3.property) = {description:"表单字段编码",required:["tbFormColumnId"]}];
+  string updateTime = 6[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+  string value = 7[(openapi.v3.property) = {description:"表单字段选项值",required:["value"]}];
+}
+
+message ColumnOptDetailRequest {
+  string id = 1[(openapi.v3.property) = {description:"表单字段选项编码",required:["id"]}];
+}
+
+message ColumnOptDetailResponse {
+  string createTime = 1[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+  string id = 2[(openapi.v3.property) = {description:"表单字段选项编码",required:["id"]}];
+  string nextFiledId = 3[(openapi.v3.property) = {description:"下一个表单字段编码(如果为空则按表单字段顺序展示",required:["nextFiledId"]}];
+  int32 sortIndex = 4[(openapi.v3.property) = {description:"表单字段选项排序索引",required:["sortIndex"]}];
+  string tbFormColumnId = 5[(openapi.v3.property) = {description:"表单字段编码",required:["tbFormColumnId"]}];
+  string updateTime = 6[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+  string value = 7[(openapi.v3.property) = {description:"表单字段选项值",required:["value"]}];
+}
+
+message ColumnOptFilterRequest {
+  message Filter {
+    repeated string ids = 1;
+    string key = 2;
+  }
+
+  Filter filter = 1;
+  int32 page = 2;
+  int32 perPage = 3;
+}
+
+message ColumnOptFilterResponse {
+  message Results {
+    string createTime = 1[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+    string id = 2[(openapi.v3.property) = {description:"表单字段选项编码",required:["id"]}];
+    string nextFiledId = 3[(openapi.v3.property) = {description:"下一个表单字段编码(如果为空则按表单字段顺序展示",required:["nextFiledId"]}];
+    int32 score = 4[(openapi.v3.property) = {description:"得分",required:["score"]}];
+    int32 sortIndex = 5[(openapi.v3.property) = {description:"表单字段选项编码",required:["sortIndex"]}];
+    string tbFormColumnId = 6[(openapi.v3.property) = {description:"表单字段编码",required:["tbFormColumnId"]}];
+    string updateTime = 7[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+    string value = 8[(openapi.v3.property) = {description:"表单字段选项值",required:["value"]}];
+  }
+  int32 page = 1;
+  int32 perPage = 2;
+  repeated Results results = 3;
+  int32 total = 4;
+}
+

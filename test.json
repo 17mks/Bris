@@ -1,0 +1,167 @@
+{
+  "status": "success",
+  "request_id": "a344b57765614354b059c5cb39767ae5",
+  "dateTime": 1679638279315,
+  "data": {
+    "plan": {
+      "id": "71ced8276d6c431f8209ed2692ef07a8",
+      "name": "顶A",
+      "type": "FOLLOWUP",
+      "status": "ENABLED",
+      "belongType": "NONE",
+      "belongTo": "NONE",
+      "applyDisease": "病种 - B",
+      "applyDysfunction": "手臂无力",
+      "applyAges": "1岁0月0天~2岁0月0天",
+      "event": "CY",
+      "creatorId": "1592417104621998080",
+      "creatorName": "admin",
+      "appId": "",
+      "createTime": "2023-03-24 13:14:17",
+      "updateTime": "2023-03-24 14:10:17"
+    },
+    "relateWorkItems": [
+      {
+        "planRelate": {
+          "id": "f4ee481043814d07a1bbf5e41a88b795",
+          "title": "第1次随访任务",
+          "resourceType": "WI",
+          "resourceId": "WI90426CA9121E455D896807C79B6EE88D",
+          "frequencyInterval": 0,
+          "frequencyOffset": 0,
+          "times": 0,
+          "sortNum": 0,
+          "createTime": "2023-03-24 14:05:31",
+          "updateTime": "2023-03-24 14:05:31",
+          "tbPlanId": "71ced8276d6c431f8209ed2692ef07a8",
+          "deleteAt": ""
+        },
+        "workItem": {
+          "id": "WI90426CA9121E455D896807C79B6EE88D",
+          "title": "第1次随访任务",
+          "type": "FOLLOW_UP",
+          "status": "MODEL",
+          "principalType": "NONE",
+          "principalId": "",
+          "principalName": "",
+          "participant": "",
+          "cc": "",
+          "tag": "",
+          "pid": "",
+          "assignedType": "NONE",
+          "assignedTo": "",
+          "assignedToName": "",
+          "planStartTime": "",
+          "planEndTime": "",
+          "actualStartTime": "",
+          "actualEndTime": "",
+          "creatBy": "",
+          "creatByName": "",
+          "updateBy": "",
+          "belongType": "NONE",
+          "belongTo": "",
+          "sortNum": 1,
+          "event": "CY",
+          "frequencyInterval": 2,
+          "frequencyUnit": "DAY",
+          "appId": "",
+          "notifyLeftOffset": 0,
+          "notifyRightOffset": 0,
+          "notifyOffsetUnit": "NONE",
+          "notifyLeftDate": "",
+          "notifyRightDate": "",
+          "notifyNode": "",
+          "execArea": "NONE",
+          "description": "",
+          "createTime": "2023-03-24 14:05:31",
+          "updateTime": "2023-03-24 14:10:17",
+          "deletedAt": ""
+        },
+        "relates": [
+          {
+            "id": "b0d9a3fee83f4235b31f1dba0dd2b3ef",
+            "title": "电话",
+            "status": "NEW",
+            "resourceType": "FU_M",
+            "conclusion": "",
+            "suggestion": "",
+            "comments": "",
+            "createTime": "2023-03-24 14:09:42",
+            "updateTime": "2023-03-24 14:09:42",
+            "tbWorkItemId": "WI90426CA9121E455D896807C79B6EE88D"
+          },
+          {
+            "id": "d9388546eec14c4da49cae1481b374af",
+            "title": "电话",
+            "status": "NEW",
+            "resourceType": "FU_M",
+            "conclusion": "",
+            "suggestion": "",
+            "comments": "",
+            "createTime": "2023-03-24 14:05:48",
+            "updateTime": "2023-03-24 14:10:17",
+            "tbWorkItemId": "WI90426CA9121E455D896807C79B6EE88D"
+          }
+        ]
+      }
+    ],
+    "relateDiseases": [
+      {
+        "planRelate": {
+          "id": "PLR8A76601D40AE452C9991DB4F9D57F456",
+          "title": "病种 - B",
+          "resourceType": "BZ",
+          "resourceId": "6bd07c4bb22042e8a31fe8c82b07a35a",
+          "frequencyInterval": 0,
+          "frequencyOffset": 0,
+          "times": 0,
+          "sortNum": 0,
+          "createTime": "2023-03-24 14:10:17",
+          "updateTime": "2023-03-24 14:10:17",
+          "tbPlanId": "71ced8276d6c431f8209ed2692ef07a8",
+          "deleteAt": ""
+        },
+        "disease": {
+          "id": "6bd07c4bb22042e8a31fe8c82b07a35a",
+          "code": "0623",
+          "name": "病种 - B",
+          "version": "1.2",
+          "status": "ENABLED",
+          "tag": "轻微",
+          "description": "一般",
+          "pid": "123456",
+          "createTime": "2023-03-23 19:04:48",
+          "updateTime": "2023-03-24 09:11:33",
+          "deleteAt": "2023-03-23 19:04:48"
+        }
+      }
+    ],
+    "relateDysfunctions": [
+      {
+        "planRelate": {
+          "id": "PLR5C91228459394EA49C4930CA740F0EB9",
+          "title": "手臂无力",
+          "resourceType": "GNZA",
+          "resourceId": "b0ffc37db8484e9aafc23a5f2af273cd",
+          "frequencyInterval": 0,
+          "frequencyOffset": 0,
+          "times": 0,
+          "sortNum": 0,
+          "createTime": "2023-03-24 14:10:17",
+          "updateTime": "2023-03-24 14:10:17",
+          "tbPlanId": "71ced8276d6c431f8209ed2692ef07a8",
+          "deleteAt": ""
+        },
+        "disFunc": {
+          "id": "b0ffc37db8484e9aafc23a5f2af273cd",
+          "name": "手臂无力",
+          "description": "手抖",
+          "py": "",
+          "createTime": "2023-03-23 19:11:41",
+          "updateTime": "2023-03-23 19:13:24",
+          "deleteAt": "2023-03-23 19:11:41"
+        }
+      }
+    ]
+  }
+}

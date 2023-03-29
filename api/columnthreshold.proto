@@ -1,0 +1,167 @@
+syntax = "proto3";
+
+package api;
+
+
+option go_package = "followup/api";
+
+import "google/api/annotations.proto";
+import "openapi/v3/annotations.proto";
+
+service ColumnThreshold {
+  //表单字段预警阈值表数据添加
+  rpc ColumnThresholdCreate (ColumnThresholdCreateRequest) returns (ColumnThresholdCreateResponse) {
+    option (google.api.http) = {
+      post:"/column_threshold",
+      body:"*",
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单字段预警阈值表数据添加"
+    };
+  }
+  //表单字段预警阈值表数据删除
+  rpc ColumnThresholdDelete (ColumnThresholdDeleteRequest) returns (ColumnThresholdDeleteResponse) {
+    option (google.api.http) = {
+      delete:"/column_threshold/{id}"
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单字段预警阈值表数据删除"
+    };
+  }
+  //表单字段预警阈值表数据更新
+  rpc ColumnThresholdUpdate (ColumnThresholdUpdateRequest) returns (ColumnThresholdUpdateResponse) {
+    option (google.api.http) = {
+      put:"/column_threshold",
+      body:"*",
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单字段预警阈值表数据更新"
+    };
+  }
+  //表单字段预警阈值表数据详情查询
+  rpc ColumnThresholdDetail (ColumnThresholdDetailRequest) returns (ColumnThresholdDetailResponse) {
+    option (google.api.http) = {
+      get:"/column_threshold/{id}"
+    };
+    option (openapi.v3.operation) = {
+      summary:"表单字段预警阈值表数据详情查询"
+    };
+  }
+  //表单字段预警阈值表数据过滤查询
+  rpc ColumnThresholdFilter (ColumnThresholdFilterRequest) returns (ColumnThresholdFilterResponse) {
+    option (google.api.http) = {
+      post:"/column_threshold/filter",
+      body:"*",
+    };
+    option (openapi.v3.operation) ={
+      summary:"表单字段预警阈值表数据过滤查询"
+    };
+  }
+}
+
+message Columnthresholds {
+  string createTime = 1[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+  string id = 2[(openapi.v3.property) = {description:"表单字段阈值编码",required:["id"]}];
+  int32 level = 3[(openapi.v3.property) = {description:"表单字段阈值等级",required:["level"]}];
+  string max = 4[(openapi.v3.property) = {description:"表单字段阈值最大值",required:["max"]}];
+  string min = 5[(openapi.v3.property) = {description:"表单字段阈值最小值",required:["min"]}];
+  bool reverse = 6[(openapi.v3.property) = {description:"是否反转",required:["reverse"]}];
+  string tbFormColumnId = 7[(openapi.v3.property) = {description:"表单字段表编码",required:["tbFormColumnId"]}];
+  string updateTime = 8[(openapi.v3.property) = {description:"更新时间",required:["updateTime"]}];
+  string warningInfo = 9[(openapi.v3.property) = {description:"表单字段预警提示信息",required:["warningInfo"]}];
+  string warningRegex = 10[(openapi.v3.property) = {description:"预警信息组装规则(e.g. message{{key}},age)",required:["warningRegex"]}];
+}
+
+message ColumnThresholdCreateRequest {
+  int32 level = 1[(openapi.v3.property) = {description:"表单字段阈值等级",required:["level"]}];
+  string max = 2[(openapi.v3.property) = {description:"表单字段阈值最大值",required:["max"]}];
+  string min = 3[(openapi.v3.property) = {description:"表单字段阈值最小值",required:["min"]}];
+  bool reverse = 4[(openapi.v3.property) = {description:"是否反转",required:["reverse"]}];
+  string tbFormColumnId = 5[(openapi.v3.property) = {description:"表单字段表编码",required:["tbFormColumnId"]}];
+  string warningInfo = 6[(openapi.v3.property) = {description:"表单字段预警提示信息",required:["warningInfo"]}];
+}
+
+
+message ColumnThresholdCreateResponse{
+  string id = 1[(openapi.v3.property) = {description:"表单字段阈值编码",required:["id"]}];
+}
+
+
+message ColumnThresholdDeleteRequest {
+  string id = 1[(openapi.v3.property) = {description:"表单字段阈值编码",required:["id"]}];
+}
+
+message  ColumnThresholdDeleteResponse {
+  string id = 1[(openapi.v3.property) = {description:"表单字段阈值编码",required:["id"]}];
+}
+
+message ColumnThresholdUpdateRequest {
+  int32 level = 1[(openapi.v3.property) = {description:"表单字段阈值等级",required:["level"]}];
+  string max = 2[(openapi.v3.property) = {description:"表单字段阈值最大值",required:["max"]}];
+  string min = 3[(openapi.v3.property) = {description:"表单字段阈值最小值",required:["min"]}];
+  bool reverse = 4[(openapi.v3.property) = {description:"是否反转",required:["reverse"]}];
+  string tbFormColumnId = 5[(openapi.v3.property) = {description:"表单字段表编码",required:["tbFormColumnId"]}];
+  string warningInfo = 6[(openapi.v3.property) = {description:"表单字段预警提示信息",required:["warningInfo"]}];
+}
+
+message ColumnThresholdUpdateResponse {
+  string createTime = 1[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+  string id = 2[(openapi.v3.property) = {description:"表单字段阈值编码",required:["id"]}];
+  int32 level = 3[(openapi.v3.property) = {description:"表单字段阈值等级",required:["level"]}];
+  string max = 4[(openapi.v3.property) = {description:"表单字段阈值最大值",required:["max"]}];
+  string min = 5[(openapi.v3.property) = {description:"表单字段阈值最小值",required:["min"]}];
+  bool reverse = 6[(openapi.v3.property) = {description:"是否反转",required:["reverse"]}];
+  string tbFormColumnId = 7[(openapi.v3.property) = {description:"表单字段表编码",required:["tbFormColumnId"]}];
+  string updateTime = 8;
+  string warningInfo = 9[(openapi.v3.property) = {description:"表单字段预警提示信息",required:["warningInfo"]}];
+}
+
+message ColumnThresholdDetailRequest {
+  string id = 1[(openapi.v3.property) = {description:"表单字段阈值编码",required:["id"]}];
+}
+
+message ColumnThresholdDetailResponse {
+  string createTime = 1[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+  string id = 2[(openapi.v3.property) = {description:"表单字段阈值编码",required:["id"]}];
+  int32 level = 3[(openapi.v3.property) = {description:"表单字段阈值等级",required:["level"]}];
+  string max = 4[(openapi.v3.property) = {description:"表单字段阈值最大值",required:["max"]}];
+  string min = 5[(openapi.v3.property) = {description:"表单字段阈值最小值",required:["min"]}];
+  bool reverse = 6[(openapi.v3.property) = {description:"是否反转",required:["reverse"]}];
+  string tbFormColumnId = 7[(openapi.v3.property) = {description:"表单字段表编码",required:["tbFormColumnId"]}];
+  string updateTime = 8;
+  string warningInfo = 9[(openapi.v3.property) = {description:"表单字段预警提示信息",required:["warningInfo"]}];
+}
+
+message ColumnThresholdFilterRequest {
+
+  message Filter {
+    repeated string ids = 1;
+    repeated string columnIds = 2;
+    repeated string formIds = 3;
+    string key = 4;
+  }
+
+  Filter filter = 1;
+  int32 page = 2;
+  int32 perPage = 3;
+}
+
+message ColumnThresholdFilterResponse {
+
+  message Results {
+    string createTime = 1[(openapi.v3.property) = {description:"创建时间",required:["createTime"]}];
+    string id = 2[(openapi.v3.property) = {description:"表单字段阈值编码",required:["id"]}];
+    int32 level = 3[(openapi.v3.property) = {description:"表单字段阈值等级",required:["level"]}];
+    string max = 4[(openapi.v3.property) = {description:"表单字段阈值最大值",required:["max"]}];
+    string min = 5[(openapi.v3.property) = {description:"表单字段阈值最小值",required:["min"]}];
+    bool reverse = 6[(openapi.v3.property) = {description:"是否反转",required:["reverse"]}];
+    string tbFormColumnId = 7[(openapi.v3.property) = {description:"表单字段表编码",required:["tbFormColumnId"]}];
+    string updateTime = 8;
+    string warningInfo = 9[(openapi.v3.property) = {description:"表单字段预警提示信息",required:["warningInfo"]}];
+  }
+
+  int32 page = 1;
+  int32 perPage = 2;
+  repeated Results results = 3;
+  int32 total = 4;
+}

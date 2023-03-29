@@ -1,0 +1,135 @@
+syntax = "proto3";
+
+package api;
+option go_package = "followup/api";
+import "google/api/annotations.proto";
+import "openapi/v3/annotations.proto";
+
+service DisFunction {
+  //功能障碍表数据添加
+  rpc DisFunctionCreate (DisFunctionCreateRequest) returns (DisFunctionCreateResponse) {
+    option (google.api.http) = {
+      post:"/disfunction",
+      body:"*",
+    };
+    option (openapi.v3.operation) = {
+      summary:"功能障碍表数据添加"
+    };
+  }
+  //功能障碍表数据删除
+  rpc DisFunctionDelete (DisFunctionDeleteRequest) returns (DisFunctionDeleteResponse) {
+    option (google.api.http) = {
+      delete:"/disfunction"
+    };
+    option (openapi.v3.operation) = {
+      summary:"功能障碍表数据删除"
+    };
+  }
+  //功能障碍表数据更新
+  rpc DisFunctionUpdate (DisFunctionUpdateRequest) returns (DisFunctionUpdateResponse) {
+    option (google.api.http) = {
+      put:"/disfunction",
+      body:"body"
+    };
+    option (openapi.v3.operation) = {
+      summary:"功能障碍表数据更新"
+    };
+  }
+  //功能障碍表数据详情查询
+  rpc DisFunctionDetail (DisFunctionDetailRequest) returns (DisFunctionDetailResponse) {
+    option (google.api.http) = {
+      get:"/disfunction"
+    };
+    option (openapi.v3.operation) = {
+      summary:"功能障碍表数据详情查询"
+    };
+  }
+
+  //功能障碍表数据过滤查询
+  rpc DisFunctionFilter (DisFunctionFilterRequest) returns (DisFunctionFilterResponse) {
+    option (google.api.http) = {
+      post:"/disfunction/filter",
+      body:"*",
+    };
+    option (openapi.v3.operation) = {
+      summary:"功能障碍表数据过滤查询"
+    };
+  }
+}
+
+message DisFunctions {
+  string id = 1[(openapi.v3.property)={description:"功能障碍编码",required:["id"]}];
+  string name = 2[(openapi.v3.property)={description:"功能障碍名称",required:["name"]}];
+  string description = 3[(openapi.v3.property)={description:"描述",required:["description"]}];
+  string createTime = 4[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+  string py = 5[(openapi.v3.property)={description:"功能障碍名称拼音",required:["py"]}];
+  string updateTime = 6[(openapi.v3.property)={description:"更新时间",required:["Searching..."]}];
+  string deletedAt = 7[(openapi.v3.property)={description:"删除时间",required:["deletedAt"]}];
+}
+
+message DisFunctionCreateRequest {
+  string name = 1[(openapi.v3.property)={description:"功能障碍名称",required:["name"]}];
+  string description = 2[(openapi.v3.property)={description:"描述",required:["description"]}];
+}
+
+message DisFunctionCreateResponse {
+  string id = 1[(openapi.v3.property)={description:"功能障碍编码",required:["id"]}];
+}
+
+message DisFunctionDeleteRequest {
+  string id = 1[(openapi.v3.property)={description:"功能障碍编码",required:["id"]}];
+}
+
+message DisFunctionDeleteResponse {
+  string id = 1[(openapi.v3.property)={description:"功能障碍编码",required:["id"]}];
+}
+
+message DisFunctionUpdateRequest {
+  string id = 1[(openapi.v3.property)={description:"功能障碍编码",required:["id"]}];
+  DisFunctionUpdateReqBody body = 2;
+}
+
+message DisFunctionUpdateReqBody {
+  string name = 1[(openapi.v3.property)={description:"功能障碍名称",required:["name"]}];
+  string description = 2[(openapi.v3.property)={description:"描述",required:["description"]}];
+}
+
+message DisFunctionUpdateResponse {
+  string createTime = 1[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+  string deletedAt = 2[(openapi.v3.property)={description:"删除时间",required:["deletedAt"]}];
+  string description = 3[(openapi.v3.property)={description:"描述",required:["description"]}];
+  string id = 4[(openapi.v3.property)={description:"功能障碍编码",required:["id"]}];
+  string name = 5[(openapi.v3.property)={description:"功能障碍名称",required:["name"]}];
+  string updateTime = 6[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+}
+
+message DisFunctionDetailRequest {
+  string id = 1[(openapi.v3.property)={description:"功能障碍编码",required:["id"]}];
+}
+
+message DisFunctionDetailResponse {
+  string createTime = 1[(openapi.v3.property)={description:"创建时间",required:["createTime"]}];
+  string deletedAt = 2[(openapi.v3.property)={description:"删除时间",required:["deletedAt"]}];
+  string description = 3[(openapi.v3.property)={description:"描述",required:["description"]}];
+  string id = 4[(openapi.v3.property)={description:"功能障碍编码",required:["id"]}];
+  string name = 5[(openapi.v3.property)={description:"功能障碍名称",required:["name"]}];
+  string updateTime = 6[(openapi.v3.property)={description:"更新时间",required:["updateTime"]}];
+}
+
+message DisFunctionFilterRequest {
+  message Filter {
+    repeated string ids = 1;
+    string key = 2;
+  }
+
+  Filter filter = 1;
+  int32 page = 2;
+  int32 perPage = 3;
+}
+
+message DisFunctionFilterResponse {
+  int32 page = 1;
+  int32 perPage = 2;
+  repeated DisFunctions results = 3;
+  int64 total = 4;
+}
